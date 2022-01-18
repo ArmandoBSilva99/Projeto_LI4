@@ -22,7 +22,7 @@ public class User
 
     public Dictionary<string, Route> routeHistory = new Dictionary<string, Route>();
 
-    public void buildUser(string email, string password, string name)
+    public User(string email, string password, string name)
     {
         this.email = email;
         this.password = password;
@@ -36,6 +36,11 @@ public class User
     public List<string> getFriends()
     {
         return friends;
+    }
+
+    public List<InterestPoint> getFavouritePoints()
+    {
+        return favouritePoints;
     }
 
     // Setters

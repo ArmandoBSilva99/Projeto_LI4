@@ -1,10 +1,6 @@
-        *** MODEL ***
+        *** MODEL PONTOS DE INTERESSE ***
 Métodos:
-    - Consultar amigo
-    - Consultar ponto favorito
-    - Consultar historico de amigos
-    - 
-    
-        *** UTILIZADOR ***
-Métodos:
-    - 
+        Obter lista de todos os Pontos de Interesse filtrados
+
+Não sei se falta algo na classe InterestPoint
+Também alterei o buildUser para Construtor de User (Acho que é a mesma coisa)       
