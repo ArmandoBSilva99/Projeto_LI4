@@ -1,0 +1,10 @@
+        *** MODEL ***
+Métodos:
+    - Consultar amigo
+    - Consultar ponto favorito
+    - Consultar historico de amigos
+    - 
+    
+        *** UTILIZADOR ***
+Métodos:
+    - 
