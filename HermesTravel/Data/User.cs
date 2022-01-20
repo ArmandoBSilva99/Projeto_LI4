@@ -7,6 +7,7 @@ namespace HermesTravel.Data
         public string password { get; set; }
 
         public string name { get; set; }
+        
         public string avatar { get; set; }
 
         public int level { get; set; }
@@ -34,7 +35,7 @@ namespace HermesTravel.Data
             this.email = email;
             this.password = password;
             this.name = name;
-            this.avatar = "";
+            this.avatar = "./images/InitialAvatar.png";
             this.level = 0;
             this.loggedIn = false;
         }
