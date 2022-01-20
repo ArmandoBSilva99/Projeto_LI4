@@ -1,14 +1,15 @@
-namespace HermesTravel.Data;
-
-public class Evaluation 
+namespace HermesTravel.Data
 {
-    public string comment {get; set;}
-
-    public float stars {get; set;}
-
-    public Evaluation(string comment, float stars)
+    public class Evaluation 
     {
-        this.comment = comment;
-        this.stars = stars;
+        public string comment {get; set;}
+
+        public float stars {get; set;}
+
+        public Evaluation(string comment, float stars)
+        {
+            this.comment = comment;
+            this.stars = stars;
+        }
     }
 }

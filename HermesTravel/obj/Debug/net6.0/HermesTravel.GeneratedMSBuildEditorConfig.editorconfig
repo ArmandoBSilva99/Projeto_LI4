@@ -8,49 +8,49 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = HermesTravel
 build_property.RootNamespace = HermesTravel
-build_property.ProjectDir = C:\Users\andre\OneDrive\Documentos\LEI\3º Ano\1º Semestre\LI4\Fase 2B\Projeto\HermesTravel\
+build_property.ProjectDir = /home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\andre\OneDrive\Documentos\LEI\3º Ano\1º Semestre\LI4\Fase 2B\Projeto\HermesTravel
+build_property.MSBuildProjectDirectory = /home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/andre/OneDrive/Documentos/LEI/3º Ano/1º Semestre/LI4/Fase 2B/Projeto/HermesTravel/App.razor]
+[/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/andre/OneDrive/Documentos/LEI/3º Ano/1º Semestre/LI4/Fase 2B/Projeto/HermesTravel/Shared/Login.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luLnJhem9y
+[/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/Shared/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL0xvZ2luLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/andre/OneDrive/Documentos/LEI/3º Ano/1º Semestre/LI4/Fase 2B/Projeto/HermesTravel/Shared/SurveyPrompt.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+[/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1N1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/andre/OneDrive/Documentos/LEI/3º Ano/1º Semestre/LI4/Fase 2B/Projeto/HermesTravel/_Imports.razor]
+[/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/andre/OneDrive/Documentos/LEI/3º Ano/1º Semestre/LI4/Fase 2B/Projeto/HermesTravel/Shared/MainLayout.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-ay8otf709r
+[/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-zx38todyzf
 
-[C:/Users/andre/OneDrive/Documentos/LEI/3º Ano/1º Semestre/LI4/Fase 2B/Projeto/HermesTravel/Shared/NavMenu.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-0vtd4898or
+[/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL05hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-wpzgz6el6h
 
-[C:/Users/andre/OneDrive/Documentos/LEI/3º Ano/1º Semestre/LI4/Fase 2B/Projeto/HermesTravel/Pages/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+[/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/andre/OneDrive/Documentos/LEI/3º Ano/1º Semestre/LI4/Fase 2B/Projeto/HermesTravel/Pages/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+[/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/andre/OneDrive/Documentos/LEI/3º Ano/1º Semestre/LI4/Fase 2B/Projeto/HermesTravel/Pages/_Host.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
+[/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/andre/OneDrive/Documentos/LEI/3º Ano/1º Semestre/LI4/Fase 2B/Projeto/HermesTravel/Pages/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
+[/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/Pages/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
