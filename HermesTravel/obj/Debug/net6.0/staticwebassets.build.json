@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "03LpfJVT8bhmcMX8RkGKPjR53E8xghHZK9fK7v/t5JE=",
+  "Hash": "ihTi0mk4R+91q8naZNwgYDoyvW0ww8dItrgiaG7eqFQ=",
   "Source": "HermesTravel",
   "BasePath": "_content/HermesTravel",
   "Mode": "Default",
@@ -8,19 +8,19 @@
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [
     {
-      "Name": "HermesTravel\\wwwroot",
+      "Name": "HermesTravel/wwwroot",
       "Source": "HermesTravel",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\obj\\Debug\\net6.0\\scopedcss\\bundle\\HermesTravel.styles.css",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/obj/Debug/net6.0/scopedcss/bundle/HermesTravel.styles.css",
       "SourceId": "HermesTravel",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\obj\\Debug\\net6.0\\scopedcss\\bundle\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/obj/Debug/net6.0/scopedcss/bundle/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "HermesTravel.styles.css",
       "AssetKind": "All",
@@ -31,13 +31,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\obj\\Debug\\net6.0\\scopedcss\\bundle\\HermesTravel.styles.css"
+      "OriginalItemSpec": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/obj/Debug/net6.0/scopedcss/bundle/HermesTravel.styles.css"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\HermesTravel.bundle.scp.css",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/obj/Debug/net6.0/scopedcss/projectbundle/HermesTravel.bundle.scp.css",
       "SourceId": "HermesTravel",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/obj/Debug/net6.0/scopedcss/projectbundle/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "HermesTravel.bundle.scp.css",
       "AssetKind": "All",
@@ -48,13 +48,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\HermesTravel.bundle.scp.css"
+      "OriginalItemSpec": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/obj/Debug/net6.0/scopedcss/projectbundle/HermesTravel.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/bootstrap/bootstrap.min.css",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -65,13 +65,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css"
+      "OriginalItemSpec": "wwwroot/css/bootstrap/bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/bootstrap/bootstrap.min.css.map",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -82,13 +82,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css.map"
+      "OriginalItemSpec": "wwwroot/css/bootstrap/bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/open-iconic/FONT-LICENSE",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/open-iconic/FONT-LICENSE",
       "AssetKind": "All",
@@ -99,13 +99,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\FONT-LICENSE"
+      "OriginalItemSpec": "wwwroot/css/open-iconic/FONT-LICENSE"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/open-iconic/font/css/open-iconic-bootstrap.min.css",
       "AssetKind": "All",
@@ -116,13 +116,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
+      "OriginalItemSpec": "wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/open-iconic/font/fonts/open-iconic.eot",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.eot",
       "AssetKind": "All",
@@ -133,13 +133,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
+      "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.eot"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/open-iconic/font/fonts/open-iconic.otf",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.otf",
       "AssetKind": "All",
@@ -150,13 +150,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
+      "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.otf"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/open-iconic/font/fonts/open-iconic.svg",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.svg",
       "AssetKind": "All",
@@ -167,13 +167,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
+      "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.svg"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/open-iconic/font/fonts/open-iconic.ttf",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.ttf",
       "AssetKind": "All",
@@ -184,13 +184,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
+      "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.ttf"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/open-iconic/font/fonts/open-iconic.woff",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.woff",
       "AssetKind": "All",
@@ -201,13 +201,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
+      "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.woff"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/open-iconic/ICON-LICENSE",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/open-iconic/ICON-LICENSE",
       "AssetKind": "All",
@@ -218,13 +218,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\ICON-LICENSE"
+      "OriginalItemSpec": "wwwroot/css/open-iconic/ICON-LICENSE"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\open-iconic\\README.md",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/open-iconic/README.md",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/open-iconic/README.md",
       "AssetKind": "All",
@@ -235,13 +235,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\README.md"
+      "OriginalItemSpec": "wwwroot/css/open-iconic/README.md"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\css\\site.css",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/css/site.css",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -252,13 +252,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\site.css"
+      "OriginalItemSpec": "wwwroot/css/site.css"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\favicon.ico",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/favicon.ico",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -269,13 +269,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\favicon.ico"
+      "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\images\\InitialAvatar.png",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/images/InitialAvatar.png",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "images/InitialAvatar.png",
       "AssetKind": "All",
@@ -286,13 +286,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\InitialAvatar.png"
+      "OriginalItemSpec": "wwwroot/images/InitialAvatar.png"
     },
     {
-      "Identity": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\images\\logo.png",
+      "Identity": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/images/logo.png",
       "SourceId": "HermesTravel",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\andre\\OneDrive\\Documentos\\LEI\\3º Ano\\1º Semestre\\LI4\\Fase 2B\\Projeto\\HermesTravel\\wwwroot\\",
+      "ContentRoot": "/home/armando/Documents/LEI/LI4/Projeto_LI4/HermesTravel/wwwroot/",
       "BasePath": "_content/HermesTravel",
       "RelativePath": "images/logo.png",
       "AssetKind": "All",
@@ -303,7 +303,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\logo.png"
+      "OriginalItemSpec": "wwwroot/images/logo.png"
     }
   ]
 }

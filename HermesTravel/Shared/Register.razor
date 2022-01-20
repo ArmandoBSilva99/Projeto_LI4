@@ -1,10 +1,12 @@
 @page "/Register"
 
 @using HermesTravel.Data
-@*@using DataAcessHermesTravel*@
+@using DataAccessHermesTravel
 @using Microsoft.Extensions.Configuration
+@inject ISqlDataAccess _data
 @inject IConfiguration _config
 @inject NavigationManager helper
+@inject User user
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -104,14 +106,17 @@
 
 </html>
 
-@code
+@code 
 {
     int result = 0;
     User userL = new User();
 
-    private void RegisterUser()
+    private async Task RegisterUser()
     {
         User user = new User(userL.email, userL.password, userL.name);
-        //strin
+        string sql = "INSERT INTO utilizador (Email, Nome, Password, Nivel, Login) VALUES (@Email, @Nome, @Password, @Nivel, @Login);";
+        await _data.SaveData(sql, new { Email = user.email, Nome = user.name, Password = user.password, Nivel = user.level, Login = user.loggedIn}, _config.GetConnectionString("default"));
+
+        helper.NavigateTo("Login");
     }
 }
