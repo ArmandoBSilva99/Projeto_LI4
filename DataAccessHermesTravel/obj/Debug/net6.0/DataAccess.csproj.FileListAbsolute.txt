@@ -1,0 +1,12 @@
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/bin/Debug/net6.0/DataAccess.deps.json
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/bin/Debug/net6.0/DataAccess.dll
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/bin/Debug/net6.0/ref/DataAccess.dll
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/bin/Debug/net6.0/DataAccess.pdb
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/obj/Debug/net6.0/DataAccess.csproj.AssemblyReference.cache
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/obj/Debug/net6.0/DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/obj/Debug/net6.0/DataAccess.AssemblyInfoInputs.cache
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/obj/Debug/net6.0/DataAccess.AssemblyInfo.cs
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/obj/Debug/net6.0/DataAccess.csproj.CoreCompileInputs.cache
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/obj/Debug/net6.0/DataAccess.dll
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/obj/Debug/net6.0/ref/DataAccess.dll
+/home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/obj/Debug/net6.0/DataAccess.pdb
