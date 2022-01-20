@@ -10,6 +10,13 @@ html {
   font-family: "Roboto", Arial, sans-serif;
 }
 
+body {
+  background-color: #a6a6a6;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
 h1:focus {
   outline: none;
 }

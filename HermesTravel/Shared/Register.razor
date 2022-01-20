@@ -1,21 +1,117 @@
 @page "/Register"
 
 @using HermesTravel.Data
-@using DataAcessHermesTravel
-@*@using HermesTravel.Pages.Loads*@
+@*@using DataAcessHermesTravel*@
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration _config
 @inject NavigationManager helper
-@inject User user
 
-@code 
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HermesTravel</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="css/site.css" rel="stylesheet" />
+    <link href="HermesTravel.styles.css" rel="stylesheet" />
+
+    <style>
+        .img {
+            width: 22.5%;
+            margin-top: 100px;
+            border: 2px solid #06263d;
+            border-radius: 10%;
+            background-color: white;
+        }
+
+        .titleText {
+            color: #06263d;
+            font-size: 50px;
+            margin-top: 5px;
+            margin-bottom: 35px;
+        }
+
+        .container {
+            max-width: 500px;
+        }
+
+        .form-group {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn {
+            margin-top: 10px;
+            padding: 5px 40px;
+        }
+
+        .check-box {
+            text-align: left;
+        }
+
+        .form-text {
+            color: black;
+        }
+
+        @@media (max-width: 767.98px) {
+            .container {
+                max-width: 350px;
+            }
+        }
+
+        @@media (min-width: 992px) {
+            .img {
+                width: 17.5%;
+            }
+        }
+
+        @@media (min-width: 1400px) {
+            .img {
+                width: 12.5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <img class="img-fluid img img-aux" src="./images/logo.png">
+    <p class="titleText"><b>Hermes Travel</b></p>
+    <div class="container">
+        <EditForm Model="userL" OnValidSubmit="@RegisterUser">
+            <div class="form-group">
+                <InputText @bind-Value="userL.name" class="form-control" type="text" id="name" placeholder="Name" required>
+                </InputText>
+            </div>
+            <div class="form-group">
+                <InputText @bind-Value="userL.email" class="form-control" type="text" id="email" placeholder="Email" required>
+                </InputText>
+            </div>
+            <div class="form-group">
+                <InputText @bind-Value="userL.password" class="form-control" type="password" id="password"
+                    placeholder="Password" required></InputText>
+            </div>
+            <div class="form-check check-box">
+                <input type="checkbox" class="form-check-input" id="TermsConditions" required>
+                <label class="form-check-label fw-bold" for="TermsConditions">Li e aceito os termos e condições</label>
+            </div>
+            <input class="btn btn-secundary fw-bold" href="/" type="submit" value="Registar" />
+        </EditForm>
+    </div>
+</body>
+
+</html>
+
+@code
 {
     int result = 0;
-    //LoadRegister load = new LoadRegister();
+    User userL = new User();
 
-    private async Task InsertRegisto()
+    private void RegisterUser()
     {
-        //user = new User(load.email, load.password, load.name);
-        //strin        
+        User user = new User(userL.email, userL.password, userL.name);
+        //strin
     }
 }
