@@ -1,27 +1,28 @@
-namespace HermesTravel.Data;
-
-public class Route
+namespace HermesTravel.Data
 {
-    public string routeName { get; set; }
-
-    public List<InterestPoint> points = new List<InterestPoint>();
-
-    // Constructor
-    public Route (string routeName, List<InterestPoint> p)
+    public class Route
     {
-        this.routeName = routeName;
-        this.points = p;
-    }
+        public string routeName { get; set; }
 
-    // Método: Adiciona Ponto de Interesse
-    public void addPoint(InterestPoint p) 
-    {
-        points.Add(p);
-    }
+        public List<InterestPoint> points = new List<InterestPoint>();
 
-    // Método: Remove Ponto de Interesse
-    public Boolean removePoint(InterestPoint point)
-    {
-        return this.points.Remove(point);
+        // Constructor
+        public Route (string routeName, List<InterestPoint> p)
+        {
+            this.routeName = routeName;
+            this.points = p;
+        }
+
+        // Método: Adiciona Ponto de Interesse
+        public void addPoint(InterestPoint p) 
+        {
+            points.Add(p);
+        }
+
+        // Método: Remove Ponto de Interesse
+        public Boolean removePoint(InterestPoint point)
+        {
+            return this.points.Remove(point);
+        }
     }
 }

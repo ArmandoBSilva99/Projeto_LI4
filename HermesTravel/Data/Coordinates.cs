@@ -1,14 +1,15 @@
-namespace HermesTravel.Data;
-
-public class Coordinates 
+namespace HermesTravel.Data
 {
-    public double latitude {get; set;}
-
-    public double longitude {get; set;}
-
-    public Coordinates(double latitude, double longitude)
+    public class Coordinates 
     {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        public double latitude {get; set;}
+
+        public double longitude {get; set;}
+
+        public Coordinates(double latitude, double longitude)
+        {
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
     }
 }
