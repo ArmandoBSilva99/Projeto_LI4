@@ -26,6 +26,7 @@ public class InterestPointManager
         }
         return lp;
     }
+    
     /*
     //Método: Obter lista de todos os Pontos de Interesse filtrados
     public List<InterestPoint> consultFilteredInterestPoints(Filter f)
