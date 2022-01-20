@@ -22,6 +22,14 @@ public class User
 
     public Dictionary<string, Route> routeHistory = new Dictionary<string, Route>();
 
+    public User()
+    {
+        this.email = "";
+        this.password = "";
+        this.name = "";
+        this.avatar = "";
+    }
+
     public User(string email, string password, string name)
     {
         this.email = email;

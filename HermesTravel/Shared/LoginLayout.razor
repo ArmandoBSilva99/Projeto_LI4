@@ -1,8 +1,6 @@
-﻿@page "/"
+@page "/Login"
 
-@using Microsoft.AspNetCore.Components.Authorization
-@inject AuthenticationStateProvider AuthenticationStateProvider
-
+@using HermesTravel.Data
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -32,10 +30,6 @@
             background-color: white;
         }
 
-        .btn-aux {
-            padding: 15px 49px;
-        }
-
         .titleText {
             color: #06263d;
             font-size: 50px;
@@ -43,8 +37,24 @@
             margin-bottom: 35px;
         }
 
-        .icon {
-            padding-right: 15px;
+        .container {
+            max-width: 500px;
+        }
+
+        .form-group {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn {
+            margin-top: 10px;
+            padding: 5px 40px;
+        }
+
+        @@media (max-width: 767.98px) {
+            .container {
+                max-width: 350px;
+            }
         }
 
         @@media (min-width: 992px) {
@@ -64,12 +74,29 @@
 <body>
     <img class="img-fluid img img-aux" src="./images/logo.png">
     <p class="titleText"><b>Hermes Travel</b></p>
-    <div>
-        <a class="btn btn-secundary fw-bold" href="Login"><span><i class="fa fa-user icon"
-                    aria-hidden="true"></i></span>Iniciar Sessão</a>
-        <p><a class="btn btn-secundary btn-aux fw-bold" href="Registo"><span><i class="fa fa-user-plus icon"
-                        aria-hidden="true"></i></span>Registo</a></p>
+    <div class="container">
+        <EditForm Model="user" OnValidSubmit="@Login">
+            <div class="form-group">
+                <InputText @bind-Value="user.email" class="form-control" type="text" id="email" placeholder="Email">
+                </InputText>
+            </div>
+            <div class="form-group">
+                <InputText @bind-Value="user.password" class="form-control" type="password" id="password"
+                    placeholder="Password"></InputText>
+            </div>
+            <input class="btn btn-secundary fw-bold" href="Conta" type="submit" value="Login" />
+        </EditForm>
     </div>
 </body>
 
 </html>
+
+@code {
+
+    User user = new User();
+
+    private void Login()
+    {
+
+    }
+}
