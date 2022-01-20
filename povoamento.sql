@@ -16,7 +16,7 @@ INSERT INTO `rota`
     (`nome`) 
     VALUES 
         ("Rota do Centro"),
-        ("Rota Gualtar"])
+        ("Rota Gualtar")
     ;
 
 INSERT INTO `utilizador_hashistorico_rota`
