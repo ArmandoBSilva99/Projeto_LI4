@@ -1,11 +1,8 @@
-@page "/Account"
+@page "/Account/Friends"
 
 @using HermesTravel.Data
 @using HermesTravel.Pages
 @inject User user
-@using DataAccessHermesTravel
-@inject ISqlDataAccess _data
-@inject IConfiguration _config
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -90,22 +87,35 @@
         }
 
         .buttons {
-            margin-top: 100px;
-        }
-        
-        .buttonsCol>a:nth-of-type(1) {
-            margin-bottom: 25px;
-            width: 400px;
+            margin-top: 150px;
         }
 
-        .btnInput {
-            margin-top: 25px;
+        .searchCol {
+            margin-bottom: 25px;
             width: 400px;
         }
 
         .btn-aux {
             margin-top: 10px;
             padding: 5px 30px;
+        }
+
+        .friends {
+            margin-left: 125px;
+        }
+
+        .vertical-scrollable>.row {
+            position: absolute;
+            width: 700px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+
+        .col-sm-8 {
+            border: 2px solid #06263d;
+            margin-left: 225px;
+            padding: 5px 15px 0 15px;
+            font-size: 20px;
         }
 
         @@media (max-width: 767.98px) {
@@ -152,84 +162,56 @@
                     <p class="fs-5"><span class="spanF">@user.getFriends().Count()</span> Amigos</p>
                 </div>
             </div>
-            @if (status == 1) {
-                <div class="col-4 align-self-center">
-                    <EditForm Model="userInput" OnValidSubmit="@ChangeAvatar">
-                        <div class="input-group">
-                            <InputText @bind-Value="userInput" class="form-control" type="text" placeholder="URL imagem" required></InputText>
-                        </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" href="Account" type="submit" value="Confirmar"/>
-                    </EditForm>
+            <div class="col-4 align-self-center">
+                <div class="container">
+                    <a class="btn btn-secundary fw-bold" href="Account">Voltar ao perfil</a>
                 </div>
-            } else if (status == 2) {
-                <div class="col-4 align-self-center">
-                    <EditForm Model="userInput" OnValidSubmit="@ChangePW">
-                        <div class="input-group">
-                            <InputText @bind-Value="userInput" class="form-control" type="password" placeholder="Nova password" required></InputText>
-                        </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" href="Account" type="submit" value="Confirmar"/>
-                    </EditForm>
-                </div>
-            }
+            </div>
         </div>
     </div>
 
     <div class="container">
         <div class="row buttons">
-            <div class="col-6 buttonsCol">
-                <a class="btn btn-secundary fw-bold" href="Account/Friends">Amigos</a>
-                <p class="mb-0">
-                <EditForm Model="userInput" OnValidSubmit="@ChangeAvatarStatus"><input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit" value="Alterar avatar"/>
-                </EditForm></p>
+            <div class="col-6 searchCol">
+                <EditForm Model="userFriend" OnValidSubmit="@AddFriend">
+                    <div class="input-group">
+                        <InputText @bind-Value="userFriend" class="form-control"type="text" placeholder="Insira um username" required></InputText>
+                        </div>
+                        <input class="btn btn-secundary btn-aux fw-bold" href="Account/Friends" type="submit" value="Adicionar amigo"/>
+                </EditForm>
+                <EditForm Model="userFriend" OnValidSubmit="@RemoveFriend">
+                    <div class="input-group mt-5">
+                        <InputText @bind-Value="userFriend" class="form-control"type="text" placeholder="Insira um username" required></InputText>
+                        </div>
+                        <input class="btn btn-secundary btn-aux fw-bold" href="Account/Friends" type="submit" value="Remover amigo"/>
+                </EditForm>
             </div>
-            <div class="col-6 buttonsCol">
-                <a class="btn btn-secundary fw-bold" href="Account/FavoritePoints">Pontos de Interesse favoritos</a>
-                <p class="mb-0"><EditForm Model="userInput" OnValidSubmit="@ChangePWStatus"><input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit" value="Alterar password"/>
-                </EditForm></p>
+            <div class="col-6 friends">
+                <div class="container vertical-scrollable" tabindex="0"> 
+                    <div class="row text-start">
+                        @for (int i = 0; i < user.getFriends().Count(); i++) {
+                            <div class="col-sm-8">@user.getFriends()[i]</div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="container buttons">
-        <a class="btn btn-secundary fw-bold" href="Home">Página inicial</a>
-    </div>
 </body>
 
 </html>
 
-@code
-{
-    int status = 0;
-    string userInput = "";
+@code {
+    string userFriend = "";
 
-    private void ChangeAvatarStatus()
+    private void AddFriend()
     {
-        status = 1;
+
     }
 
-    private void ChangePWStatus()
+    private void RemoveFriend()
     {
-        status = 2;
-    }
 
-    private async void ChangeAvatar()
-    {
-        user.setAvatar(userInput);
-        string sqlS = "UPDATE mydb.utilizador set avatar = @Avatar WHERE email=@Email";
-        await _data.SaveData(sqlS, new {Avatar = userInput, Email = user.email}, _config.GetConnectionString("default"));
-        status = 0;
-    }
-
-    private async void ChangePW()
-    {   
-        if(userInput.Length > 6){
-            user.setPassword(userInput);
-            string sqlS = "UPDATE mydb.utilizador set password = @Password WHERE email=@Email";
-            await _data.SaveData(sqlS, new {Password = userInput, Email = user.email}, _config.GetConnectionString("default"));
-            status = 0;
-        }
-        else{
-            status = -1; // altera Andre!
-        }
     }
 }
