@@ -40,6 +40,36 @@ namespace HermesTravel.Data
             this.loggedIn = false;
         }
 
+        public void buildUser(List<string> friends, List<InterestPoint> favouritePoints, List<InterestPoint> suggestionPoints, List<Route> routeHistory, User u)
+        {
+            foreach (var f in friends)
+            {
+                this.friends.Add(f);
+            }
+
+            foreach (var fp in favouritePoints)
+            {
+                this.favouritePoints.Add(fp);
+            }
+
+            foreach (var sp in suggestionPoints)
+            {
+                this.suggestionsPoints.Add(sp);
+            }
+
+            foreach (var rh in routeHistory)
+            {
+                this.routeHistory.Add(rh.routeName, rh);
+            }
+
+            this.email = u.email;
+            this.password = u.password;
+            this.name = u.name;
+            this.avatar = u.avatar;
+            this.level = u.level;
+            this.loggedIn = u.loggedIn;
+        }
+
         // Getters
         public List<string> getFriends()
         {
