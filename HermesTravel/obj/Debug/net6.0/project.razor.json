@@ -12,154 +12,68 @@
   "ProjectWorkspaceState": {
     "TagHelpers": [
       {
-        "HashCode": -1118459137,
+        "HashCode": 404615356,
         "Kind": "Components.Component",
-        "Name": "HermesTravel.App",
+        "Name": "HermesTravel.Shared.Register",
         "AssemblyName": "HermesTravel",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "App"
+            "TagName": "Register"
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.App"
+          "Common.TypeName": "HermesTravel.Shared.Register"
         }
       },
       {
-        "HashCode": -1053785191,
+        "HashCode": 421989887,
         "Kind": "Components.Component",
-        "Name": "HermesTravel.App",
+        "Name": "HermesTravel.Shared.Register",
         "AssemblyName": "HermesTravel",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "HermesTravel.App"
+            "TagName": "HermesTravel.Shared.Register"
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.App",
+          "Common.TypeName": "HermesTravel.Shared.Register",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
       {
-        "HashCode": 2110355599,
+        "HashCode": -263074645,
         "Kind": "Components.Component",
-        "Name": "HermesTravel.Shared.Home",
+        "Name": "HermesTravel.Shared.NavMenu",
         "AssemblyName": "HermesTravel",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "Home"
+            "TagName": "NavMenu"
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.Shared.Home"
+          "Common.TypeName": "HermesTravel.Shared.NavMenu"
         }
       },
       {
-        "HashCode": -2133350129,
+        "HashCode": 499305386,
         "Kind": "Components.Component",
-        "Name": "HermesTravel.Shared.Home",
+        "Name": "HermesTravel.Shared.NavMenu",
         "AssemblyName": "HermesTravel",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "HermesTravel.Shared.Home"
+            "TagName": "HermesTravel.Shared.NavMenu"
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.Shared.Home",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "HashCode": -1666728620,
-        "Kind": "Components.Component",
-        "Name": "HermesTravel.Shared.LoginLayout",
-        "AssemblyName": "HermesTravel",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "LoginLayout"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.Shared.LoginLayout"
-        }
-      },
-      {
-        "HashCode": -1978230179,
-        "Kind": "Components.Component",
-        "Name": "HermesTravel.Shared.LoginLayout",
-        "AssemblyName": "HermesTravel",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "HermesTravel.Shared.LoginLayout"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.Shared.LoginLayout",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "HashCode": 1521680370,
-        "Kind": "Components.Component",
-        "Name": "HermesTravel.Shared.SurveyPrompt",
-        "AssemblyName": "HermesTravel",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "SurveyPrompt"
-          }
-        ],
-        "BoundAttributes": [
-          {
-            "Kind": "Components.Component",
-            "Name": "Title",
-            "TypeName": "System.String",
-            "Metadata": {
-              "Common.PropertyName": "Title"
-            }
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.Shared.SurveyPrompt"
-        }
-      },
-      {
-        "HashCode": -1711266043,
-        "Kind": "Components.Component",
-        "Name": "HermesTravel.Shared.SurveyPrompt",
-        "AssemblyName": "HermesTravel",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "HermesTravel.Shared.SurveyPrompt"
-          }
-        ],
-        "BoundAttributes": [
-          {
-            "Kind": "Components.Component",
-            "Name": "Title",
-            "TypeName": "System.String",
-            "Metadata": {
-              "Common.PropertyName": "Title"
-            }
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.Shared.SurveyPrompt",
+          "Common.TypeName": "HermesTravel.Shared.NavMenu",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
@@ -260,68 +174,154 @@
         }
       },
       {
-        "HashCode": -263074645,
+        "HashCode": -1666728620,
         "Kind": "Components.Component",
-        "Name": "HermesTravel.Shared.NavMenu",
+        "Name": "HermesTravel.Shared.LoginLayout",
         "AssemblyName": "HermesTravel",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "NavMenu"
+            "TagName": "LoginLayout"
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.Shared.NavMenu"
+          "Common.TypeName": "HermesTravel.Shared.LoginLayout"
         }
       },
       {
-        "HashCode": 499305386,
+        "HashCode": -1978230179,
         "Kind": "Components.Component",
-        "Name": "HermesTravel.Shared.NavMenu",
+        "Name": "HermesTravel.Shared.LoginLayout",
         "AssemblyName": "HermesTravel",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "HermesTravel.Shared.NavMenu"
+            "TagName": "HermesTravel.Shared.LoginLayout"
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.Shared.NavMenu",
+          "Common.TypeName": "HermesTravel.Shared.LoginLayout",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
       {
-        "HashCode": 404615356,
+        "HashCode": 1521680370,
         "Kind": "Components.Component",
-        "Name": "HermesTravel.Shared.Register",
+        "Name": "HermesTravel.Shared.SurveyPrompt",
         "AssemblyName": "HermesTravel",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "Register"
+            "TagName": "SurveyPrompt"
+          }
+        ],
+        "BoundAttributes": [
+          {
+            "Kind": "Components.Component",
+            "Name": "Title",
+            "TypeName": "System.String",
+            "Metadata": {
+              "Common.PropertyName": "Title"
+            }
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.Shared.Register"
+          "Common.TypeName": "HermesTravel.Shared.SurveyPrompt"
         }
       },
       {
-        "HashCode": 421989887,
+        "HashCode": -1711266043,
         "Kind": "Components.Component",
-        "Name": "HermesTravel.Shared.Register",
+        "Name": "HermesTravel.Shared.SurveyPrompt",
         "AssemblyName": "HermesTravel",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "HermesTravel.Shared.Register"
+            "TagName": "HermesTravel.Shared.SurveyPrompt"
+          }
+        ],
+        "BoundAttributes": [
+          {
+            "Kind": "Components.Component",
+            "Name": "Title",
+            "TypeName": "System.String",
+            "Metadata": {
+              "Common.PropertyName": "Title"
+            }
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "HermesTravel.Shared.Register",
+          "Common.TypeName": "HermesTravel.Shared.SurveyPrompt",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "HashCode": 2110355599,
+        "Kind": "Components.Component",
+        "Name": "HermesTravel.Shared.Home",
+        "AssemblyName": "HermesTravel",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "Home"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "HermesTravel.Shared.Home"
+        }
+      },
+      {
+        "HashCode": -2133350129,
+        "Kind": "Components.Component",
+        "Name": "HermesTravel.Shared.Home",
+        "AssemblyName": "HermesTravel",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "HermesTravel.Shared.Home"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "HermesTravel.Shared.Home",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "HashCode": -1118459137,
+        "Kind": "Components.Component",
+        "Name": "HermesTravel.App",
+        "AssemblyName": "HermesTravel",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "App"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "HermesTravel.App"
+        }
+      },
+      {
+        "HashCode": -1053785191,
+        "Kind": "Components.Component",
+        "Name": "HermesTravel.App",
+        "AssemblyName": "HermesTravel",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "HermesTravel.App"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "HermesTravel.App",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
