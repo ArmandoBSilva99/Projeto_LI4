@@ -84,16 +84,13 @@
     <div class="container">
         <EditForm Model="userL" OnValidSubmit="@RegisterUser">
             <div class="form-group">
-                <InputText @bind-Value="userL.name" class="form-control" type="text" id="name" placeholder="Name" required>
-                </InputText>
+                <InputText @bind-Value="userL.name" class="form-control" type="text" id="name" placeholder="Name" required></InputText>
             </div>
             <div class="form-group">
-                <InputText @bind-Value="userL.email" class="form-control" type="text" id="email" placeholder="Email" required>
-                </InputText>
+                <InputText @bind-Value="userL.email" class="form-control" type="text" id="email" placeholder="Email" required></InputText>
             </div>
             <div class="form-group">
-                <InputText @bind-Value="userL.password" class="form-control" type="password" id="password"
-                    placeholder="Password" required></InputText>
+                <InputText @bind-Value="userL.password" class="form-control" type="password" id="password" placeholder="Password" required></InputText>
             </div>
             <div class="form-check check-box">
                 <input type="checkbox" class="form-check-input" id="TermsConditions" required>
