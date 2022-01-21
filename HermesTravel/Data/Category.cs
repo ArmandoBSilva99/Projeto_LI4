@@ -11,5 +11,11 @@ namespace HermesTravel.Data
             this.id = id;
             this.description = description;
         }
+
+        public Category()
+        {
+            this.id = -1;
+            this.description = "null";
+        }
     }
 }

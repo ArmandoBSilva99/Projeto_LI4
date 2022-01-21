@@ -3,6 +3,9 @@
 @using HermesTravel.Data
 @using HermesTravel.Pages
 @inject User user
+@using DataAccessHermesTravel
+@inject ISqlDataAccess _data
+@inject IConfiguration _config
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -209,13 +212,24 @@
         status = 2;
     }
 
-    private void ChangeAvatar()
+    private async void ChangeAvatar()
     {
-        
+        user.setAvatar(userInput);
+        string sqlS = "UPDATE mydb.utilizador set avatar = @Avatar WHERE email=@Email";
+        await _data.SaveData(sqlS, new {Avatar = userInput, Email = user.email}, _config.GetConnectionString("default"));
+        status = 0;
     }
 
-    private void ChangePW()
-    {
-        
+    private async void ChangePW()
+    {   
+        if(userInput.Length > 6){
+            user.setPassword(userInput);
+            string sqlS = "UPDATE mydb.utilizador set password = @Password WHERE email=@Email";
+            await _data.SaveData(sqlS, new {Password = userInput, Email = user.email}, _config.GetConnectionString("default"));
+            status = 0;
+        }
+        else{
+            status = -1; // altera Andre!
+        }
     }
 }

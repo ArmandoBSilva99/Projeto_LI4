@@ -29,7 +29,22 @@ namespace HermesTravel.Data
             this.name = "";
             this.avatar = "";
         }
-        
+
+        public User(string email, string password, string name, string avatar, int level, bool loggedin)
+        {
+            this.email = email;
+            this.password = password;
+            this.name = name;
+            this.avatar = avatar;
+            this.level = level;
+            this.loggedIn = loggedin;
+            this.favouritePoints = new List<InterestPoint>();
+            this.suggestionsPoints = new List<InterestPoint>();
+            this.routeHistory = new Dictionary<string, Route>();
+        }
+
+
+        /*
         public User(string email, string password, string name)
         {
             this.email = email;
@@ -38,7 +53,7 @@ namespace HermesTravel.Data
             this.avatar = "./images/InitialAvatar.png";
             this.level = 0;
             this.loggedIn = false;
-        }
+        }*/
 
         public void buildUser(List<string> friends, List<InterestPoint> favouritePoints, List<InterestPoint> suggestionPoints, List<Route> routeHistory, User u)
         {
