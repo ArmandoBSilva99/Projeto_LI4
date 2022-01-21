@@ -107,18 +107,34 @@
     string res;
     private async Task Login()
     {
-        string sql = "SELECT U. FROM mydb.utilizador WHERE email = @Email";
+        string sql = "SELECT * FROM mydb.utilizador WHERE email = @Email";
         users = await _data.LoadData<User, dynamic>(sql, new {Email = userL.email}, _config.GetConnectionString("default"));
 
         foreach (var u in users)
         {
             if (u.password.Equals(userL.password))
             {
-                string sqlFriends = "SELECT U.utilizador_email FROM mydb.utilizador_has_utilizador AS U" 
-                                    + "JOIN mydb.utilizador AS P ON U.UserEmail = P.email Where email = @Email";
+                List<String> userpointsnames = new List<String>(); 
+                string sqlFriends = "SELECT U.utilizador_email1 FROM mydb.utilizador_has_utilizador AS U " 
+                                    + "JOIN mydb.utilizador AS P ON U.utilizador_email = P.email WHERE email = @Email";
                 friends = await _data.LoadData<string, dynamic>(sqlFriends, new {Email = userL.email}, _config.GetConnectionString("default"));
 
-                string sqlFP = "SELECT V.nome, V.descricao, V.cidade, V.coordenadas "
+                string sqlUPN = "SELECT V.pontointeresse_nome FROM mydb.utilizador_hasfavorite_pontointeresse AS V "
+                                + "JOIN mydb.utilizador AS P ON V.utilizador_email = P.email WHERE email = @Email";
+
+                userpointsnames = await _data.LoadData<String, dynamic>(sqlUPN, new {Email = userL.email}, _config.GetConnectionString("default"));
+
+                foreach(var n in userpointsnames){
+                    List<Category> categories = new List<Category>();
+                    string sqlC = "SELECT C.categoria_idcategoria, CC.descricao FROM mydb.pontointeresse_has_categoria AS C "
+                                    + "JOIN mydb.pontointeresse AS P ON C.pontointeresse_nome = P.nome "
+                                    + "JOIN mydb.categoria AS CC ON CC.idcategoria = C.categoria_idcategoria WHERE nome = @Nome";
+                    categories = await _data.LoadData<Category, dynamic>(sqlC, new {Nome = n}, _config.GetConnectionString("default"));
+                    string a = null;
+                }   
+
+                string sqlFP = "SELECT V.nome, V.descricao, V.cidade, V.coordenadas, V.imagemURL, C.categoria, A.avaliacao "
+                                + "FROM mydb.categoria AS C JOIN mydb.pontoInteresse_has_categoria AS PC ON C.idcategoria = PC.categoria_idcategoria"
                                 + "FROM mydb.utilizador_hasfavorite_pontointeresse AS F JOIN mydb.utilizador AS U ON F.utilizador_email = U.email "
                                 + "JOIN mydb.pontointeresse AS V ON F.pontointeresse_nome = V.nome "
                                 + "WHERE email = @Email";

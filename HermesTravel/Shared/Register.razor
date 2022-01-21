@@ -144,7 +144,7 @@
         else if(!userL.email.Contains('@')){
             status = -2;
         }
-        else if(userL.password.Count < 6){
+        else if(userL.password.Length < 6){
             status = -3;
         }
         else{
