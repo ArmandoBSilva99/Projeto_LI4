@@ -2,6 +2,10 @@
 
 @using HermesTravel.Data
 @using HermesTravel.Pages
+@using DataAccessHermesTravel
+
+@inject ISqlDataAccess _data
+@inject IConfiguration _config
 @inject User user
 
 <!DOCTYPE html>
@@ -204,14 +208,28 @@
 
 @code {
     string userFriend = "";
-
-    private void AddFriend()
+    private async void AddFriend()
     {
-
+        string sqlExists = "SELECT email IN mydb.utilizador WHERE email = @Email";
+        List<string> friends = await _data.LoadData<string, dynamic>(sqlExists, new {Email = userFriend}, _config.GetConnectionString("default"));
+        if (friends.Count > 0) 
+        {
+            user.addFriend(userFriend);
+            string sqlAdd = "INSERT INTO mydb.utilizador_has_utilizador (utilizador_email, utilizador_email1) "
+                            + "VALUES (@utilizador_email, @utilizador_email1)";
+            await _data.SaveData(sqlAdd, new {utilizador_email = user.email, utilizador_email1 = userFriend}, _config.GetConnectionString("default"));               
+        }
     }
 
-    private void RemoveFriend()
+    private async void RemoveFriend()
     {
-
+        string sqlExists = "SELECT utilizador_email1 FROM mydb.utilizador_has_utilizador WHERE utilizador_email = @myemail AND utilizador_email1 = @friendemail";
+        List<string> friends = await _data.LoadData<string, dynamic>(sqlExists, new {friendemail = userFriend, myemail = user.email}, _config.GetConnectionString("default"));
+        if (friends.Count > 0)
+        {
+            user.deleteFriend(userFriend);
+            string sqlDelete = "DELETE FROM mydb.utilizador_has_utilizador WHERE Utilizador_email = @myemail AND Utilizador_email1 = @emailfriend";
+            await _data.SaveData(sqlDelete, new {friendemail = userFriend, myemail = user.email}, _config.GetConnectionString("default"));
+        }
     }
 }
