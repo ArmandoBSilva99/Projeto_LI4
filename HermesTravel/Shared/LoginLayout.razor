@@ -119,13 +119,24 @@
                                     + "JOIN mydb.utilizador AS P ON U.utilizador_email = P.email WHERE email = @Email";
                 friends = await _data.LoadData<string, dynamic>(sqlFriends, new {Email = userL.email}, _config.GetConnectionString("default"));
 
-                string sqlUPN = "SELECT V.pontointeresse_nome FROM mydb.utilizador_hasfavorite_pontointeresse AS V "
+                string sqlFP = "SELECT V.pontointeresse_nome FROM mydb.utilizador_hasfavorite_pontointeresse AS V "
                                 + "JOIN mydb.utilizador AS P ON V.utilizador_email = P.email WHERE email = @Email";
 
-                userpointsnames = await _data.LoadData<String, dynamic>(sqlUPN, new {Email = userL.email}, _config.GetConnectionString("default"));
+                userpointsnames = await _data.LoadData<String, dynamic>(sqlFP, new {Email = userL.email}, _config.GetConnectionString("default"));
+
+                List<String> sUserpointsnames = new List<String>();     
+                string sqlSP = "SELECT V.pontointeresse_nome FROM mydb.utilizador_hassugestao_pontointeresse AS V "
+                                + "JOIN mydb.utilizador AS P ON V.utilizador_email = P.email WHERE email = @Email";
+
+                sUserpointsnames = await _data.LoadData<String, dynamic>(sqlSP, new {Email = userL.email}, _config.GetConnectionString("default")); 
+
+                List<String> rUserpointsnames = new List<String>();
+                string sqlRP = "SELECT RP.pontointeresse_nome FROM mydb.Rota_has_pontointeresse AS RP "
+                                + "JOIN nome FROM mydb.rota "
+                                + "JOIN * FROM mydb.utilizador_hashistorico_rota AS R WHERE R.utilizador_email = @uEmail AND R.rota_nome = nome AND nome = RP.pontointeresse_nome";                                   
 
                 createFavouritePoints(userpointsnames, favouritePoints);
-                createSuggestionPoints(userpointsnames, suggestionsPoints);
+                createSuggestionPoints(sUserpointsnames, suggestionsPoints);
                 createRoutes(userpointsnames, routesHistory);
 
                 user.buildUser(friends, favouritePoints, suggestionsPoints, routesHistory, userL);
@@ -165,7 +176,6 @@
 
             interestpoint = await _data.LoadData<InterestPoint, dynamic>(sqlIP, new {Email = userL.email, Nome = n}, _config.GetConnectionString("default"));
 
-            string a = null;
             favouritePoints.Add(interestpoint[0].buildInterestPoint(avaliacao, categories,interestpoint[0]));
         }
     }
@@ -193,36 +203,46 @@
 
             interestpoint = await _data.LoadData<InterestPoint, dynamic>(sqlIP, new {Email = userL.email, Nome = n}, _config.GetConnectionString("default"));
 
-            string a = null;
             suggestionpoints.Add(interestpoint[0].buildInterestPoint(avaliacao, categories,interestpoint[0]));
         }
     }
 
-    private async void createRoutes(List<string> nomes, List<Route> suggestionpoints){
-        foreach(var n in nomes){
-            List<Category> categories = new List<Category>();
-            List<Evaluation> avaliacao = new List<Evaluation>();
-            List<InterestPoint> interestpoint = new List<InterestPoint>();
+    private async void createRoutes(List<string> nomes, List<Route> routes){
+        List<string> routenames = new List<string>();
+        string sqlRT = "SELECT R.Rota_nome FROM Utilizador_hashistorico_rota AS R " +
+                        "WHERE R.Utilizador_email = @Email";
+        
+        routenames = await _data.LoadData<string, dynamic>(sqlRT, new {Email = userL.email}, _config.GetConnectionString("default")); 
+        
+        foreach (var r in routenames)
+        {   
+            List<InterestPoint> routepoints = new List<InterestPoint>();
+            foreach(var n in nomes){
+                List<Category> categories = new List<Category>();
+                List<Evaluation> avaliacao = new List<Evaluation>();
+                List<InterestPoint> interestpoint = new List<InterestPoint>();
 
-            string sqlC2 = "SELECT CC.idcategoria, CC.descricao FROM mydb.pontointeresse_has_categoria AS C "
-                            + "JOIN mydb.pontointeresse AS P ON C.pontointeresse_nome = P.nome "
-                            + "JOIN mydb.categoria AS CC ON C.categoria_idcategoria = CC.idcategoria WHERE nome = @Nome";
+                string sqlC2 = "SELECT CC.idcategoria, CC.descricao FROM mydb.pontointeresse_has_categoria AS C "
+                                + "JOIN mydb.pontointeresse AS P ON C.pontointeresse_nome = P.nome "
+                                + "JOIN mydb.categoria AS CC ON C.categoria_idcategoria = CC.idcategoria WHERE nome = @Nome";
 
-            categories = (await _data.LoadData<Category, dynamic>(sqlC2, new {Nome = n}, _config.GetConnectionString("default")));
+                categories = await _data.LoadData<Category, dynamic>(sqlC2, new {Nome = n}, _config.GetConnectionString("default"));
 
-            string sqlA = "SELECT A.idavaliacao, A.avaliacao, A.descricao FROM mydb.avaliacao AS A "
-                            + "WHERE A.pontointeresse_nome = @Nome";
-            
-            avaliacao = (await _data.LoadData<Evaluation, dynamic>(sqlA, new {Nome = n}, _config.GetConnectionString("default")));
-            
-            string sqlIP = "SELECT V.nome, V.descricao, V.cidade, V.coordenadas FROM mydb.utilizador_hassugestao_pontointeresse AS F "
-                            + "JOIN mydb.utilizador AS U ON F.utilizador_email = U.email "
-                            + "JOIN mydb.pontointeresse AS V ON F.pontointeresse_nome = V.nome WHERE email = @Email AND V.nome = @Nome";
+                string sqlA = "SELECT A.idavaliacao, A.avaliacao, A.descricao FROM mydb.avaliacao AS A "
+                                + "WHERE A.pontointeresse_nome = @Nome";
+                
+                avaliacao = await _data.LoadData<Evaluation, dynamic>(sqlA, new {Nome = n}, _config.GetConnectionString("default"));
+                
+                string sqlIP = "SELECT V.nome, V.descricao, V.cidade, V.coordenadas FROM mydb.rota_has_pontonteresse AS F "
+                                + "JOIN mydb.rota AS R ON F.Rota_nome = R.nome "
+                                + "JOIN mydb.pontointeresse AS V ON F.pontointeresse_nome = V.nome WHERE R.nome = @RNome AND V.nome = @Nome";
 
-            interestpoint = await _data.LoadData<InterestPoint, dynamic>(sqlIP, new {Email = userL.email, Nome = n}, _config.GetConnectionString("default"));
+                interestpoint = await _data.LoadData<InterestPoint, dynamic>(sqlIP, new {RNome = r, Nome = n}, _config.GetConnectionString("default"));
 
-            string a = null;
-            suggestionpoints.Add(interestpoint[0].buildInterestPoint(avaliacao, categories,interestpoint[0]));
-        }
+                routepoints.Add(interestpoint[0].buildInterestPoint(avaliacao, categories,interestpoint[0]));
+            }
+            Route rt = new Route(r, routepoints);
+            routes.Add(rt);
+        }    
     }
 }
