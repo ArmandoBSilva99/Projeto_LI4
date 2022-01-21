@@ -10,3 +10,15 @@
 /home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/obj/Debug/net6.0/DataAccess.dll
 /home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/obj/Debug/net6.0/ref/DataAccess.dll
 /home/armando/Documents/LEI/LI4/Projeto_LI4/DataAccessHermesTravel/obj/Debug/net6.0/DataAccess.pdb
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\bin\Debug\net6.0\DataAccess.deps.json
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\bin\Debug\net6.0\DataAccess.dll
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\bin\Debug\net6.0\ref\DataAccess.dll
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\bin\Debug\net6.0\DataAccess.pdb
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\obj\Debug\net6.0\DataAccess.csproj.AssemblyReference.cache
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\obj\Debug\net6.0\DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\obj\Debug\net6.0\DataAccess.AssemblyInfoInputs.cache
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\obj\Debug\net6.0\DataAccess.AssemblyInfo.cs
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\obj\Debug\net6.0\DataAccess.csproj.CoreCompileInputs.cache
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\obj\Debug\net6.0\DataAccess.dll
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\obj\Debug\net6.0\ref\DataAccess.dll
+D:\Aulas\MIEI\3ANO_1SEM\LI4\Projeto_LI4\DataAccessHermesTravel\obj\Debug\net6.0\DataAccess.pdb
