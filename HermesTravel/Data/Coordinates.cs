@@ -11,5 +11,6 @@ namespace HermesTravel.Data
             this.latitude = latitude;
             this.longitude = longitude;
         }
+
     }
 }

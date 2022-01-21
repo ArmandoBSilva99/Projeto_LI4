@@ -84,7 +84,7 @@
     <div class="container">
         <EditForm Model="userL" OnValidSubmit="@RegisterUser">
             <div class="form-group">
-                <InputText @bind-Value="userL.name" class="form-control" type="text" id="name" placeholder="Name" required></InputText>
+                <InputText @bind-Value="userL.nome" class="form-control" type="text" id="name" placeholder="Name" required></InputText>
             </div>
             <div class="form-group">
                 <InputText @bind-Value="userL.email" class="form-control" type="text" id="email" placeholder="Email" required></InputText>
@@ -130,9 +130,9 @@
     User userL = new User();
 
     private async Task RegisterUser()
-    {   
+    {    
         List<String> emailList = new List<String>();
-        User user = new User(userL.email, userL.password, userL.name, "", 0, false);
+        User user = new User(userL.email, userL.password, userL.nome, "", 0, false);
         string  sql2 = "SELECT email FROM mydb.utilizador WHERE email = @Email";
         emailList = await _data.LoadData<String, dynamic>(sql2, new { Email = user.email }, _config.GetConnectionString("default"));
         if(emailList.Count > 0){
@@ -146,7 +146,7 @@
         }
         else{
             string sql = "INSERT INTO utilizador (Email, Nome, Password, Nivel, Login) VALUES (@Email, @Nome, @Password, @Nivel, @Login);";
-            await _data.SaveData(sql, new { Email = user.email, Nome = user.name, Password = user.password, Nivel = user.level, Login = user.loggedIn}, _config.GetConnectionString("default"));
+            await _data.SaveData(sql, new { Email = user.email, Nome = user.nome, Password = user.password, Nivel = user.nivel, Login = user.login}, _config.GetConnectionString("default"));
             helper.NavigateTo("/");
         }
     }

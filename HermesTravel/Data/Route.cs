@@ -2,14 +2,14 @@ namespace HermesTravel.Data
 {
     public class Route
     {
-        public string routeName { get; set; }
+        public string nome { get; set; }
 
         public List<InterestPoint> points = new List<InterestPoint>();
 
         // Constructor
         public Route (string routeName, List<InterestPoint> p)
         {
-            this.routeName = routeName;
+            this.nome = routeName;
             this.points = p;
         }
 
