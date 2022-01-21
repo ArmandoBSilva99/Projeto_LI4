@@ -1,10 +1,12 @@
 @page "/Register"
 
 @using HermesTravel.Data
-@*@using DataAcessHermesTravel*@
+@using DataAccessHermesTravel
 @using Microsoft.Extensions.Configuration
+@inject ISqlDataAccess _data
 @inject IConfiguration _config
 @inject NavigationManager helper
+@inject User user
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -94,21 +96,58 @@
                 <input type="checkbox" class="form-check-input" id="TermsConditions" required>
                 <label class="form-check-label fw-bold" for="TermsConditions">Li e aceito os termos e condições</label>
             </div>
-            <input class="btn btn-secundary fw-bold" href="/" type="submit" value="Registar" />
+            <input class="btn btn-secundary fw-bold" href="Register" type="submit" value="Registar" />
         </EditForm>
     </div>
+    @if (status == -1)
+    {
+        <div class="container">
+            <h3>ERRO!</h3>
+            <p>Email já existe!</p>
+        </div>
+    }
+    else if (status == -2)
+    {
+        <div class="container">
+            <h3>ERRO!</h3>
+            <p>Email invalido (abc@email.com).</p>
+        </div>
+    }
+    else if (status == -3)
+    {
+        <div class="container">
+            <h3>ERRO!</h3>
+            <p>A palavra passe tem de ter pelo menos 6 caracteres.</p>
+        </div>
+    }
 </body>
 
 </html>
 
-@code
+@code 
 {
-    int result = 0;
+    int status = 0;
     User userL = new User();
 
-    private void RegisterUser()
-    {
+    private async Task RegisterUser()
+    {   
+        List<String> emailList = new List<String>();
         User user = new User(userL.email, userL.password, userL.name);
-        //strin
+        string  sql2 = "SELECT email FROM mydb.utilizador WHERE email = @Email";
+        emailList = await _data.LoadData<String, dynamic>(sql2, new { Email = user.email }, _config.GetConnectionString("default"));
+        if(emailList.Count > 0){
+            status = -1;
+        }
+        else if(!userL.email.Contains('@')){
+            status = -2;
+        }
+        else if(userL.password.Count < 6){
+            status = -3;
+        }
+        else{
+            string sql = "INSERT INTO utilizador (Email, Nome, Password, Nivel, Login) VALUES (@Email, @Nome, @Password, @Nivel, @Login);";
+            await _data.SaveData(sql, new { Email = user.email, Nome = user.name, Password = user.password, Nivel = user.level, Login = user.loggedIn}, _config.GetConnectionString("default"));
+            helper.NavigateTo("/");
+        }
     }
 }
