@@ -7,7 +7,7 @@ namespace HermesTravel.Data
         // Método: Adicionar Ponto de Interesse
         public void addPoint(InterestPoint p)
         {
-            interestPoints.Add(p.name, p);
+            interestPoints.Add(p.nome, p);
         }
 
         // Método: Remover Ponto de Interesse

@@ -2,20 +2,20 @@ namespace HermesTravel.Data
 {
     public class Category 
     {
-        public int id {get; set;}
+        public int idCategoria {get; set;}
 
-        public String description {get; set;}
+        public String descricao {get; set;}
 
         public Category(int id, String description)
         {
-            this.id = id;
-            this.description = description;
+            this.idCategoria = id;
+            this.descricao = description;
         }
 
         public Category()
         {
-            this.id = -1;
-            this.description = "null";
+            this.idCategoria = -1;
+            this.descricao = "null";
         }
     }
 }

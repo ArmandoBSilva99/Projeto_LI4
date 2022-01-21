@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace HermesTravel.Data
 {
     public class User
@@ -6,13 +11,13 @@ namespace HermesTravel.Data
 
         public string password { get; set; }
 
-        public string name { get; set; }
+        public string nome { get; set; }
         
-        public string avatar { get; set; }
+        public string imagemURL { get; set; }
 
-        public int level { get; set; }
+        public int nivel { get; set; }
 
-        public Boolean loggedIn { get; set; }
+        public Boolean login { get; set; }
 
         public List<string> friends = new List<string>();
 
@@ -22,38 +27,41 @@ namespace HermesTravel.Data
 
         public Dictionary<string, Route> routeHistory = new Dictionary<string, Route>();
 
-        public User()
-        {
-            this.email = "";
-            this.password = "";
-            this.name = "";
-            this.avatar = "";
-        }
 
         public User(string email, string password, string name, string avatar, int level, bool loggedin)
         {
             this.email = email;
             this.password = password;
-            this.name = name;
-            this.avatar = avatar;
-            this.level = level;
-            this.loggedIn = loggedin;
+            this.nome = name;
+            this.imagemURL = avatar;
+            this.nivel = level;
+            this.login = loggedin;
             this.favouritePoints = new List<InterestPoint>();
             this.suggestionsPoints = new List<InterestPoint>();
             this.routeHistory = new Dictionary<string, Route>();
         }
 
 
-        /*
+        
         public User(string email, string password, string name)
         {
             this.email = email;
             this.password = password;
-            this.name = name;
-            this.avatar = "./images/InitialAvatar.png";
-            this.level = 0;
-            this.loggedIn = false;
-        }*/
+            this.nome = name;
+            this.imagemURL = "./images/InitialAvatar.png";
+            this.nivel = 0;
+            this.login = false;
+        }
+
+        public User()
+        {
+            this.email = "";
+            this.password = "";
+            this.nome = "";
+            this.imagemURL = "";
+            this.nivel = 0;
+            this.login = false;
+        }
 
         public void buildUser(List<string> friends, List<InterestPoint> favouritePoints, List<InterestPoint> suggestionPoints, List<Route> routeHistory, User u)
         {
@@ -74,15 +82,15 @@ namespace HermesTravel.Data
 
             foreach (var rh in routeHistory)
             {
-                this.routeHistory.Add(rh.routeName, rh);
+                this.routeHistory.Add(rh.nome, rh);
             }
 
             this.email = u.email;
             this.password = u.password;
-            this.name = u.name;
-            this.avatar = u.avatar;
-            this.level = u.level;
-            this.loggedIn = u.loggedIn;
+            this.nome = u.nome;
+            this.imagemURL = u.imagemURL;
+            this.nivel = u.nivel;
+            this.login = u.login;
         }
 
         // Getters
@@ -109,13 +117,13 @@ namespace HermesTravel.Data
 
         public void setAvatar(string avatar)
         {
-            this.avatar = avatar;
+            this.imagemURL = avatar;
         }
 
         // Método: Sobe o nível do utilizador
         public void levelUP()
         {
-            this.level = this.level + 1;
+            this.nivel = this.nivel + 1;
         }
 
         // Método: Adicionar amigo
@@ -151,7 +159,7 @@ namespace HermesTravel.Data
         // Método: Adicionar rota ao histórico do utilizador
         public void addRoute(Route route)
         {
-            routeHistory.Add(route.routeName, route);
+            routeHistory.Add(route.nome, route);
         }
 
         // Método: Remover rota do histórico de rotas do utilizador
@@ -170,7 +178,7 @@ namespace HermesTravel.Data
         }
 
         public (int,int) calculateLevel(){
-            int xp = this.level;
+            int xp = this.nivel;
             int base_xp = 1;
             int mult = 2;
             int currentLevel = 0;

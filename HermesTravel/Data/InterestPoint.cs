@@ -2,29 +2,46 @@ namespace HermesTravel.Data
 {
     public class InterestPoint
     {
-        public string name { get; set; }
+        public string nome { get; set; }
 
-        public string city { get; set; }
+        public string cidade { get; set; }
 
-        public string description { get; set; }
+        public string descricao { get; set; }
 
-        public string img {get; set;}
+        public string imagemURL {get; set;}
+
+        public string coordenadas {get; set;}
         public List<Evaluation> eval = new List<Evaluation>();
 
-        public Coordinates coordinates;
+        //public Coordinates coordinates;
 
-        public List<string> categories = new List<string>();
+        public List<Category> categories = new List<Category>();
 
         // Constructor
-        public InterestPoint(string name, string city, string description, string img, List<Evaluation> eval, Coordinates coord, List<string> categories)
+        public InterestPoint(string name, string city, string description, string img, List<Evaluation> eval, string coord, List<Category> categories)
         {
-            this.name = name;
-            this.city = city;
-            this.description = description;
-            this.img = img;
+            this.nome = name;
+            this.cidade = city;
+            this.descricao = description;
+            this.imagemURL = img;
             this.eval = eval;
-            this.coordinates = coord;
+            this.coordenadas = coord;
             this.categories = categories;
+        }
+
+        public InterestPoint()
+        {
+        }
+
+        public InterestPoint buildInterestPoint (List<Evaluation> eval, List<Category> cat, InterestPoint p){
+            this.nome = p.nome;
+            this.cidade = p.cidade;
+            this.descricao = p.descricao;
+            this.imagemURL = p.imagemURL;
+            this.eval = eval;
+            this.coordenadas = p.coordenadas;
+            this.categories = cat;
+            return this;
         }
     }
 }
