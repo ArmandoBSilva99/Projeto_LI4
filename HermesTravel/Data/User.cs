@@ -168,5 +168,21 @@ namespace HermesTravel.Data
                 routes.Add(r.Value);
             return routes;
         }
+
+        public (int,int) calculateLevel(){
+            int xp = this.level;
+            int base_xp = 1;
+            int mult = 2;
+            int currentLevel = 0;
+
+            while(xp > 0){
+                xp=xp-(base_xp*mult);
+                currentLevel++;
+                base_xp = base_xp*mult;
+            }
+            int percentage = 1-((-xp)/(base_xp/mult));
+            
+            return (currentLevel, percentage); // CurrentLevel, percentagem da barra
+        }
     }
 }
