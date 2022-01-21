@@ -97,9 +97,45 @@
 
     User userL = new User();
     List<User> users = new List<User>();
+    List<string> friends = new List<string>();
 
+    List<InterestPoint> suggestionsPoints = new List<InterestPoint>();
+
+    List<InterestPoint> favouritePoints = new List<InterestPoint>();
+
+    List<Route> routesHistory = new List<Route>();    
+    string res;
     private async Task Login()
     {
-        string sql = "SELECT * FROM mydb.utilizador WHERE email = @Email";
+        string sql = "SELECT U. FROM mydb.utilizador WHERE email = @Email";
+        users = await _data.LoadData<User, dynamic>(sql, new {Email = userL.email}, _config.GetConnectionString("default"));
+
+        foreach (var u in users)
+        {
+            if (u.password.Equals(userL.password))
+            {
+                string sqlFriends = "SELECT U.utilizador_email FROM mydb.utilizador_has_utilizador AS U" 
+                                    + "JOIN mydb.utilizador AS P ON U.UserEmail = P.email Where email = @Email";
+                friends = await _data.LoadData<string, dynamic>(sqlFriends, new {Email = userL.email}, _config.GetConnectionString("default"));
+
+                string sqlFP = "SELECT V.nome, V.descricao, V.cidade, V.coordenadas "
+                                + "FROM mydb.utilizador_hasfavorite_pontointeresse AS F JOIN mydb.utilizador AS U ON F.utilizador_email = U.email "
+                                + "JOIN mydb.pontointeresse AS V ON F.pontointeresse_nome = V.nome "
+                                + "WHERE email = @Email";
+
+                favouritePoints = await _data.LoadData<InterestPoint, dynamic>(sqlFP, new {Email = userL.email}, _config.GetConnectionString("default"));
+
+                user.buildUser(friends, favouritePoints, suggestionsPoints, routesHistory, userL);
+
+                res = "User válido";
+
+                helper.NavigateTo("Account");
+            }
+            else
+            {
+                res = "Utilizador Inválido";
+                helper.NavigateTo(helper.Uri, forceLoad: true);
+            }
+        }    
     }
 }
