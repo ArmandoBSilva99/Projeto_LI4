@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System;
 
 namespace DataAccessHermesTravel
 {
@@ -18,7 +19,8 @@ namespace DataAccessHermesTravel
             using (IDbConnection connection = new MySqlConnection(connectionString))
             {
                 var rows = await connection.QueryAsync<T>(sql, parameters);
-
+                List<T> aa = rows.ToList();
+                string b = "";
                 return rows.ToList();
 
             }

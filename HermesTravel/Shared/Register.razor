@@ -132,7 +132,7 @@
     private async Task RegisterUser()
     {   
         List<String> emailList = new List<String>();
-        User user = new User(userL.email, userL.password, userL.name);
+        User user = new User(userL.email, userL.password, userL.name, "", 0, false);
         string  sql2 = "SELECT email FROM mydb.utilizador WHERE email = @Email";
         emailList = await _data.LoadData<String, dynamic>(sql2, new { Email = user.email }, _config.GetConnectionString("default"));
         if(emailList.Count > 0){

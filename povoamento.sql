@@ -1,15 +1,15 @@
--- Schema hermestravel
-USE `hermestravel` ;
+-- Schema mydb
+USE `mydb` ;
 --
 -- Permissão para fazer operações de remoção de dados.
 SET SQL_SAFE_UPDATES = 0;
 
 INSERT INTO `utilizador`
-    (`email`, `nome`, `password`, `nivel`, `login`)
+    (`email`, `nome`, `password`, `nivel`, `login`, `imagemURL`)
     VALUES 
-        ("armando@gmail.com","Armando","123","0",false),
-        ("joana@gmail.com","Joana","12345","2", false),
-        ("andre@gmail.com","Andre","1234","4", false)
+        ("armando@gmail.com","Armando","123","0",false,"./images/InitialAvatar.png"),
+        ("joana@gmail.com","Joana","12345","2", false,"./images/InitialAvatar.png"),
+        ("andre@gmail.com","Andre","1234","4", false,"./images/InitialAvatar.png")
     ;
     
 INSERT INTO `rota`
@@ -32,13 +32,13 @@ INSERT INTO `utilizador_has_utilizador`
     ;
 
 INSERT INTO `pontointeresse`
-    (`nome`, `descricao`, `cidade`, `coordenadas`) 
+    (`nome`, `descricao`, `cidade`, `coordenadas`,`imagemURL`) 
     VALUES 
-        ("Prometeu","Uma estatua","Braga","41.559550978259956, -8.397245077052588"),
-        ("Sameiro","Uma igreja","Braga","41.54228249141272, -8.367789523533432"),
-        ("Bom Jesus","Um edificio com um comboio","Braga","41.555631223306015, -8.374821777940548"),
-        ("Carrinha de Gualtar","Wtf uma carrinha!","Braga","41.571004867707636, -8.375128305346506"),
-        ("Termas Romanas","Umas pedras antigas","Braga","41.546880618677335, -8.42640991437258")
+        ("Prometeu","Uma estatua","Braga","41.559550978259956, -8.397245077052588","./images/InitialAvatar.png"),
+        ("Sameiro","Uma igreja","Braga","41.54228249141272, -8.367789523533432","./images/InitialAvatar.png"),
+        ("Bom Jesus","Um edificio com um comboio","Braga","41.555631223306015, -8.374821777940548","./images/InitialAvatar.png"),
+        ("Carrinha de Gualtar","Wtf uma carrinha!","Braga","41.571004867707636, -8.375128305346506","./images/InitialAvatar.png"),
+        ("Termas Romanas","Umas pedras antigas","Braga","41.546880618677335, -8.42640991437258","./images/InitialAvatar.png")
     ;
 
 INSERT INTO `utilizador_hasfavorite_pontointeresse`
@@ -47,6 +47,12 @@ INSERT INTO `utilizador_hasfavorite_pontointeresse`
         ("armando@gmail.com","Carrinha de Gualtar"),
         ("joana@gmail.com","Bom Jesus"),
         ("armando@gmail.com","Sameiro")
+    ;
+
+INSERT INTO `utilizador_hassugestao_pontointeresse`
+    (`Utilizador_email`, `PontoInteresse_nome`) 
+    VALUES 
+        ("armando@gmail.com","Carrinha de Gualtar")
     ;
 
 INSERT INTO `rota_has_pontointeresse`
@@ -59,7 +65,7 @@ INSERT INTO `rota_has_pontointeresse`
     ;
 
 INSERT INTO `categoria`
-    (`idCategoria`, `Descricao`) 
+    (`idCategoria`, `descricao`) 
     VALUES 
         (1,"Historico"),
         (2,"Religiao"),
