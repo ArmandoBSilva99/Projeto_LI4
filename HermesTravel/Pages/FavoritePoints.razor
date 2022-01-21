@@ -103,6 +103,7 @@
         .btn-aux {
             margin-top: 10px;
             padding: 5px 30px;
+            width: 350px;
         }
 
         .friends {
@@ -176,9 +177,47 @@
     </div>
 
     <div class="container">
-
+        <div class="row buttons">
+            <div class="col-6 searchCol">
+                <EditForm Model="point" OnValidSubmit="@AddFavoritePoint">
+                    <div class="input-group">
+                        <InputText @bind-Value="point" class="form-control"type="text" placeholder="Insira um ponto de interesse" required></InputText>
+                        </div>
+                        <input class="btn btn-secundary btn-aux fw-bold" href="Account/FavoritePoints" type="submit" value="Adicionar aos favoritos"/>
+                </EditForm>
+                <EditForm Model="point" OnValidSubmit="@RemoveFavoritePoint">
+                    <div class="input-group mt-5">
+                        <InputText @bind-Value="point" class="form-control"type="text" placeholder="Insira um ponto de interesse" required></InputText>
+                        </div>
+                        <input class="btn btn-secundary btn-aux fw-bold" href="Account/FavoritePoints" type="submit" value="Remover dos favoritos"/>
+                </EditForm>
+            </div>
+            <div class="col-6 friends">
+                <div class="container vertical-scrollable" tabindex="0"> 
+                    <div class="row text-start">
+                        @for (int i = 0; i < user.getFavouritePoints().Count(); i++) {
+                            <div class="col-sm-8">@user.getFavouritePoints()[i]</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>
 
 </html>
+
+@code {
+    string point = "";
+
+    private void AddFavoritePoint()
+    {
+
+    }
+
+    private void RemoveFavoritePoint()
+    {
+
+    }
+}
