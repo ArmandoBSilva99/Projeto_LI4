@@ -4,6 +4,12 @@ USE `mydb` ;
 -- Permissão para fazer operações de remoção de dados.
 SET SQL_SAFE_UPDATES = 0;
 
+INSERT INTO `admin`
+    (`email`, `password`)
+    VALUES 
+        ("admin@gmail.com","admin")
+    ;
+
 INSERT INTO `utilizador`
     (`email`, `nome`, `password`, `nivel`, `login`, `imagemURL`)
     VALUES 

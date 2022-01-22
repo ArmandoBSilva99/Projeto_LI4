@@ -1,8 +1,12 @@
 @page "/Account/FavoritePoints"
 
+@using DataAccessHermesTravel
+@using Microsoft.Extensions.Configuration
 @using HermesTravel.Data
 @using HermesTravel.Pages
 @inject User user
+@inject ISqlDataAccess _data
+@inject IConfiguration _config
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -200,7 +204,7 @@
                 <div class="container vertical-scrollable" tabindex="0"> 
                     <div class="row text-start">
                         @for (int i = 0; i < user.getFavouritePoints().Count(); i++) {
-                            <div class="col-sm-8">@user.getFavouritePoints()[i]</div>
+                            <div class="col-sm-8">@user.getFavouritePoints()[i].nome</div>
                         }
                     </div>
                 </div>
@@ -215,14 +219,48 @@
 @code {
     string point = "";
 
-    private void AddFavoritePoint()
-    {
-        //String sqlA = "SELECT * FROM  WHERE `column`";
+    private async void AddFavoritePoint()
+    {   
+        int status = 0;
+        List<InterestPoint> favourite = new List<InterestPoint>();
+        List<String> favouriteL = new List<String>();  
+        String sqlA = "SELECT * FROM mydb.pontointeresse WHERE nome = @Nome";
+        favourite = await _data.LoadData<InterestPoint, dynamic>(sqlA, new {Nome = point}, _config.GetConnectionString("default"));
+        String sqlAA = "SELECT utilizador_email FROM utilizador_hasfavorite_pontointeresse WHERE pontointeresse_nome = @Nome AND utilizador_email = @Email";
+        favouriteL = await _data.LoadData<String, dynamic>(sqlAA, new {Email = user.email, Nome = point}, _config.GetConnectionString("default"));
+
+        if(favourite.Count == 1 && favouriteL.Count == 0){
+            List<Category> categories = new List<Category>();
+            List<Evaluation> avaliacao = new List<Evaluation>();
+
+            string sqlC2 = "SELECT CC.idcategoria, CC.descricao FROM mydb.pontointeresse_has_categoria AS C "
+                            + "JOIN mydb.pontointeresse AS P ON C.pontointeresse_nome = P.nome "
+                            + "JOIN mydb.categoria AS CC ON C.categoria_idcategoria = CC.idcategoria WHERE nome = @Nome";
+
+            categories = (await _data.LoadData<Category, dynamic>(sqlC2, new {Nome = point}, _config.GetConnectionString("default")));
+
+            string sqlB = "SELECT A.idavaliacao, A.avaliacao, A.descricao FROM mydb.avaliacao AS A "
+                            + "WHERE A.pontointeresse_nome = @Nome";
+            
+            avaliacao = (await _data.LoadData<Evaluation, dynamic>(sqlB, new {Nome = point}, _config.GetConnectionString("default")));
+
+            user.addFavouritePoint(favourite[0].buildInterestPoint(avaliacao, categories,favourite[0]));
+
+            string sqlC = "INSERT INTO mydb.utilizador_hasfavorite_pontointeresse (utilizador_email, pontointeresse_nome) VALUES (@Email, @Nome)";
+            await _data.SaveData(sqlC, new {Email = user.email, Nome = point}, _config.GetConnectionString("default"));
+            status = 1;
+        }
+        else{
+            status = 2; // Andre faz!
+        }
+
     }
 
-    private void RemoveFavoritePoint()
+    private async void RemoveFavoritePoint()
     {
-        //String sqlA = "SELECT * FROM  WHERE `column`";
+        user.removeFavouritePoint2(point);
+        String sqlA = "DELETE FROM mydb.utilizador_hasfavorite_pontointeresse WHERE pontointeresse_nome = @Nome AND utilizador_email = @Email ";
+        await _data.SaveData(sqlA, new {Email = user.email, Nome = point}, _config.GetConnectionString("default"));
 
     }
 }

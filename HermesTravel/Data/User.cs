@@ -156,6 +156,18 @@ namespace HermesTravel.Data
             return favouritePoints.Remove(favouritePoint);
         }
 
+        // Método: Remover ponto de interesse favorito
+        public Boolean removeFavouritePoint2(String favouritePoint)
+        {
+            foreach(var p in this.favouritePoints){
+                if(p.nome.Equals(favouritePoint)){
+                    this.favouritePoints.Remove(p);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         // Método: Adicionar rota ao histórico do utilizador
         public void addRoute(Route route)
         {
@@ -177,7 +189,7 @@ namespace HermesTravel.Data
             return routes;
         }
 
-        public (int,int) calculateLevel(){
+        public (int,string) calculateLevel(){
             int xp = this.nivel;
             int base_xp = 1;
             int mult = 2;
@@ -188,11 +200,16 @@ namespace HermesTravel.Data
                 currentLevel++;
                 base_xp = base_xp*mult;
             }
-            int percentage = 0;
+            float percentage = 0;
+            int inteiro = 0;
             if (xp != 0)
-                percentage = 1-((-xp)/(base_xp/mult));
+                percentage = (float) 1-((-xp)/(float)(base_xp));
+                percentage = percentage*100;
+                inteiro = (int) percentage;
+            string answer = inteiro.ToString();
+            answer = answer+"px";
             
-            return (currentLevel, percentage); // CurrentLevel, percentagem da barra
+            return (currentLevel, answer); // CurrentLevel, percentagem da barra
         }
     }
 }
