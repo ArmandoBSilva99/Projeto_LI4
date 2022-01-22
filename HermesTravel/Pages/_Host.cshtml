@@ -6,3 +6,24 @@
 }
 
 <component type="typeof(App)" render-mode="ServerPrerendered" />
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqcDi6ocKOSz2bbk23A7jgIksedrGZNYo"></script>
+<script>
+    var x = document.getElementById("demo");
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords;
+            // Show a map centered at latitude / longitude.
+            });
+           // navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+    }
+</script>

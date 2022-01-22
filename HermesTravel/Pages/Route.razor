@@ -7,6 +7,7 @@
 @inject ISqlDataAccess _data
 @inject IConfiguration _config
 @inject User user
+@inject IJSRuntime JSRuntime
 
 @{
     //HermesTravel hermestravel = new HermesTravel();
@@ -265,9 +266,10 @@
         stopPoints.Add(stopping);
     }
 
-    private void GetRoute() // USAR API DA GOOGLE PARA OBTER ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
+    private async void GetRoute() // USAR API DA GOOGLE PARA OBTER ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
     {
-
+        (int,int) coords = (0,0);
+        await JSRuntime.InvokeVoidAsync("getLocation", coords);
     }
 
     private void GetBestRoute() // USAR API DA GOOGLE PARA OBTER MELHOR ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
