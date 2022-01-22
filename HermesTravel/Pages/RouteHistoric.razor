@@ -1,14 +1,30 @@
-@page "/Route"
+@page "/Route/Historic"
 
 @using HermesTravel.Data
 @using HermesTravel.Pages
 @using DataAccessHermesTravel
 
-@inject NavigationManager helper
 @inject ISqlDataAccess _data
 @inject IConfiguration _config
 @inject User user
-@inject IJSRuntime JSRuntime
+
+@{
+    Dictionary<string, List<string>> routeHistoric = new Dictionary<string, List<string>>();
+    foreach (var r in @user.getDRouteHistory())
+    {
+        List<string> points = new List<string>();
+        for (int i = 0; i < r.Value.points.Count(); i++)
+        {
+            string str = "";
+            if (i+1 == r.Value.points.Count())
+                str = r.Value.points[i].nome;
+            else
+                str = r.Value.points[i].nome + ",";
+            points.Add(str);
+        }
+        routeHistoric.Add(r.Key, points);
+    }
+}
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -112,6 +128,10 @@
             width: 75%;
         }
 
+        .buttons {
+            margin-top: 90px;
+        }
+
         .searchCol {
             margin-bottom: 25px;
             width: 400px;
@@ -127,30 +147,11 @@
             padding: 5px 5px;
         }
 
-        .friends {
-            margin-top: 75px;
-            margin-left: 125px;
-        }
-
-        .horizontal-scrollable {
-            margin-top: 25px;
-        }
-
-        .horizontal-scrollable>.row {
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .horizontal-scrollable>.row>.col-4 {
-            font-weight: bold;
-            display: inline-block;
-        }
-
         .vertical-scrollable>.row {
+            margin: 25px 200px 0px 150px;
             position: absolute;
-            width: 700px;
-            height: 300px;
+            width: 1000px;
+            height: 400px;
             overflow-y: scroll;
         }
 
@@ -211,8 +212,7 @@
             </div>
             <div class="col-4 align-self-center">
                 <div class="container">
-                    <a class="btn btn-secundary btnTop fw-bold" href="Home">Página inicial</a>
-                    <p><a class="btn btn-secundary btnTop fw-bold" href="Route/Historic">Histórico de rotas</a></p>
+                    <a class="btn btn-secundary btnTop fw-bold" href="Route">Voltar para as rotas</a>
                 </div>
             </div>
         </div>
@@ -220,86 +220,20 @@
 
     <hr>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-6 searchCol">
-                <div class="container horizontal-scrollable">
-                    <span class="fs-5 fw-bold spanF">Rota: </span>
-                    <div class="row text-start mt-2">
-                        <div class="col-4">
-                            @for (int i = 0; i < stopPoints.Count(); i++)
-                            {
-                                @stopPoints[i]
-                            }
-                        </div>
-                    </div>
+    <div class="container vertical-scrollable" tabindex="0">
+        <div class="row text-start">
+            @foreach (var rh in routeHistoric)
+            {
+                <div class="col-sm-8">
+                    @rh.Key -
+                    @foreach (var r in rh.Value)
+                    {
+                        @rh
+                    }
                 </div>
-                <EditForm Model="stopping" OnValidSubmit="@AddStopping">
-                    <div class="input-group mt-4">
-                        <InputText @bind-Value="stopping" class="form-control" type="text"
-                            placeholder="Insira um ponto de interesse" aria-describedby="AddButton" required>
-                        </InputText>
-                        <input class="btn btn-secundary AddButtonClass fw-bold" type="submit" value="Adicionar"
-                            id="AddButton" />
-                    </div>
-                </EditForm>
-                <EditForm Model="stopping" OnValidSubmit="@GetRoute">
-                    <input class="btn btn-secundary btn-aux fw-bold mt-4" type="submit" value="Obter rota" />
-                </EditForm>
-                <EditForm Model="stopping" OnValidSubmit="@GetBestRoute">
-                    <input class="btn btn-secundary btn-aux fw-bold mt-2" type="submit" value="Obter melhor rota" />
-                </EditForm>
-            </div>
-            <div class="col-6 friends">
-                <div class="container vertical-scrollable" tabindex="0">
-                    <div class="row text-start">
-                        @{
-                            callingCreatePoints();
-                            foreach (var c in interestPoints)
-                            {
-                                <div class="col-sm-8">@c.cidade - @c.nome</div>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </body>
 
 </html>
-
-@code {
-    string stopping = "";
-    List<string> stopPoints = new List<string>();
-    List<InterestPoint> interestPoints = new List<InterestPoint>();
-
-    private bool callingCreatePoints()
-    {
-        createPoints();
-        return true;
-    }
-
-    private async void createPoints()
-    {
-        string sqlpoints = "SELECT * FROM mydb.pontointeresse";
-        interestPoints = await _data.LoadData<InterestPoint, dynamic>(sqlpoints, new { },
-        _config.GetConnectionString("default"));
-    }
-    private void AddStopping()
-    {
-        stopPoints.Add(stopping + " ");
-        helper.NavigateTo("Route");
-    }
-
-    private async void GetRoute() // USAR API DA GOOGLE PARA OBTER ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
-    {
-        (int,int) coords = (0,0);
-        await JSRuntime.InvokeVoidAsync("getLocation", coords);
-    }
-
-    private void GetBestRoute() // USAR API DA GOOGLE PARA OBTER MELHOR ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
-    {
-
-    }
-}
