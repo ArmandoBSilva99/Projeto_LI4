@@ -9,9 +9,9 @@
 @inject User user
 
 @{
-    HermesTravel hermestravel = new HermesTravel();
-    List<string> cities = new List<string>();
-    // MUDAR: cities = hermestravel.getCities();
+    //HermesTravel hermestravel = new HermesTravel();
+    //List<string> cities = new List<string>();
+    //cities = hermestravel.getCities();
 }
 
 <!DOCTYPE html>
@@ -231,9 +231,11 @@
             <div class="col-6 friends">
                 <div class="container vertical-scrollable" tabindex="0">
                     <div class="row text-start">
-                        @foreach (var c in cities)
+                        @{coisas();
+                        foreach (var c in interestPoints)
                         {
-                            <div class="col-sm-8">@c</div>
+                            <div class="col-sm-8">@c.cidade - @c.nome</div>
+                        }
                         }
                     </div>
                 </div>
@@ -247,7 +249,17 @@
 @code {
     string stopping = "";
     List<string> stopPoints = new List<string>();
-
+    List<InterestPoint> interestPoints = new List<InterestPoint>();
+    
+    private bool coisas(){
+        createPoints();
+        return true;
+    }
+    
+    private async void createPoints(){
+        string sqlpoints = "SELECT * FROM mydb.pontointeresse";
+        interestPoints = await _data.LoadData<InterestPoint, dynamic>(sqlpoints, new {}, _config.GetConnectionString("default"));
+    }
     private void AddStopping()
     {
         stopPoints.Add(stopping);
