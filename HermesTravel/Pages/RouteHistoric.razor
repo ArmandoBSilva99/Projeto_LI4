@@ -1,13 +1,30 @@
-@page "/Account"
+@page "/Route/Historic"
 
 @using HermesTravel.Data
 @using HermesTravel.Pages
-@inject NavigationManager helper
-@inject User user
 @using DataAccessHermesTravel
+
 @inject ISqlDataAccess _data
 @inject IConfiguration _config
-@inject NavigationManager helper
+@inject User user
+
+@{
+    Dictionary<string, List<string>> routeHistoric = new Dictionary<string, List<string>>();
+    foreach (var r in @user.getDRouteHistory())
+    {
+        List<string> points = new List<string>();
+        for (int i = 0; i < r.Value.points.Count(); i++)
+        {
+            string str = "";
+            if (i+1 == r.Value.points.Count())
+                str = r.Value.points[i].nome;
+            else
+                str = r.Value.points[i].nome + ",";
+            points.Add(str);
+        }
+        routeHistoric.Add(r.Key, points);
+    }
+}
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -98,6 +115,10 @@
             text-align: center;
         }
 
+        .btnTop {
+            width: 275px;
+        }
+
         hr {
             background-color: #06263d;
             border: 0 none;
@@ -111,19 +132,34 @@
             margin-top: 90px;
         }
 
-        .buttonsCol>a:nth-of-type(1) {
+        .searchCol {
             margin-bottom: 25px;
-            width: 400px;
-        }
-
-        .btnInput {
-            margin-top: 25px;
             width: 400px;
         }
 
         .btn-aux {
             margin-top: 10px;
-            padding: 5px 30px;
+            width: 275px;
+        }
+
+        .AddButtonClass {
+            margin: 0 0;
+            padding: 5px 5px;
+        }
+
+        .vertical-scrollable>.row {
+            margin: 25px 200px 0px 150px;
+            position: absolute;
+            width: 1000px;
+            height: 400px;
+            overflow-y: scroll;
+        }
+
+        .col-sm-8 {
+            border: 2px solid #06263d;
+            margin-left: 225px;
+            padding: 5px 15px 0 15px;
+            font-size: 20px;
         }
 
         @@media (max-width: 767.98px) {
@@ -174,110 +210,30 @@
                     <p class="fs-5"><span class="spanF">Amigos @user.getFriends().Count()</span></p>
                 </div>
             </div>
-
-            @if (status == 1)
-            {
-                <div class="col-4 align-self-center">
-                    <EditForm Model="userinput" OnValidSubmit="@ChangeAvatar">
-                        <div class="input-group">
-                            <InputText @bind-Value="userinput.inputA" class="form-control" type="text"
-                            placeholder="URL imagem" required></InputText>
-                        </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Confirmar" />
-                    </EditForm>
+            <div class="col-4 align-self-center">
+                <div class="container">
+                    <a class="btn btn-secundary btnTop fw-bold" href="Route">Voltar para as rotas</a>
                 </div>
-            }
-            else if (status == 2)
-            {
-                <div class="col-4 align-self-center">
-                    <EditForm Model="userinput" OnValidSubmit="@ChangePW">
-                        <div class="input-group">
-                            <InputText @bind-Value="userinput.inputB" class="form-control" type="password"
-                            placeholder="Nova password" required></InputText>
-                        </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Confirmar" />
-                    </EditForm>
-                </div>
-            }
+            </div>
         </div>
     </div>
 
     <hr>
 
-    <div class="container">
-        <div class="row buttons">
-            <div class="col-6 buttonsCol">
-                <a class="btn btn-secundary fw-bold" href="Account/Friends">Amigos</a>
-                <p class="mb-0">
-                    <EditForm Model="userinput" OnValidSubmit="@ChangeAvatarStatus">
-                        <input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit"
-                            value="Alterar avatar" />
-                    </EditForm>
-                </p>
-            </div>
-            <div class="col-6 buttonsCol">
-                <a class="btn btn-secundary fw-bold" href="Account/FavoritePoints">Pontos de Interesse favoritos</a>
-                <p class="mb-0">
-                    <EditForm Model="userinput" OnValidSubmit="@ChangePWStatus">
-                        <input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit"
-                            value="Alterar password" />
-                    </EditForm>
-                </p>
-            </div>
+    <div class="container vertical-scrollable" tabindex="0">
+        <div class="row text-start">
+            @foreach (var rh in routeHistoric)
+            {
+                <div class="col-sm-8">
+                    @rh.Key -
+                    @foreach (var r in rh.Value)
+                    {
+                        @rh
+                    }
+                </div>
+            }
         </div>
-    </div>
-
-    <div class="container buttons">
-        <a class="btn btn-secundary fw-bold" href="Home">Página inicial</a>
     </div>
 </body>
 
 </html>
-
-@code
-{
-    public class userInput
-    {
-        public string inputA { get; set; }
-        public string inputB { get; set; }
-    }
-
-    int status = 0;
-    userInput userinput = new userInput();
-
-    private void ChangeAvatarStatus()
-    {
-        status = 1;
-    }
-
-    private void ChangePWStatus()
-    {
-        status = 2;
-    }
-
-    private async void ChangeAvatar()
-    {
-        user.setAvatar(userinput.inputA);
-        string sqlS = "UPDATE mydb.utilizador set imagemURL = @Avatar WHERE email=@Email";
-        await _data.SaveData(sqlS, new { Avatar = userinput.inputA, Email = user.email }, _config.GetConnectionString("default"));
-        status = 0;
-        helper.NavigateTo("/Account");
-    }
-
-    private async void ChangePW()
-    {
-        if (userinput.inputB.Length > 6)
-        {
-            user.setPassword(userinput.inputB);
-            string sqlS = "UPDATE mydb.utilizador set password = @Password WHERE email=@Email";
-            await _data.SaveData(sqlS, new { Password = userinput.inputB, Email = user.email },
-            _config.GetConnectionString("default"));
-            status = 0;
-            helper.NavigateTo("/Account");
-        }
-        else
-        {
-            status = -1; // altera Andre!
-        }
-    }
-}
