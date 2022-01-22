@@ -2,6 +2,7 @@
 
 @using HermesTravel.Data
 @using HermesTravel.Pages
+@inject NavigationManager helper
 @inject User user
 @using DataAccessHermesTravel
 @inject ISqlDataAccess _data
@@ -154,8 +155,7 @@
         <div class="row align-items-start">
             <div class="col-4">
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped" role="progressbar"
-                        style="width: @user.calculateLevel().Item2;" aria-valuenow="@user.calculateLevel().Item1"
+                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: @user.calculateLevel().Item2" aria-valuenow="@user.calculateLevel().Item1"
                         aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <img class="img-fluid avatar" src="@user.imagemURL">
@@ -256,11 +256,10 @@
     private async void ChangeAvatar()
     {
         user.setAvatar(userinput.inputA);
-        string sqlS = "UPDATE mydb.utilizador set avatar = @Avatar WHERE email=@Email";
-        await _data.SaveData(sqlS, new { Avatar = userinput.inputA, Email = user.email },
-        _config.GetConnectionString("default"));
-        userinput.inputA = "";
-        helper.NavigateTo("Account");
+        string sqlS = "UPDATE mydb.utilizador set imagemURL = @Avatar WHERE email=@Email";
+        await _data.SaveData(sqlS, new {Avatar = userinput.inputA, Email = user.email}, _config.GetConnectionString("default"));
+        status = 0;
+        helper.NavigateTo("/Account");
     }
 
     private async void ChangePW()
@@ -269,10 +268,9 @@
         {
             user.setPassword(userinput.inputB);
             string sqlS = "UPDATE mydb.utilizador set password = @Password WHERE email=@Email";
-            await _data.SaveData(sqlS, new { Password = userinput.inputB, Email = user.email },
-            _config.GetConnectionString("default"));
-            userinput.inputB = "";
-            helper.NavigateTo("Account");
+            await _data.SaveData(sqlS, new {Password = userinput.inputB, Email = user.email}, _config.GetConnectionString("default"));
+            status = 0;
+            helper.NavigateTo("/Account");
         }
         else
         {

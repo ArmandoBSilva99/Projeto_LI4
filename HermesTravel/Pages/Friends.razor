@@ -225,7 +225,7 @@
     string userFriend = "";
     private async void AddFriend()
     {
-        string sqlExists = "SELECT email IN mydb.utilizador WHERE email = @Email";
+        string sqlExists = "SELECT email FROM mydb.utilizador WHERE email = @Email";
         List<string> friends = await _data.LoadData<string, dynamic>(sqlExists, new {Email = userFriend}, _config.GetConnectionString("default"));
         if (friends.Count > 0) 
         {
@@ -243,7 +243,7 @@
         if (friends.Count > 0)
         {
             user.deleteFriend(userFriend);
-            string sqlDelete = "DELETE FROM mydb.utilizador_has_utilizador WHERE Utilizador_email = @myemail AND Utilizador_email1 = @emailfriend";
+            string sqlDelete = "DELETE FROM mydb.utilizador_has_utilizador WHERE Utilizador_email = @myemail AND Utilizador_email1 = @friendemail";
             await _data.SaveData(sqlDelete, new {friendemail = userFriend, myemail = user.email}, _config.GetConnectionString("default"));
         }
     }

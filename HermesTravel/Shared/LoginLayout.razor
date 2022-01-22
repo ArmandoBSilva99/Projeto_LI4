@@ -141,11 +141,11 @@
                 createSuggestionPoints(sUserpointsnames, suggestionsPoints);
                 createRoutes(rUserpointsnames, routesHistory);
 
-                user.buildUser(friends, favouritePoints, suggestionsPoints, routesHistory, userL);
+                user.buildUser(friends, favouritePoints, suggestionsPoints, routesHistory, users[0]);
 
                 res = "User válido";
 
-                helper.NavigateTo("Account");
+                helper.NavigateTo("Home");
             }
             else
             {
