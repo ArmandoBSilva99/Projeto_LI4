@@ -6,6 +6,7 @@
 @using DataAccessHermesTravel
 @inject ISqlDataAccess _data
 @inject IConfiguration _config
+@inject NavigationManager helper
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -93,10 +94,19 @@
             font-weight: bold;
         }
 
-        .buttons {
-            margin-top: 100px;
+        hr {
+            background-color: #06263d;
+            border: 0 none;
+            color: #06263d;
+            height: 1px;
+            margin: 20px auto;
+            width: 75%;
         }
-        
+
+        .buttons {
+            margin-top: 90px;
+        }
+
         .buttonsCol>a:nth-of-type(1) {
             margin-bottom: 25px;
             width: 400px;
@@ -144,7 +154,8 @@
         <div class="row align-items-start">
             <div class="col-4">
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: @user.calculateLevel().Item2;" aria-valuenow="@user.calculateLevel().Item1"
+                    <div class="progress-bar progress-bar-striped" role="progressbar"
+                        style="width: @user.calculateLevel().Item2;" aria-valuenow="@user.calculateLevel().Item1"
                         aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <img class="img-fluid avatar" src="@user.imagemURL">
@@ -156,42 +167,60 @@
                     <p class="fs-5"><span class="spanF">@user.getFriends().Count()</span> Amigos</p>
                 </div>
             </div>
-            @if (status == 1) {
+            @if (status == 1)
+            {
                 <div class="col-4 align-self-center">
-                    <EditForm Model="userInput" OnValidSubmit="@ChangeAvatar">
+                    <EditForm Model="userinput" OnValidSubmit="@ChangeAvatar">
                         <div class="input-group">
-                            <InputText @bind-Value="userInput" class="form-control" type="text" placeholder="URL imagem" required></InputText>
+                            <InputText @bind-Value="userinput.inputA" class="form-control" type="text"
+                            placeholder="URL imagem" required></InputText>
                         </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" href="Account" type="submit" value="Confirmar"/>
+                        <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Confirmar" />
+                        @{
+                            status = 0;
+                        }
                     </EditForm>
                 </div>
-            } else if (status == 2) {
+            }
+            else if (status == 2)
+            {
                 <div class="col-4 align-self-center">
-                    <EditForm Model="userInput" OnValidSubmit="@ChangePW">
+                    <EditForm Model="userinput" OnValidSubmit="@ChangePW">
                         <div class="input-group">
-                            <InputText @bind-Value="userInput" class="form-control" type="password" placeholder="Nova password" required></InputText>
+                            <InputText @bind-Value="userinput.inputB" class="form-control" type="password"
+                            placeholder="Nova password" required></InputText>
                         </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" href="Account" type="submit" value="Confirmar"/>
+                        <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Confirmar" />
+                        @{
+                            status = 0;
+                        }
                     </EditForm>
                 </div>
             }
         </div>
     </div>
 
+    <hr>
+
     <div class="container">
         <div class="row buttons">
             <div class="col-6 buttonsCol">
                 <a class="btn btn-secundary fw-bold" href="Account/Friends">Amigos</a>
                 <p class="mb-0">
-                <EditForm Model="userInput" OnValidSubmit="@ChangeAvatarStatus">
-                    <input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit" value="Alterar avatar"/>
-                </EditForm></p>
+                    <EditForm Model="userinput" OnValidSubmit="@ChangeAvatarStatus">
+                        <input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit"
+                            value="Alterar avatar" />
+                    </EditForm>
+                </p>
             </div>
             <div class="col-6 buttonsCol">
                 <a class="btn btn-secundary fw-bold" href="Account/FavoritePoints">Pontos de Interesse favoritos</a>
-                <p class="mb-0"><EditForm Model="userInput" OnValidSubmit="@ChangePWStatus">
-                    <input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit" value="Alterar password"/>
-                </EditForm></p>
+                <p class="mb-0">
+                    <EditForm Model="userinput" OnValidSubmit="@ChangePWStatus">
+                        <input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit"
+                            value="Alterar password" />
+                    </EditForm>
+                </p>
             </div>
         </div>
     </div>
@@ -205,8 +234,14 @@
 
 @code
 {
+    public class userInput
+    {
+        public string inputA { get; set; }
+        public string inputB { get; set; }
+    }
+
     int status = 0;
-    string userInput = "";
+    userInput userinput = new userInput();
 
     private void ChangeAvatarStatus()
     {
@@ -220,21 +255,27 @@
 
     private async void ChangeAvatar()
     {
-        user.setAvatar(userInput);
+        user.setAvatar(userinput.inputA);
         string sqlS = "UPDATE mydb.utilizador set avatar = @Avatar WHERE email=@Email";
-        await _data.SaveData(sqlS, new {Avatar = userInput, Email = user.email}, _config.GetConnectionString("default"));
-        status = 0;
+        await _data.SaveData(sqlS, new { Avatar = userinput.inputA, Email = user.email },
+        _config.GetConnectionString("default"));
+        userinput.inputA = "";
+        helper.NavigateTo("Account");
     }
 
     private async void ChangePW()
-    {   
-        if(userInput.Length > 6){
-            user.setPassword(userInput);
+    {
+        if (userinput.inputB.Length > 6)
+        {
+            user.setPassword(userinput.inputB);
             string sqlS = "UPDATE mydb.utilizador set password = @Password WHERE email=@Email";
-            await _data.SaveData(sqlS, new {Password = userInput, Email = user.email}, _config.GetConnectionString("default"));
-            status = 0;
+            await _data.SaveData(sqlS, new { Password = userinput.inputB, Email = user.email },
+            _config.GetConnectionString("default"));
+            userinput.inputB = "";
+            helper.NavigateTo("Account");
         }
-        else{
+        else
+        {
             status = -1; // altera Andre!
         }
     }
