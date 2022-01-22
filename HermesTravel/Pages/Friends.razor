@@ -239,9 +239,9 @@
     userFriend userfriend = new userFriend();
     private async void AddFriend()
     {
-        string sqlExists = "SELECT email FROM mydb.utilizador WHERE email = @Email";
-        List<string> friends = await _data.LoadData<string, dynamic>(sqlExists, new {Email = userfriend.inputA}, _config.GetConnectionString("default"));
-        if (friends.Count > 0) 
+        string sqlExists = "SELECT utilizador_email FROM mydb.utilizador_has_utilizador WHERE utilizador_email = @Email AND utilizador_email1 = @Email2 ";
+        List<string> friends = await _data.LoadData<string, dynamic>(sqlExists, new {Email = user.email, Email2 = userfriend.inputA}, _config.GetConnectionString("default"));
+        if (friends.Count < 1) 
         {
             user.addFriend(userfriend.inputA);
             string sqlAdd = "INSERT INTO mydb.utilizador_has_utilizador (utilizador_email, utilizador_email1) "
