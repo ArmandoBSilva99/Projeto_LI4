@@ -1,8 +1,18 @@
-@page "/Account/FavoritePoints"
+@page "/Route"
 
 @using HermesTravel.Data
 @using HermesTravel.Pages
+@using DataAccessHermesTravel
+
+@inject ISqlDataAccess _data
+@inject IConfiguration _config
 @inject User user
+
+@{
+    HermesTravel hermestravel = new HermesTravel();
+    List<string> cities = new List<string>();
+    // MUDAR: cities = hermestravel.getCities();
+}
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -90,6 +100,10 @@
             font-weight: bold;
         }
 
+        .btnTop {
+            width: 275px;
+        }
+
         .buttons {
             margin-top: 150px;
         }
@@ -99,15 +113,14 @@
             width: 400px;
         }
 
-        .btnInput {
-            margin-top: 25px;
-            width: 400px;
-        }
-
         .btn-aux {
             margin-top: 10px;
-            padding: 5px 30px;
-            width: 350px;
+            width: 275px;
+        }
+        
+        .AddButtonClass {
+            margin: 0 0;
+            padding: 5px 5px;
         }
 
         .friends {
@@ -174,7 +187,8 @@
             </div>
             <div class="col-4 align-self-center">
                 <div class="container">
-                    <a class="btn btn-secundary fw-bold" href="Account">Voltar ao perfil</a>
+                    <a class="btn btn-secundary btnTop fw-bold" href="Home">Página inicial</a>
+                    <p><a class="btn btn-secundary btnTop fw-bold" href="Route/Historic" >Histórico de rotas</a></p>
                 </div>
             </div>
         </div>
@@ -183,46 +197,51 @@
     <div class="container">
         <div class="row buttons">
             <div class="col-6 searchCol">
-                <EditForm Model="point" OnValidSubmit="@AddFavoritePoint">
+                <EditForm Model="stopping" OnValidSubmit="@AddStopping">
                     <div class="input-group">
-                        <InputText @bind-Value="point" class="form-control"type="text" placeholder="Insira um ponto de interesse" required></InputText>
-                        </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" href="Account/FavoritePoints" type="submit" value="Adicionar aos favoritos"/>
+                        <InputText @bind-Value="stopping" class="form-control" type="text" placeholder="Insira um ponto de interesse" aria-describedby="AddButton" required></InputText>
+                        <input class="btn btn-secundary AddButtonClass fw-bold" type="submit" value="Adicionar" id="AddButton"/>
+                    </div>
                 </EditForm>
-                <EditForm Model="point" OnValidSubmit="@RemoveFavoritePoint">
-                    <div class="input-group mt-5">
-                        <InputText @bind-Value="point" class="form-control"type="text" placeholder="Insira um ponto de interesse" required></InputText>
-                        </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" href="Account/FavoritePoints" type="submit" value="Remover dos favoritos"/>
+                <EditForm Model="stopping" OnValidSubmit="@GetRoute">
+                    <input class="btn btn-secundary btn-aux fw-bold mt-4" type="submit" value="Obter rota" />
+                </EditForm>
+                <EditForm Model="stopping" OnValidSubmit="@GetBestRoute">
+                    <input class="btn btn-secundary btn-aux fw-bold mt-2" type="submit" value="Obter melhor rota" />
                 </EditForm>
             </div>
             <div class="col-6 friends">
-                <div class="container vertical-scrollable" tabindex="0"> 
+                <div class="container vertical-scrollable" tabindex="0">
                     <div class="row text-start">
-                        @for (int i = 0; i < user.getFavouritePoints().Count(); i++) {
-                            <div class="col-sm-8">@user.getFavouritePoints()[i]</div>
+                        @foreach (var c in cities)
+                        {
+                            <div class="col-sm-8">@c</div>
                         }
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 
 </html>
 
 @code {
-    string point = "";
+    string stopping = "";
+    List<string> stopPoints = new List<string>();
 
-    private void AddFavoritePoint()
+    private void AddStopping()
     {
-        //String sqlA = "SELECT * FROM  WHERE `column`";
+        stopPoints.Add(stopping);
     }
 
-    private void RemoveFavoritePoint()
+    private void GetRoute() // USAR API DA GOOGLE PARA OBTER ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
     {
-        //String sqlA = "SELECT * FROM  WHERE `column`";
+
+    }
+
+    private void GetBestRoute() // USAR API DA GOOGLE PARA OBTER MELHOR ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
+    {
 
     }
 }

@@ -26,6 +26,10 @@
             background-color: white;
         }
 
+        .navbar {
+            border-bottom: 2px solid #06263d;
+        }
+
         .titleText {
             color: #06263d;
             font-size: 50px;
@@ -136,7 +140,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container mt-4">
         <div class="row align-items-start">
             <div class="col-4">
                 <div class="progress">
@@ -179,12 +183,14 @@
             <div class="col-6 buttonsCol">
                 <a class="btn btn-secundary fw-bold" href="Account/Friends">Amigos</a>
                 <p class="mb-0">
-                <EditForm Model="userInput" OnValidSubmit="@ChangeAvatarStatus"><input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit" value="Alterar avatar"/>
+                <EditForm Model="userInput" OnValidSubmit="@ChangeAvatarStatus">
+                    <input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit" value="Alterar avatar"/>
                 </EditForm></p>
             </div>
             <div class="col-6 buttonsCol">
                 <a class="btn btn-secundary fw-bold" href="Account/FavoritePoints">Pontos de Interesse favoritos</a>
-                <p class="mb-0"><EditForm Model="userInput" OnValidSubmit="@ChangePWStatus"><input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit" value="Alterar password"/>
+                <p class="mb-0"><EditForm Model="userInput" OnValidSubmit="@ChangePWStatus">
+                    <input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit" value="Alterar password"/>
                 </EditForm></p>
             </div>
         </div>

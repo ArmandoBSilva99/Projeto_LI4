@@ -23,6 +23,10 @@
             background-color: white;
         }
 
+        .navbar {
+            border-bottom: 2px solid #06263d;
+        }
+
         .titleText {
             color: #06263d;
             font-size: 50px;
@@ -79,16 +83,8 @@
             margin-top: 50px;
         }
 
-        .buttons>a:nth-of-type(1) {
-            padding: 10px 125px;
-        }
-
-        .buttons>p:nth-of-type(1)>a {
-            padding: 10px 38px;
-        }
-
-        .buttons>p:nth-of-type(2)>a {
-            padding: 10px 29.5px;
+        .btn-aux {
+            width: 320px;
         }
 
         @@media (max-width: 767.98px) {
@@ -119,7 +115,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container mt-4">
         <div class="progress">
             <div class="progress-bar progress-bar-striped" role="progressbar" style="width: @user.calculateLevel().Item2;" aria-valuenow="@user.calculateLevel().Item1"
                 aria-valuemin="0" aria-valuemax="100"></div>
@@ -132,9 +128,9 @@
     </div>
 
     <div class="container buttons">
-        <a class="btn btn-secundary fw-bold" href="Route">Rota</a>
-        <p class="mb-0"><a class="btn btn-secundary fw-bold" href="InterestPoints">Pontos de Interesse</a></p>
-        <p class="mb-0"><a class="btn btn-secundary fw-bold" href="Account">Aceder perfil pessoal</a></p>
+        <a class="btn btn-secundary btn-aux fw-bold" href="Route">Rotas</a>
+        <p class="mb-0"><a class="btn btn-secundary btn-aux fw-bold" href="InterestPoints">Pontos de Interesse</a></p>
+        <p class="mb-0"><a class="btn btn-secundary btn-aux fw-bold" href="Account">Aceder perfil pessoal</a></p>
     </div>
 </body>
 
