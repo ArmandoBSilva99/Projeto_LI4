@@ -12,7 +12,7 @@ namespace HermesTravel.Data
         public string password { get; set; }
 
         public string nome { get; set; }
-        
+
         public string imagemURL { get; set; }
 
         public int nivel { get; set; }
@@ -27,7 +27,6 @@ namespace HermesTravel.Data
 
         public Dictionary<string, Route> routeHistory = new Dictionary<string, Route>();
 
-
         public User(string email, string password, string name, string avatar, int level, bool loggedin)
         {
             this.email = email;
@@ -41,8 +40,6 @@ namespace HermesTravel.Data
             this.routeHistory = new Dictionary<string, Route>();
         }
 
-
-        
         public User(string email, string password, string name)
         {
             this.email = email;
@@ -159,8 +156,10 @@ namespace HermesTravel.Data
         // Método: Remover ponto de interesse favorito
         public Boolean removeFavouritePoint2(String favouritePoint)
         {
-            foreach(var p in this.favouritePoints){
-                if(p.nome.Equals(favouritePoint)){
+            foreach (var p in this.favouritePoints)
+            {
+                if (p.nome.Equals(favouritePoint))
+                {
                     this.favouritePoints.Remove(p);
                     return true;
                 }
@@ -189,27 +188,30 @@ namespace HermesTravel.Data
             return routes;
         }
 
-        public (int,string) calculateLevel(){
+        // Método: Calcula fase de nível atual, percentagem atual em string e número
+        public (int, string, float) calculateLevel()
+        {
             int xp = this.nivel;
             int base_xp = 1;
             int mult = 2;
             int currentLevel = 0;
 
-            while(xp > 0){
-                xp=xp-(base_xp*mult);
+            while (xp > 0)
+            {
+                xp = xp - (base_xp * mult);
                 currentLevel++;
-                base_xp = base_xp*mult;
+                base_xp = base_xp * mult;
             }
             float percentage = 0;
             int inteiro = 0;
             if (xp != 0)
-                percentage = (float) 1-((-xp)/(float)(base_xp));
-                percentage = percentage*100;
-                inteiro = (int) percentage;
+                percentage = (float)1 - ((-xp) / (float)(base_xp));
+            percentage = percentage * 100;
+            inteiro = (int)percentage;
             string answer = inteiro.ToString();
-            answer = answer+"px";
-            
-            return (currentLevel, answer); // CurrentLevel, percentagem da barra
+            answer = answer + "px";
+
+            return (currentLevel, answer, percentage); // CurrentLevel, percentagem da barra
         }
     }
 }

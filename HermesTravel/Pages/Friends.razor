@@ -89,9 +89,12 @@
         .spanF {
             background-color: #f9932f;
             border: 3px solid #06263d;
-            border-radius: 100%;
-            padding: 5px 5px;
+            border-radius: 10%;
+            width: 150px;
+            line-height: 40px;
             font-weight: bold;
+            display: inline-block;
+            text-align: center;
         }
 
         hr {
@@ -166,9 +169,12 @@
     <div class="container mt-4">
         <div class="row align-items-start">
             <div class="col-4">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: @user.calculateLevel().Item2;" aria-valuenow="@user.calculateLevel().Item1"
+                <div class="progress position-relative">
+                    <div class="progress-bar progress-bar-striped" role="progressbar"
+                        style="width: @user.calculateLevel().Item2;" aria-valuenow="@user.calculateLevel().Item3"
                         aria-valuemin="0" aria-valuemax="100"></div>
+                    <span
+                        class="justify-content-center d-flex position-absolute w-100 fs-5">@user.calculateLevel().Item3</span>
                 </div>
                 <img class="img-fluid avatar" src="@user.imagemURL">
             </div>
@@ -176,7 +182,8 @@
                 <div class="userInfo">
                     <p class="fw-bold mt-2 mb-0">@user.nome</p>
                     <p class="fs-5">@user.email</p>
-                    <p class="fs-5"><span class="spanF">@user.getFriends().Count()</span> Amigos</p>
+                    <p class="fs-5"><span class="spanF">Nível @user.calculateLevel().Item1</span></p>
+                    <p class="fs-5"><span class="spanF">Amigos @user.getFriends().Count()</span></p>
                 </div>
             </div>
             <div class="col-4 align-self-center">
@@ -192,15 +199,15 @@
     <div class="container">
         <div class="row buttons">
             <div class="col-6 searchCol">
-                <EditForm Model="userFriend" OnValidSubmit="@AddFriend">
+                <EditForm Model="userfriend" OnValidSubmit="@AddFriend">
                     <div class="input-group">
-                        <InputText @bind-Value="userFriend" class="form-control"type="text" placeholder="Insira um username" required></InputText>
+                        <InputText @bind-Value="userfriend.inputA" class="form-control"type="text" placeholder="Insira um username" required></InputText>
                         </div>
                         <input class="btn btn-secundary btn-aux fw-bold" href="Account/Friends" type="submit" value="Adicionar amigo"/>
                 </EditForm>
-                <EditForm Model="userFriend" OnValidSubmit="@RemoveFriend">
+                <EditForm Model="userfriend" OnValidSubmit="@RemoveFriend">
                     <div class="input-group mt-5">
-                        <InputText @bind-Value="userFriend" class="form-control" type="text" placeholder="Insira um username" required></InputText>
+                        <InputText @bind-Value="userfriend.inputB" class="form-control" type="text" placeholder="Insira um username" required></InputText>
                         </div>
                         <input class="btn btn-secundary btn-aux fw-bold" href="Account/Friends" type="submit" value="Remover amigo"/>
                 </EditForm>
@@ -222,29 +229,36 @@
 </html>
 
 @code {
-    string userFriend = "";
+    public class userFriend
+    {
+        public string inputA { get; set; }
+        public string inputB { get; set; }
+    }
+
+    int status = 0;
+    userFriend userfriend = new userFriend();
     private async void AddFriend()
     {
         string sqlExists = "SELECT email FROM mydb.utilizador WHERE email = @Email";
-        List<string> friends = await _data.LoadData<string, dynamic>(sqlExists, new {Email = userFriend}, _config.GetConnectionString("default"));
+        List<string> friends = await _data.LoadData<string, dynamic>(sqlExists, new {Email = userfriend.inputA}, _config.GetConnectionString("default"));
         if (friends.Count > 0) 
         {
-            user.addFriend(userFriend);
+            user.addFriend(userfriend.inputA);
             string sqlAdd = "INSERT INTO mydb.utilizador_has_utilizador (utilizador_email, utilizador_email1) "
                             + "VALUES (@utilizador_email, @utilizador_email1)";
-            await _data.SaveData(sqlAdd, new {utilizador_email = user.email, utilizador_email1 = userFriend}, _config.GetConnectionString("default"));               
+            await _data.SaveData(sqlAdd, new {utilizador_email = user.email, utilizador_email1 = userfriend.inputA}, _config.GetConnectionString("default"));               
         }
     }
 
     private async void RemoveFriend()
     {
         string sqlExists = "SELECT utilizador_email1 FROM mydb.utilizador_has_utilizador WHERE utilizador_email = @myemail AND utilizador_email1 = @friendemail";
-        List<string> friends = await _data.LoadData<string, dynamic>(sqlExists, new {friendemail = userFriend, myemail = user.email}, _config.GetConnectionString("default"));
+        List<string> friends = await _data.LoadData<string, dynamic>(sqlExists, new {friendemail = userfriend.inputB, myemail = user.email}, _config.GetConnectionString("default"));
         if (friends.Count > 0)
         {
-            user.deleteFriend(userFriend);
+            user.deleteFriend(userfriend.inputB);
             string sqlDelete = "DELETE FROM mydb.utilizador_has_utilizador WHERE Utilizador_email = @myemail AND Utilizador_email1 = @friendemail";
-            await _data.SaveData(sqlDelete, new {friendemail = userFriend, myemail = user.email}, _config.GetConnectionString("default"));
+            await _data.SaveData(sqlDelete, new {friendemail = userfriend.inputB, myemail = user.email}, _config.GetConnectionString("default"));
         }
     }
 }

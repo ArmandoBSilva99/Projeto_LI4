@@ -90,9 +90,12 @@
         .spanF {
             background-color: #f9932f;
             border: 3px solid #06263d;
-            border-radius: 100%;
-            padding: 5px 5px;
+            border-radius: 10%;
+            width: 150px;
+            line-height: 40px;
             font-weight: bold;
+            display: inline-block;
+            text-align: center;
         }
 
         hr {
@@ -154,9 +157,12 @@
     <div class="container mt-4">
         <div class="row align-items-start">
             <div class="col-4">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: @user.calculateLevel().Item2" aria-valuenow="@user.calculateLevel().Item1"
+                <div class="progress position-relative">
+                    <div class="progress-bar progress-bar-striped" role="progressbar"
+                        style="width: @user.calculateLevel().Item2;" aria-valuenow="@user.calculateLevel().Item3"
                         aria-valuemin="0" aria-valuemax="100"></div>
+                    <span
+                        class="justify-content-center d-flex position-absolute w-100 fs-5">@user.calculateLevel().Item3</span>
                 </div>
                 <img class="img-fluid avatar" src="@user.imagemURL">
             </div>
@@ -164,9 +170,11 @@
                 <div class="userInfo">
                     <p class="fw-bold mt-2 mb-0">@user.nome</p>
                     <p class="fs-5">@user.email</p>
-                    <p class="fs-5"><span class="spanF">@user.getFriends().Count()</span> Amigos</p>
+                    <p class="fs-5"><span class="spanF">Nível @user.calculateLevel().Item1</span></p>
+                    <p class="fs-5"><span class="spanF">Amigos @user.getFriends().Count()</span></p>
                 </div>
             </div>
+
             @if (status == 1)
             {
                 <div class="col-4 align-self-center">
@@ -176,9 +184,6 @@
                             placeholder="URL imagem" required></InputText>
                         </div>
                         <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Confirmar" />
-                        @{
-                            status = 0;
-                        }
                     </EditForm>
                 </div>
             }
@@ -191,9 +196,6 @@
                             placeholder="Nova password" required></InputText>
                         </div>
                         <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Confirmar" />
-                        @{
-                            status = 0;
-                        }
                     </EditForm>
                 </div>
             }
@@ -257,7 +259,7 @@
     {
         user.setAvatar(userinput.inputA);
         string sqlS = "UPDATE mydb.utilizador set imagemURL = @Avatar WHERE email=@Email";
-        await _data.SaveData(sqlS, new {Avatar = userinput.inputA, Email = user.email}, _config.GetConnectionString("default"));
+        await _data.SaveData(sqlS, new { Avatar = userinput.inputA, Email = user.email }, _config.GetConnectionString("default"));
         status = 0;
         helper.NavigateTo("/Account");
     }
@@ -268,7 +270,8 @@
         {
             user.setPassword(userinput.inputB);
             string sqlS = "UPDATE mydb.utilizador set password = @Password WHERE email=@Email";
-            await _data.SaveData(sqlS, new {Password = userinput.inputB, Email = user.email}, _config.GetConnectionString("default"));
+            await _data.SaveData(sqlS, new { Password = userinput.inputB, Email = user.email },
+            _config.GetConnectionString("default"));
             status = 0;
             helper.NavigateTo("/Account");
         }
