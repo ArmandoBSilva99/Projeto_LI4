@@ -22,7 +22,7 @@ namespace HermesTravel.Data
             List<string> cities = new List<string>();
             foreach (var p in interestPoints)
             {
-                string city = p.Value.city;
+                string city = p.Value.cidade;
                 if (!cities.Contains(city))
                     cities.Add(city);
             }
