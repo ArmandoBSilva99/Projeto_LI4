@@ -188,7 +188,9 @@ namespace HermesTravel.Data
                 currentLevel++;
                 base_xp = base_xp*mult;
             }
-            int percentage = 1-((-xp)/(base_xp/mult));
+            int percentage = 0;
+            if(xp != 0)
+                percentage = 1-((-xp)/(base_xp/mult));
             
             return (currentLevel, percentage); // CurrentLevel, percentagem da barra
         }

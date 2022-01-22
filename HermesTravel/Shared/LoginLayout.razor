@@ -132,12 +132,14 @@
 
                 List<String> rUserpointsnames = new List<String>();
                 string sqlRP = "SELECT RP.pontointeresse_nome FROM mydb.Rota_has_pontointeresse AS RP "
-                                + "JOIN nome FROM mydb.rota "
-                                + "JOIN * FROM mydb.utilizador_hashistorico_rota AS R WHERE R.utilizador_email = @uEmail AND R.rota_nome = nome AND nome = RP.pontointeresse_nome";                                   
+                                + "JOIN mydb.rota AS RT "
+                                + "JOIN mydb.utilizador_hashistorico_rota AS R WHERE R.utilizador_email = @Email AND RP.rota_nome = RT.nome AND RT.nome = R.rota_nome";                                   
+                
+                rUserpointsnames = await _data.LoadData<String, dynamic>(sqlRP, new {Email = userL.email}, _config.GetConnectionString("default"));
 
                 createFavouritePoints(userpointsnames, favouritePoints);
                 createSuggestionPoints(sUserpointsnames, suggestionsPoints);
-                createRoutes(userpointsnames, routesHistory);
+                createRoutes(rUserpointsnames, routesHistory);
 
                 user.buildUser(friends, favouritePoints, suggestionsPoints, routesHistory, userL);
 
@@ -233,7 +235,7 @@
                 
                 avaliacao = await _data.LoadData<Evaluation, dynamic>(sqlA, new {Nome = n}, _config.GetConnectionString("default"));
                 
-                string sqlIP = "SELECT V.nome, V.descricao, V.cidade, V.coordenadas FROM mydb.rota_has_pontonteresse AS F "
+                string sqlIP = "SELECT V.nome, V.descricao, V.cidade, V.coordenadas FROM mydb.rota_has_pontointeresse AS F "
                                 + "JOIN mydb.rota AS R ON F.Rota_nome = R.nome "
                                 + "JOIN mydb.pontointeresse AS V ON F.pontointeresse_nome = V.nome WHERE R.nome = @RNome AND V.nome = @Nome";
 
