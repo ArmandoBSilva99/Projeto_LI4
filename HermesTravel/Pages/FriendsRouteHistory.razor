@@ -266,27 +266,36 @@
 
     Dictionary<string, List<string>> routeHistoric = new Dictionary<string, List<string>>();
 
-    private void getFriendRouteHistory()
+    private async void getFriendRouteHistory()
     {
+        routeHistoric = new Dictionary<string, List<string>>();
+        string sql = "SELECT utilizador_email FROM mydb.utilizador_has_utilizador WHERE utilizador_email = @Email AND utilizador_email1 = @Email1";
+        List<string> sqlL = await _data.LoadData<string,dynamic>(sql, new { Email = user.email, @Email1 = friend }, _config.GetConnectionString("default"));
+        string sql2 = "SELECT utilizador_email FROM mydb.utilizador_has_utilizador WHERE utilizador_email1 = @Email AND utilizador_email = @Email1";
+        List<string> sqlL2 = await _data.LoadData<string,dynamic>(sql2, new { Email = user.email, @Email1 = friend }, _config.GetConnectionString("default"));
         // STATUS SE AMIGO INTRODUZIDO NÃO FOR AMIGO DELE OU NÃO EXISTIR
-        //status = 1;
-        // OBTER HISTÓRICO DE AMIGO
-        // VERIFICAR SE SÃO AMIGOS
-        // PARA JÁ ESTÁ HISTÓRICO DE UTILIZADOR
-        status = 2;
-        foreach (var r in @user.getDRouteHistory())
-        {
-            List<string> points = new List<string>();
-            for (int i = 0; i < r.Value.points.Count(); i++)
-            {
-                string str = "";
-                if (i + 1 == r.Value.points.Count())
-                    str = r.Value.points[i].nome;
-                else
-                    str = r.Value.points[i].nome + ", ";
-                points.Add(str);
+        if(sqlL2.Count == 0 && sqlL.Count == 0){
+            status = 1;
+        }
+        else{
+            status = 2;
+            string sqlB = "SELECT rota_nome FROM mydb.utilizador_hashistorico_rota WHERE utilizador_email = @Email";
+            List<string> sqlLB = await _data.LoadData<string,dynamic>(sqlB, new { Email = friend}, _config.GetConnectionString("default"));
+            
+            foreach (var r in sqlLB){
+                string sqlpoints = "SELECT pontointeresse_nome FROM mydb.rota_has_pontointeresse WHERE rota_nome = @Nome";
+                List<string> points = await _data.LoadData<string,dynamic>(sqlpoints, new { Nome = r}, _config.GetConnectionString("default"));
+                List<string> routepoints = new List<string>();
+                for (int i = 0; i < points.Count(); i++){
+                    string str = "";
+                    if (i + 1 == points.Count())
+                        str = points[i];
+                    else
+                        str = points[i] + ", ";
+                    routepoints.Add(str);
+                }
+                routeHistoric.Add(r, routepoints);
             }
-            routeHistoric.Add(r.Key, points);
         }
         helper.NavigateTo("/Route/FriendsHistory");
     }

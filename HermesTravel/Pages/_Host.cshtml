@@ -1,4 +1,5 @@
 ﻿@page "/_Host"
+@using Microsoft.AspNetCore.Cors;
 @namespace HermesTravel.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
@@ -6,13 +7,11 @@
 }
 
 <component type="typeof(App)" render-mode="ServerPrerendered" />
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-
-  $.getJSON('https://jsonplaceholder.typicode.com/todos/1', function(data){
-    console.log(data.userId);
-  });
+  fetch('https://maps.googleapis.com/maps/api/directions/json?origin=41.552241365311254,-8.374760620730356&destination=41.54325941647852,-8.369274537081568&key=AIzaSyBqcDi6ocKOSz2bbk23A7jgIksedrGZNYo', {mode : 'no-cors'})
+  .then(data => data.json())
+  .then(res => {console.log(res)})
 </script>
 
 
