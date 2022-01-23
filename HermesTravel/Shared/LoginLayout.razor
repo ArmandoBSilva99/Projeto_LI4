@@ -133,8 +133,11 @@
 
         foreach (var u in users)
         {
-            if (u.password.Equals(userL.password))
+            if (u.password.Equals(userL.password) && u.login == false)
             {
+                string sqlLogin = "UPDATE mydb.utilizador SET login = 1 WHERE email = @Email";
+                await _data.SaveData(sqlLogin, new {Email = userL.email}, _config.GetConnectionString("default"));
+
                 List<String> userpointsnames = new List<String>(); 
                 string sqlFriends = "SELECT U.utilizador_email1 FROM mydb.utilizador_has_utilizador AS U " 
                                     + "JOIN mydb.utilizador AS P ON U.utilizador_email = P.email WHERE email = @Email";

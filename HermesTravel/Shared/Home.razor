@@ -2,6 +2,9 @@
 
 @using HermesTravel.Data
 @using HermesTravel.Pages
+@using DataAccessHermesTravel
+@inject ISqlDataAccess _data
+@inject IConfiguration _config
 @inject User user
 @inject NavigationManager helper
 
@@ -159,7 +162,10 @@
 
     string logout = "";
 
-    private void deleteUser(){
+    private async void deleteUser()
+    {   
+        string sqlS = "UPDATE mydb.utilizador SET login = 0 WHERE email=@Email";
+        await _data.SaveData(sqlS, new { Email = user.email }, _config.GetConnectionString("default"));
         user.deleteUser();
         helper.NavigateTo("/", true);
     }
