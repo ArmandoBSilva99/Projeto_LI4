@@ -289,7 +289,7 @@
 
     private async void createPoints()
     {
-        string sqlpoints = "SELECT * FROM mydb.pontointeresse";
+        string sqlpoints = "SELECT * FROM mydb.pontointeresse WHERE valido = 1";
         interestPoints = await _data.LoadData<InterestPoint, dynamic>(sqlpoints, new { },
         _config.GetConnectionString("default"));
     }
@@ -332,7 +332,7 @@
             
             avaliacao = await _data.LoadData<Evaluation, dynamic>(sqlA, new {Nome = p}, _config.GetConnectionString("default"));
             
-            string sqlIP = "SELECT nome, descricao, cidade, coordenadas FROM mydb.pontointeresse WHERE nome = @Nome";
+            string sqlIP = "SELECT nome, descricao, cidade, coordenadas FROM mydb.pontointeresse WHERE nome = @Nome AND valido = 1";
             interestpoint = await _data.LoadData<InterestPoint, dynamic>(sqlIP, new {Nome = p}, _config.GetConnectionString("default"));
 
             pontosDaRota.Add(interestpoint[0].buildInterestPoint(avaliacao, categories,interestpoint[0]));
