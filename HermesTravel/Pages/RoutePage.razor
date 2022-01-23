@@ -100,6 +100,17 @@
             text-align: center;
         }
 
+        .spanF-big {
+            background-color: #f9932f;
+            border: 3px solid #06263d;
+            border-radius: 10%;
+            width: 370px;
+            line-height: 40px;
+            font-weight: bold;
+            display: inline-block;
+            text-align: center;
+        }
+
         .btnTop {
             width: 275px;
         }
@@ -187,7 +198,7 @@
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
             <EditForm Model="logout" OnValidSubmit="@deleteUser">
-                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
+                <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão" />
             </EditForm>
         </div>
     </nav>
@@ -226,38 +237,60 @@
     <div class="container">
         <div class="row">
             <div class="col-6 searchCol">
-                <div class="container horizontal-scrollable">
-                    <span class="fs-5 fw-bold spanF">Rota: </span>
-                    <div class="row text-start mt-2">
-                        <div class="col-4">
-                            @for (int i = 0; i < stopPoints.Count(); i++)
-                            {
-                                @stopPoints[i]
-                            }
+                @if (status <= 1)
+                {
+                    if (status == 1)
+                    {
+                        <div class="mt-4">
+                            <p class="spanF-big fs-5">Nome da rota já existe!! Insira outro.</p>
+                        </div>
+                    }
+                    <EditForm Model="routeName" OnValidSubmit="StartBuildRoute">
+                        <div class="input-group mt-4">
+                            <InputText @bind-Value="routeName" class="form-control" type="text"
+                            placeholder="Insira um nome para a rota" required>
+                            </InputText>
+                        </div>
+                        <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Construir rota" />
+                    </EditForm>
+                }
+                else
+                {
+                    <div class="mt-4">
+                        <span class="fs-5 spanF-big">Rota @routeName</span>
+                    </div>
+                    <div class="container mt-2 horizontal-scrollable">
+                        <div class="row text-start">
+                            <div class="col-4">
+                                @for (int i = 0; i < stopPointsInput.Count(); i++)
+                                {
+                                    @stopPointsInput[i]
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-                <EditForm Model="stopping" OnValidSubmit="@AddStopping">
-                    <div class="input-group mt-4">
-                        <InputText @bind-Value="stopping" class="form-control" type="text"
+                    <EditForm Model="stopping" OnValidSubmit="@AddStopping">
+                        <div class="input-group mt-4">
+                            <InputText @bind-Value="stopping" class="form-control" type="text"
                             placeholder="Insira um ponto de interesse" aria-describedby="AddButton" required>
-                        </InputText>
-                        <input class="btn btn-secundary AddButtonClass fw-bold" type="submit" value="Adicionar"
+                            </InputText>
+                            <input class="btn btn-secundary AddButtonClass fw-bold" type="submit" value="Adicionar"
                             id="AddButton" />
-                    </div>
-                </EditForm>
-                <EditForm Model="stopping" OnValidSubmit="@GetRoute">
-                    <input class="btn btn-secundary btn-aux fw-bold mt-4" type="submit" value="Obter rota" />
-                </EditForm>
-                <EditForm Model="stopping" OnValidSubmit="@GetBestRoute">
-                    <input class="btn btn-secundary btn-aux fw-bold mt-2" type="submit" value="Obter melhor rota" />
-                </EditForm>
+                        </div>
+                    </EditForm>
+                    <EditForm Model="stopping" OnValidSubmit="@GetRoute">
+                        <input class="btn btn-secundary btn-aux fw-bold mt-4" type="submit" value="Obter rota" />
+                    </EditForm>
+                    <EditForm Model="stopping" OnValidSubmit="@GetBestRoute">
+                        <input class="btn btn-secundary btn-aux fw-bold mt-2" type="submit" value="Obter melhor rota" />
+                    </EditForm>
+                }
             </div>
             <div class="col-6 friends">
                 <div class="container vertical-scrollable" tabindex="0">
                     <div class="row text-start">
                         @{
-                            callingCreatePoints();
+                            //callingCreatePoints();
                             foreach (var c in interestPoints)
                             {
                                 <div class="col-sm-8">@c.cidade - @c.nome</div>
@@ -268,6 +301,7 @@
             </div>
         </div>
     </div>
+
     <div class="container">
         <p id="demo"></p>
     </div>
@@ -278,8 +312,24 @@
 @code {
     string stopping = "";
     string logout = "";
+    int status = 0;
+    string routeName = "";
     List<string> stopPoints = new List<string>();
+        List<string> stopPointsInput = new List<string>();
     List<InterestPoint> interestPoints = new List<InterestPoint>();
+
+    private void StartBuildRoute()
+    {
+        // if (Verificar se nome da rota é único)
+        // {
+        status = 2;
+        // }
+        // else
+        // {
+        //  status = 1;
+        // }
+        helper.NavigateTo("Route");
+    }
 
     private bool callingCreatePoints()
     {
@@ -293,8 +343,13 @@
         interestPoints = await _data.LoadData<InterestPoint, dynamic>(sqlpoints, new { },
         _config.GetConnectionString("default"));
     }
+
     private void AddStopping()
     {
+        if (stopPointsInput.Count() == 0)
+            stopPointsInput.Add(stopping);
+        else
+            stopPointsInput.Add(", " + stopping);
         stopPoints.Add(stopping + " ");
         helper.NavigateTo("Route");
     }
@@ -302,71 +357,75 @@
     private async Task GetRoute() // USAR API DA GOOGLE PARA OBTER ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
     {
         List<string> coords = new List<string>();
-        foreach(var points in interestPoints){
-            foreach(var nome in stopPoints){
-                if(nome.Equals(points.nome+" ")){
+        foreach (var points in interestPoints)
+        {
+            foreach (var nome in stopPoints)
+            {
+                if (nome.Equals(points.nome + " "))
+                {
                     coords.Add(points.coordenadas);
                     break;
                 }
             }
         }
-        if(coords.Count > 0)
+        if (coords.Count > 0)
             await JSRuntime.InvokeVoidAsync("getLocation", coords);
-        
+
         List<InterestPoint> pontosDaRota = new List<InterestPoint>();
         //ADICIONAR À BASE DE DADOS E CRIAR PONTOS DE INTERESSE
-        foreach(var p in stopPoints)
-        {      
+        foreach (var p in stopPoints)
+        {
             //Criar e adicionar o objeto à lista
             List<Category> categories = new List<Category>();
             List<Evaluation> avaliacao = new List<Evaluation>();
             List<InterestPoint> interestpoint = new List<InterestPoint>();
 
             string sqlC2 = "SELECT CC.idcategoria, CC.descricao FROM mydb.pontointeresse_has_categoria AS C "
-                            + "JOIN mydb.pontointeresse AS P ON C.pontointeresse_nome = P.nome "
-                            + "JOIN mydb.categoria AS CC ON C.categoria_idcategoria = CC.idcategoria WHERE nome = @Nome";
+            + "JOIN mydb.pontointeresse AS P ON C.pontointeresse_nome = P.nome "
+            + "JOIN mydb.categoria AS CC ON C.categoria_idcategoria = CC.idcategoria WHERE nome = @Nome";
 
-            categories = await _data.LoadData<Category, dynamic>(sqlC2, new {Nome = p}, _config.GetConnectionString("default"));
+            categories = await _data.LoadData<Category, dynamic>(sqlC2, new { Nome = p }, _config.GetConnectionString("default"));
 
             string sqlA = "SELECT A.idavaliacao, A.avaliacao, A.descricao FROM mydb.avaliacao AS A "
-                            + "WHERE A.pontointeresse_nome = @Nome";
-            
-            avaliacao = await _data.LoadData<Evaluation, dynamic>(sqlA, new {Nome = p}, _config.GetConnectionString("default"));
-            
+            + "WHERE A.pontointeresse_nome = @Nome";
+
+            avaliacao = await _data.LoadData<Evaluation, dynamic>(sqlA, new { Nome = p }, _config.GetConnectionString("default"));
+
             string sqlIP = "SELECT nome, descricao, cidade, coordenadas FROM mydb.pontointeresse WHERE nome = @Nome AND valido = 1";
-            interestpoint = await _data.LoadData<InterestPoint, dynamic>(sqlIP, new {Nome = p}, _config.GetConnectionString("default"));
+            interestpoint = await _data.LoadData<InterestPoint, dynamic>(sqlIP, new { Nome = p },
+            _config.GetConnectionString("default"));
 
-            pontosDaRota.Add(interestpoint[0].buildInterestPoint(avaliacao, categories,interestpoint[0]));
+            pontosDaRota.Add(interestpoint[0].buildInterestPoint(avaliacao, categories, interestpoint[0]));
 
-            //Adicionar à tabela 
+            //Adicionar à tabela
             string sql = "INSERT INTO mydb.rota_has_pontointeresse (Rota_nome, PontoInteresse_nome) "
-                        + "VALUES (@rota_nome, @pontointeresse)";
-            
-            await _data.SaveData(sql, new {rota_nome = "NOME ROTA" , pontointeresse = p}, _config.GetConnectionString("default"));                          
+            + "VALUES (@rota_nome, @pontointeresse)";
+
+            await _data.SaveData(sql, new { rota_nome = "Rota " + routeName, pontointeresse = p }, _config.GetConnectionString("default"));
         }
 
-        Route r = new Route("NOME ROTA", pontosDaRota);
+        Route r = new Route("Rota " + routeName, pontosDaRota);
         user.addRoute(r);
         user.addXP(10);
 
         string sqlUpdate = "UPDATE mydb.utilizador set nivel = @nivel WHERE email = @email";
-        await _data.SaveData(sqlUpdate, new {nivel = user.nivel, email = user.email}, _config.GetConnectionString("default"));
+        await _data.SaveData(sqlUpdate, new { nivel = user.nivel, email = user.email }, _config.GetConnectionString("default"));
 
         string sql2 = "INSERT INTO mydb.rota (nome) VALUES (@nome)";
-        await _data.SaveData(sql2, new {nome = "NOME ROTA"}, _config.GetConnectionString("default"));
+        await _data.SaveData(sql2, new { nome = "Rota " + routeName }, _config.GetConnectionString("default"));
 
         string sql3 = "INSERT INTO mydb.Utilizador_hashistorico_Rota (utilizador_email, rota_nome) "
-                          + "VALUES (@user, @rota)";
-        await _data.SaveData(sql3, new {user = user.email, rota = "NOME ROTA"}, _config.GetConnectionString("default"));
+        + "VALUES (@user, @rota)";
+        await _data.SaveData(sql3, new { user = user.email, rota = "Rota " + routeName }, _config.GetConnectionString("default"));
     }
 
     private void GetBestRoute() // USAR API DA GOOGLE PARA OBTER MELHOR ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
     {
-        
+
     }
 
     private async void deleteUser()
-    {   
+    {
         string sqlS = "UPDATE mydb.utilizador SET login = 0 WHERE email=@Email";
         await _data.SaveData(sqlS, new { Email = user.email }, _config.GetConnectionString("default"));
         user.deleteUser();
