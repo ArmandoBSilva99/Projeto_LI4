@@ -9,9 +9,23 @@
 <component type="typeof(App)" render-mode="ServerPrerendered" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-  fetch('https://maps.googleapis.com/maps/api/directions/json?origin=41.552241365311254,-8.374760620730356&destination=41.54325941647852,-8.369274537081568&key=AIzaSyBqcDi6ocKOSz2bbk23A7jgIksedrGZNYo', {mode : 'no-cors'})
-  .then(data => data.json())
-  .then(res => {console.log(res)})
+  /*
+  var list = [];
+  var num = 0;
+  fetch('https://still-dusk-52181.herokuapp.com/https://maps.googleapis.com/maps/api/directions/json?origin=41.5465472%2C-8.3951616&destination=41.546880618677335%2C-8.42640991437258&travelmode=driving&waypoints=41.555631223306015%2C-8.374821777940548%7C41.559550978259956%2C-8.397245077052588%7C41.54228249141272%2C-8.367789523533432&key=AIzaSyBqcDi6ocKOSz2bbk23A7jgIksedrGZNYo',
+  {headers: { "X-Requested-With": "XMLHttpRequest"}})
+  .then((response) => response.json())
+  .then((json) => {
+    var array = json.routes;
+    var legs = array[0].legs;
+    var i; var temp = 0;
+    for (i = 0; i < legs.length ; i++) {
+      var t = legs[i].duration.text.split(' ');
+      temp += parseInt(t[0]);
+    }
+    list.push(temp);
+  });
+  */
 </script>
 
 
