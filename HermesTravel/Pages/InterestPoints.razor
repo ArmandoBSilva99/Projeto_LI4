@@ -1,12 +1,14 @@
-@page "/Account/Friends"
+@page "/InterestPoints"
 
 @using HermesTravel.Data
 @using HermesTravel.Pages
 @using DataAccessHermesTravel
 
+@inject NavigationManager helper
 @inject ISqlDataAccess _data
 @inject IConfiguration _config
 @inject User user
+@inject IJSRuntime JSRuntime
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -97,6 +99,21 @@
             text-align: center;
         }
 
+        .spanF-big {
+            background-color: #f9932f;
+            border: 3px solid #06263d;
+            border-radius: 10%;
+            width: 400px;
+            line-height: 40px;
+            font-weight: bold;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btnTop {
+            width: 275px;
+        }
+
         hr {
             background-color: #06263d;
             border: 0 none;
@@ -106,36 +123,44 @@
             width: 75%;
         }
 
-        .buttons {
-            margin-top: 90px;
+        .litleHR {
+            width: 50%;
         }
 
-        .searchCol {
-            margin-bottom: 25px;
-            width: 400px;
+        .buttons {
+            margin-top: 20px;
         }
 
         .btn-aux {
             margin-top: 10px;
-            padding: 5px 30px;
+            width: 275px;
         }
 
-        .friends {
-            margin-left: 125px;
-        }
-
-        .vertical-scrollable>.row {
-            position: absolute;
-            width: 700px;
-            height: 300px;
-            overflow-y: scroll;
-        }
-
-        .col-sm-8 {
+        .infoCol {
             border: 2px solid #06263d;
-            margin-left: 225px;
-            padding: 5px 15px 0 15px;
-            font-size: 20px;
+            background-color: #f9932f;
+            border-radius: 5%;
+        }
+
+        .infoCol>p {
+            border-bottom: 2px solid #06263d;
+        }
+
+        .infoCol>p:last-child {
+            border-bottom: none;
+        }
+
+        .pointIMG {
+            height: 240px;
+            width: 400px;
+            border: 2px solid #06263d;
+            border-radius: 5%;
+            margin-left: 100px;
+        }
+
+        .inputClass {
+            margin: 0 auto;
+            width: 400px;
         }
 
         @@media (max-width: 767.98px) {
@@ -188,7 +213,8 @@
             </div>
             <div class="col-4 align-self-center">
                 <div class="container">
-                    <a class="btn btn-secundary fw-bold" href="Account">Voltar ao perfil</a>
+                    <a class="btn btn-secundary btnTop fw-bold" href="Home">Página inicial</a>
+                    <a class="btn btn-secundary btnTop fw-bold" href="InterestPoints/New">Sugerir novo ponto</a>
                 </div>
             </div>
         </div>
@@ -196,69 +222,75 @@
 
     <hr>
 
-    <div class="container">
-        <div class="row buttons">
-            <div class="col-6 searchCol">
-                <EditForm Model="userfriend" OnValidSubmit="@AddFriend">
-                    <div class="input-group">
-                        <InputText @bind-Value="userfriend.inputA" class="form-control" type="text" placeholder="Insira um username" required></InputText>
-                    </div>
-                    <input class="btn btn-secundary btn-aux fw-bold" href="Account/Friends" type="submit" value="Adicionar amigo"/>
-                </EditForm>
-                <EditForm Model="userfriend" OnValidSubmit="@RemoveFriend">
-                    <div class="input-group mt-5">
-                        <InputText @bind-Value="userfriend.inputB" class="form-control" type="text" placeholder="Insira um username" required></InputText>
-                        </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" href="Account/Friends" type="submit" value="Remover amigo"/>
-                </EditForm>
+    <div class="container buttons">
+        <EditForm Model="interestPoint" OnValidSubmit="@GetPointInformation">
+            <div class="input-group mt-4 inputClass">
+                <InputText @bind-Value="interestPoint" class="form-control" type="text"
+                    placeholder="Insira um ponto de interesse" required>
+                </InputText>
             </div>
-            <div class="col-6 friends">
-                <div class="container vertical-scrollable" tabindex="0"> 
-                    <div class="row text-start">
-                        @for (int i = 0; i < user.getFriends().Count(); i++) {
-                            <div class="col-sm-8">@user.getFriends()[i]</div>
-                        }
-                    </div>
+            <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Obter informações" />
+        </EditForm>
+    </div>
+
+    <hr class="litleHR">
+
+    @if (status == 1)
+    {
+        <div class="container mt-4">
+            <p class="fs-5"><span class="spanF-big">Informação sobre: @interestPoint</span></p>
+        </div>
+
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-5 text-start infoCol">
+                    <p class="fs-6 mt-3"><span class="fw-bold">Cidade: </span></p>
+                    <p class="fs-6"><span class="fw-bold">Descrição: </span></p>
+                    <p class="fs-6"><span class="fw-bold">Categorias: </span></p>
+                    <p class="fs-6"><span class="fw-bold">Avaliação: </span></p>
+                    <p class="fs-6 mb-0"><span class="fw-bold">Coordenadas: </span></p>
+                </div>
+                <div class="col-7">
+                    <img class="img-fluid pointIMG" src="">
                 </div>
             </div>
         </div>
-    </div>
+        <div class="container inputClass">
+            <EditForm Model="inputs" OnValidSubmit="@Evaluate">
+                <div class="input-group mt-5">
+                    <label for="avaliacao" class="form-label mb-0 fw-bold">Avaliação (0 a 5)</label>
+                    <InputText @bind-Value="inputs.evaluation" class="form-range" type="range" min="0" max="5" id="avaliacao" required></InputText>
+                    <span class="input-group-text mt-2">Comentário</span>
+                    <textarea class="form-control mt-2" aria-label="Comentário" required>@inputs.text</textarea>
+                </div>
+                <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Avaliar ponto" />
+            </EditForm>
+        </div>
+    }
 
 </body>
 
 </html>
 
-@code {
-    public class userFriend
+@code
+{
+    public class input
     {
-        public string inputA { get; set; }
-        public string inputB { get; set; }
+        public string evaluation { get; set; }
+        public string text { get; set; }
     }
 
+    string interestPoint = "";
     int status = 0;
-    userFriend userfriend = new userFriend();
-    private async void AddFriend()
+    input inputs = new input();
+
+    public void GetPointInformation()
     {
-        string sqlExists = "SELECT utilizador_email FROM mydb.utilizador_has_utilizador WHERE utilizador_email = @Email AND utilizador_email1 = @Email2 ";
-        List<string> friends = await _data.LoadData<string, dynamic>(sqlExists, new {Email = user.email, Email2 = userfriend.inputA}, _config.GetConnectionString("default"));
-        if (friends.Count < 1) 
-        {
-            user.addFriend(userfriend.inputA);
-            string sqlAdd = "INSERT INTO mydb.utilizador_has_utilizador (utilizador_email, utilizador_email1) "
-                            + "VALUES (@utilizador_email, @utilizador_email1)";
-            await _data.SaveData(sqlAdd, new {utilizador_email = user.email, utilizador_email1 = userfriend.inputA}, _config.GetConnectionString("default"));               
-        }
+        status = 1;
     }
 
-    private async void RemoveFriend()
+    public void Evaluate()
     {
-        string sqlExists = "SELECT utilizador_email1 FROM mydb.utilizador_has_utilizador WHERE utilizador_email = @myemail AND utilizador_email1 = @friendemail";
-        List<string> friends = await _data.LoadData<string, dynamic>(sqlExists, new {friendemail = userfriend.inputB, myemail = user.email}, _config.GetConnectionString("default"));
-        if (friends.Count > 0)
-        {
-            user.deleteFriend(userfriend.inputB);
-            string sqlDelete = "DELETE FROM mydb.utilizador_has_utilizador WHERE Utilizador_email = @myemail AND Utilizador_email1 = @friendemail";
-            await _data.SaveData(sqlDelete, new {friendemail = userfriend.inputB, myemail = user.email}, _config.GetConnectionString("default"));
-        }
+
     }
 }
