@@ -215,7 +215,7 @@
             <div class="col-4 align-self-center">
                 <div class="container">
                     <a class="btn btn-secundary btnTop fw-bold" href="InterestPoints">Voltar atrás</a>
-                    @if (status == 1)
+                    @if (status == 1 || status == 2)
                     {
                         <EditForm Model="status" OnValidSubmit="@deleteInput">
                             <input class="btn btn-secundary btnTop fw-bold" type="submit" value="Inserir novo ponto" />
@@ -254,14 +254,23 @@
                     <textarea @bind="interestpointL.descricao" class="form-control mt-2" aria-label="Descrição"
                     required></textarea>
                 </div>
-                <input class="btn btn-secundary btn-aux fw-bold mt-4" type="submit" value="Submeter" />
+                @if (@user.calculateLevel().Item1 >= 10)
+                {
+                    <input class="btn btn-secundary btn-aux fw-bold mt-4" type="submit" value="Submeter" />
+                }
             </EditForm>
+        </div>
+    }
+    else if (status == 1)
+    {
+        <div class="container spanF-big fs-5">
+            <p>Sugestão adicionada com sucesso!!</p>
         </div>
     }
     else
     {
         <div class="container spanF-big fs-5">
-            <p>Sugestão adicionada com sucesso!!</p>
+            <p>Sugestão já existe. Tente outra vez.</p>
         </div>
     }
 </body>

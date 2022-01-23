@@ -188,7 +188,7 @@
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
             <EditForm Model="logout" OnValidSubmit="@deleteUser">
-                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
+                <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão" />
             </EditForm>
         </div>
     </nav>
@@ -216,7 +216,10 @@
             <div class="col-4 align-self-center">
                 <div class="container">
                     <a class="btn btn-secundary btnTop fw-bold" href="Home">Página inicial</a>
-                    <a class="btn btn-secundary btnTop fw-bold" href="InterestPoints/New">Sugerir novo ponto</a>
+                    @if (@user.calculateLevel().Item1 >= 10)
+                    {
+                        <a class="btn btn-secundary btnTop fw-bold" href="InterestPoints/New">Sugerir novo ponto</a>
+                    }
                 </div>
             </div>
         </div>
@@ -301,7 +304,7 @@
     int status = 0;
     input inputs = new input();
 
-    List<(string,string,string,string)> info = new List<(string,string,string,string)>();
+    List<(string, string, string, string)> info = new List<(string, string, string, string)>();
     List<string> categories = new List<string>();
     List<string> avaliacao = new List<string>();
     int total = 0, i = 0;
@@ -312,42 +315,49 @@
 
     public async void GetPointInformation()
     {
-        info = new List<(string,string,string,string)>();
+        info = new List<(string, string, string, string)>();
         avaliacao = new List<string>();
         categories = new List<string>();
         total = 0; average = 0; i = 0;
         categorias = "";
         status = 1;
-        exists= false;
+        exists = false;
 
         string sqlA = "SELECT descricao, cidade, coordenadas, imagemURL FROM mydb.pontointeresse WHERE nome=@Nome";
-        info = (await _data.LoadData<(string,string,string,string), dynamic>(sqlA, new {Nome = interestPoint}, _config.GetConnectionString("default")));
+        info = (await _data.LoadData<(string, string, string, string), dynamic>(sqlA, new { Nome = interestPoint },
+        _config.GetConnectionString("default")));
 
-        if(info.Count > 0){
+        if (info.Count > 0)
+        {
             string sqlC2 = "SELECT CC.descricao FROM mydb.pontointeresse_has_categoria AS C "
-                                + "JOIN mydb.pontointeresse AS P ON C.pontointeresse_nome = P.nome "
-                                + "JOIN mydb.categoria AS CC ON C.categoria_idcategoria = CC.idcategoria WHERE nome = @Nome";
-            categories = (await _data.LoadData<string, dynamic>(sqlC2, new {Nome = interestPoint}, _config.GetConnectionString("default")));
+            + "JOIN mydb.pontointeresse AS P ON C.pontointeresse_nome = P.nome "
+            + "JOIN mydb.categoria AS CC ON C.categoria_idcategoria = CC.idcategoria WHERE nome = @Nome";
+            categories = (await _data.LoadData<string, dynamic>(sqlC2, new { Nome = interestPoint },
+            _config.GetConnectionString("default")));
 
             string sqlB = "SELECT A.avaliacao FROM mydb.avaliacao AS A "
-                                + "WHERE A.pontointeresse_nome = @Nome";
-            avaliacao = (await _data.LoadData<string, dynamic>(sqlB, new {Nome = interestPoint}, _config.GetConnectionString("default")));
-            
-            for(i = 0; i < avaliacao.Count; i++){
+            + "WHERE A.pontointeresse_nome = @Nome";
+            avaliacao = (await _data.LoadData<string, dynamic>(sqlB, new { Nome = interestPoint },
+            _config.GetConnectionString("default")));
+
+            for (i = 0; i < avaliacao.Count; i++)
+            {
                 total += Int32.Parse(avaliacao[i]);
             }
-            if(i != 0)
-                average = (float) total/i;
+            if (i != 0)
+                average = (float)total / i;
 
             average = Math.Truncate(100 * average) / 100;
 
-            for(i = 0; i < categories.Count-1; i++){
+            for (i = 0; i < categories.Count - 1; i++)
+            {
                 categorias = categorias + (categories[i]) + ", ";
             }
-            if(i != 0)
+            if (i != 0)
                 categorias = categorias + (categories[i]);
         }
-        else{
+        else
+        {
             status = 0;
         }
     }
@@ -361,22 +371,30 @@
     {
         List<string> avaliacao = new List<string>();
         string sqlB = "SELECT avaliacao FROM mydb.avaliacao";
-        avaliacao = (await _data.LoadData<string, dynamic>(sqlB, new {Nome = interestPoint}, _config.GetConnectionString("default")));
+        avaliacao = (await _data.LoadData<string, dynamic>(sqlB, new { Nome = interestPoint },
+        _config.GetConnectionString("default")));
 
         int id = avaliacao.Count() + 1;
         string sqlA = "INSERT INTO avaliacao (idavaliacao, avaliacao, descricao, pontointeresse_nome, utilizador_email)"
-                        + "VALUES (@Id, @Avaliacao, @Descricao, @Nome, @Email)";
-        await _data.SaveData(sqlA, new {ID = id, Avaliacao = inputs.evaluation, Descricao = inputs.text, Nome = interestPoint, Email = user.email}, _config.GetConnectionString("default"));
-        
+        + "VALUES (@Id, @Avaliacao, @Descricao, @Nome, @Email)";
+        await _data.SaveData(sqlA, new
+        {
+            ID = id,
+            Avaliacao = inputs.evaluation,
+            Descricao = inputs.text,
+            Nome = interestPoint,
+            Email = user.email
+        }, _config.GetConnectionString("default"));
+
         user.addXP(15);
 
         string sql = "UPDATE mydb.utilizador set nivel = @nivel WHERE email = @email";
-        await _data.SaveData(sql, new {nivel = user.nivel, email = user.email}, _config.GetConnectionString("default")); 
+        await _data.SaveData(sql, new { nivel = user.nivel, email = user.email }, _config.GetConnectionString("default"));
         status = 2;
     }
 
     private async void deleteUser()
-    {   
+    {
         string sqlS = "UPDATE mydb.utilizador SET login = 0 WHERE email=@Email";
         await _data.SaveData(sqlS, new { Email = user.email }, _config.GetConnectionString("default"));
         user.deleteUser();
