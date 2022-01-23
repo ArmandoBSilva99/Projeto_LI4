@@ -59,6 +59,54 @@
         }
     };
 
+    function bestRoute(s, points)
+    {
+        var p = permutation(points);
+        var result;
+        for (int i = 0; i < p.length; i++)
+        {
+
+        }
+    }
+
+    function getLink(s, array)
+    {
+        var key = "&key=AIzaSyBqcDi6ocKOSz2bbk23A7jgIksedrGZNYo";
+        var linkgoogle = "https://maps.googleapis.com/maps/api/directions/json?origin=" + s.replace(", ","%2C");
+        var linkgoogle_o = linkgoogle + "&destination=" + array[array.length -1].replace(", ","%2C");
+        if(array.length > 1)
+            linkgoogle_o = linkgoogle_o + "&waypoints=" + array[0].replace(", ","%2C");
+        int i;
+        for (i = 1; i < array.length - 1; i++)
+        {
+            linkgoogle_o = linkgoogle_o + "%7C" + points[i].replace(", ","%2C");
+        }
+        linkgoogle_o = linkgoogle_o + key;
+        return linkgoogle_o;
+    }
+
+    function getTime(s)
+    {
+        
+    }
+
+    function permutation(array) {
+        function p(array, temp) {
+            var i, x;
+            if (!array.length) {
+                result.push(temp);
+            }
+            for (i = 0; i < array.length; i++) {
+                x = array.splice(i, 1)[0];
+                p(array, temp.concat(x));
+                array.splice(i, 0, x);
+            }
+        }
+    var result = [];
+    p(array, []);
+    return result;
+}
+
 </script>
 </body>
 </html>
