@@ -9,6 +9,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddScoped<User>();
+builder.Services.AddScoped<Admin>();
 builder.Services.AddCors();
 
 var app = builder.Build();

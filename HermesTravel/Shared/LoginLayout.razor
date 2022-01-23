@@ -10,6 +10,7 @@
 @inject ISqlDataAccess _data
 @inject IConfiguration _config
 @inject User user
+@inject Admin admin
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -178,6 +179,35 @@
                 helper.NavigateTo("/Login");
             }
         }
+
+        if(users.Count == 0){
+            List<(string,string)> adminL = new List<(string,string)>();
+            string sqladmin = "SELECT * FROM mydb.admin WHERE email = @Email AND password = @Password";
+            adminL = await _data.LoadData<(string,string), dynamic>(sqladmin, new {Email = userL.email, Password = userL.password}, _config.GetConnectionString("default"));
+
+            if(adminL.Count == 1){
+                List<InterestPoint> points = new List<InterestPoint>();
+                string sqlpoints = "SELECT * FROM mydb.pontointeresse";
+                points = await _data.LoadData<InterestPoint, dynamic>(sqlpoints, new {}, _config.GetConnectionString("default"));
+                
+                admin.buildAdmin(userL.email, userL.password, points);
+
+                helper.NavigateTo("/Admin");
+            }
+            else
+            {
+                res = "Utilizador Inválido";
+                status = 1;
+                helper.NavigateTo("/Login");
+            }
+        }
+        else
+        {
+            res = "Dados invalidos";
+            status = 1;
+            helper.NavigateTo("/Login");
+        }
+
     }
 
     private async void createFavouritePoints(List<string> nomes, List<InterestPoint> favouritepoints){
