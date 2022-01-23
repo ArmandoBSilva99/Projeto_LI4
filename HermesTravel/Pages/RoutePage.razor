@@ -346,6 +346,10 @@
 
         Route r = new Route("NOME ROTA", pontosDaRota);
         user.addRoute(r);
+        user.addXP(10);
+
+        string sqlUpdate = "UPDATE mydb.utilizador set nivel = @nivel WHERE email = @email";
+        await _data.SaveData(sqlUpdate, new {nivel = user.nivel, email = user.email}, _config.GetConnectionString("default"));
 
         string sql2 = "INSERT INTO mydb.rota (nome) VALUES (@nome)";
         await _data.SaveData(sql2, new {nome = "NOME ROTA"}, _config.GetConnectionString("default"));
