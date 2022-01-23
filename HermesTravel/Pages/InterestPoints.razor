@@ -372,6 +372,7 @@
 
         string sql = "UPDATE mydb.utilizador set nivel = @nivel WHERE email = @email";
         await _data.SaveData(sql, new {nivel = user.nivel, email = user.email}, _config.GetConnectionString("default")); 
+        status = 2;
     }
 
     private void deleteUser(){
