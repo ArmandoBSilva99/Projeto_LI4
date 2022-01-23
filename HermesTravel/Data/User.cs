@@ -214,6 +214,11 @@ namespace HermesTravel.Data
             return (currentLevel, answer, percentage); // CurrentLevel, percentagem da barra
         }
 
+        public void addXP(int xp)
+        {
+            this.nivel+=xp;
+        }
+
         // Método: Apaga o utilizador (logout).
         public void deleteUser()
         {

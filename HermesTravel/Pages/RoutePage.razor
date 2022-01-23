@@ -311,11 +311,57 @@
             }
         }
         await JSRuntime.InvokeVoidAsync("getLocation", coords);
+        
+        List<InterestPoint> pontosDaRota = new List<InterestPoint>();
+        //ADICIONAR À BASE DE DADOS E CRIAR PONTOS DE INTERESSE
+        foreach(var p in stopPoints)
+        {      
+            //Criar e adicionar o objeto à lista
+            List<Category> categories = new List<Category>();
+            List<Evaluation> avaliacao = new List<Evaluation>();
+            List<InterestPoint> interestpoint = new List<InterestPoint>();
+
+            string sqlC2 = "SELECT CC.idcategoria, CC.descricao FROM mydb.pontointeresse_has_categoria AS C "
+                            + "JOIN mydb.pontointeresse AS P ON C.pontointeresse_nome = P.nome "
+                            + "JOIN mydb.categoria AS CC ON C.categoria_idcategoria = CC.idcategoria WHERE nome = @Nome";
+
+            categories = await _data.LoadData<Category, dynamic>(sqlC2, new {Nome = p}, _config.GetConnectionString("default"));
+
+            string sqlA = "SELECT A.idavaliacao, A.avaliacao, A.descricao FROM mydb.avaliacao AS A "
+                            + "WHERE A.pontointeresse_nome = @Nome";
+            
+            avaliacao = await _data.LoadData<Evaluation, dynamic>(sqlA, new {Nome = p}, _config.GetConnectionString("default"));
+            
+            string sqlIP = "SELECT nome, descricao, cidade, coordenadas FROM mydb.pontointeresse WHERE nome = @Nome";
+            interestpoint = await _data.LoadData<InterestPoint, dynamic>(sqlIP, new {Nome = p}, _config.GetConnectionString("default"));
+
+            pontosDaRota.Add(interestpoint[0].buildInterestPoint(avaliacao, categories,interestpoint[0]));
+
+            //Adicionar à tabela 
+            string sql = "INSERT INTO mydb.rota_has_pontointeresse (Rota_nome, PontoInteresse_nome) "
+                        + "VALUES (@rota_nome, @pontointeresse)";
+            
+            await _data.SaveData(sql, new {rota_nome = "NOME ROTA" , pontointeresse = p}, _config.GetConnectionString("default"));                          
+        }
+
+        Route r = new Route("NOME ROTA", pontosDaRota);
+        user.addRoute(r);
+        user.addXP(10);
+
+        string sqlUpdate = "UPDATE mydb.utilizador set nivel = @nivel WHERE email = @email";
+        await _data.SaveData(sqlUpdate, new {nivel = user.nivel, email = user.email}, _config.GetConnectionString("default"));
+
+        string sql2 = "INSERT INTO mydb.rota (nome) VALUES (@nome)";
+        await _data.SaveData(sql2, new {nome = "NOME ROTA"}, _config.GetConnectionString("default"));
+
+        string sql3 = "INSERT INTO mydb.Utilizador_hashistorico_Rota (utilizador_email, rota_nome) "
+                          + "VALUES (@user, @rota)";
+        await _data.SaveData(sql3, new {user = user.email, rota = "NOME ROTA"}, _config.GetConnectionString("default"));
     }
 
     private void GetBestRoute() // USAR API DA GOOGLE PARA OBTER MELHOR ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
     {
-
+        
     }
 
     private void deleteUser(){
