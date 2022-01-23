@@ -421,9 +421,22 @@
         await _data.SaveData(sql3, new { user = user.email, rota = "Rota " + routeName }, _config.GetConnectionString("default"));
     }
 
-    private void GetBestRoute() // USAR API DA GOOGLE PARA OBTER MELHOR ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
+    private async Task GetBestRoute()
     {
-
+        List<string> coords = new List<string>();
+        foreach (var points in interestPoints)
+        {
+            foreach (var nome in stopPoints)
+            {
+                if (nome.Equals(points.nome + " "))
+                {
+                    coords.Add(points.coordenadas);
+                    break;
+                }
+            }
+        }
+        if (coords.Count > 0)
+            await JSRuntime.InvokeVoidAsync("getBestLocation", coords);
     }
 
     private async void deleteUser()

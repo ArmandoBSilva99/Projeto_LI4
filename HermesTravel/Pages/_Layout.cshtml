@@ -44,6 +44,30 @@
                 var origin = s;
                 var linkgoogle_o = linkgoogle + origin.replace(", ","%2C");
                 var i;
+                linkgoogle_o = linkgoogle_o + "&destination=" + points[points.length -1].replace(", ","%2C");
+                if(points.length > 1)
+                    linkgoogle_o = linkgoogle_o + "&waypoints=" + points[0].replace(", ","%2C");
+                for (i = 1; i < points.length - 1; i++){
+                    console.log("Vou adicionar waypoint!");
+                    linkgoogle_o = linkgoogle_o + "%7C" + points[i].replace(", ","%2C");
+                }
+                console.log("Link final = "+linkgoogle_o);
+                var x = document.getElementById("demo");
+                x.innerHTML = "<a href="+linkgoogle_o+'><span class="spanF">Rota</span></a>';
+            });
+        }
+    };
+
+    window.getBestLocation = (points) => {
+        var s = "";
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var saux = position.coords;
+                s = saux.latitude + "," + saux.longitude;
+                var linkgoogle = "https://www.google.com/maps/dir/?api=1&origin=";
+                var origin = s;
+                var linkgoogle_o = linkgoogle + origin.replace(", ","%2C");
+                var i;
                 points = bestRoute(s, points);
                 linkgoogle_o = linkgoogle_o + "&destination=" + points[points.length -1].replace(", ","%2C");
                 if(points.length > 1)
