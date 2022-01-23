@@ -1,12 +1,14 @@
-@page "/Account"
+@page "/InterestPoints"
 
 @using HermesTravel.Data
 @using HermesTravel.Pages
-@inject User user
 @using DataAccessHermesTravel
+
+@inject NavigationManager helper
 @inject ISqlDataAccess _data
 @inject IConfiguration _config
-@inject NavigationManager helper
+@inject User user
+@inject IJSRuntime JSRuntime
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -97,6 +99,21 @@
             text-align: center;
         }
 
+        .spanF-big {
+            background-color: #f9932f;
+            border: 3px solid #06263d;
+            border-radius: 10%;
+            width: 400px;
+            line-height: 40px;
+            font-weight: bold;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btnTop {
+            width: 275px;
+        }
+
         hr {
             background-color: #06263d;
             border: 0 none;
@@ -106,23 +123,44 @@
             width: 75%;
         }
 
+        .litleHR {
+            width: 50%;
+        }
+
         .buttons {
-            margin-top: 90px;
-        }
-
-        .buttonsCol>a:nth-of-type(1) {
-            margin-bottom: 25px;
-            width: 400px;
-        }
-
-        .btnInput {
-            margin-top: 25px;
-            width: 400px;
+            margin-top: 20px;
         }
 
         .btn-aux {
             margin-top: 10px;
-            padding: 5px 30px;
+            width: 275px;
+        }
+
+        .infoCol {
+            border: 2px solid #06263d;
+            background-color: #f9932f;
+            border-radius: 5%;
+        }
+
+        .infoCol>p {
+            border-bottom: 2px solid #06263d;
+        }
+
+        .infoCol>p:last-child {
+            border-bottom: none;
+        }
+
+        .pointIMG {
+            height: 240px;
+            width: 400px;
+            border: 2px solid #06263d;
+            border-radius: 5%;
+            margin-left: 100px;
+        }
+
+        .inputClass {
+            margin: 0 auto;
+            width: 400px;
         }
 
         @@media (max-width: 767.98px) {
@@ -149,9 +187,7 @@
                 <img src="./images/logo.png" width="50" height="75" class="img img-aux d-inline-block align-top" alt="">
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
-            <EditForm Model="logout" OnValidSubmit="@deleteUser">
-                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
-            </EditForm>
+            <a class="btn btn-primary exitB" href="/">Terminar Sessão</a>
         </div>
     </nav>
 
@@ -175,116 +211,86 @@
                     <p class="fs-5"><span class="spanF">Amigos @user.getFriends().Count()</span></p>
                 </div>
             </div>
-
-            @if (status == 1)
-            {
-                <div class="col-4 align-self-center">
-                    <EditForm Model="userinput" OnValidSubmit="@ChangeAvatar">
-                        <div class="input-group">
-                            <InputText @bind-Value="userinput.inputA" class="form-control" type="text"
-                            placeholder="URL imagem" required></InputText>
-                        </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Confirmar" />
-                    </EditForm>
+            <div class="col-4 align-self-center">
+                <div class="container">
+                    <a class="btn btn-secundary btnTop fw-bold" href="Home">Página inicial</a>
+                    <a class="btn btn-secundary btnTop fw-bold" href="InterestPoints/New">Sugerir novo ponto</a>
                 </div>
-            }
-            else if (status == 2)
-            {
-                <div class="col-4 align-self-center">
-                    <EditForm Model="userinput" OnValidSubmit="@ChangePW">
-                        <div class="input-group">
-                            <InputText @bind-Value="userinput.inputB" class="form-control" type="password"
-                            placeholder="Nova password" required></InputText>
-                        </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Confirmar" />
-                    </EditForm>
-                </div>
-            }
+            </div>
         </div>
     </div>
 
     <hr>
 
-    <div class="container">
-        <div class="row buttons">
-            <div class="col-6 buttonsCol">
-                <a class="btn btn-secundary fw-bold" href="Account/Friends">Amigos</a>
-                <p class="mb-0">
-                    <EditForm Model="userinput" OnValidSubmit="@ChangeAvatarStatus">
-                        <input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit"
-                            value="Alterar avatar" />
-                    </EditForm>
-                </p>
+    <div class="container buttons">
+        <EditForm Model="interestPoint" OnValidSubmit="@GetPointInformation">
+            <div class="input-group mt-4 inputClass">
+                <InputText @bind-Value="interestPoint" class="form-control" type="text"
+                    placeholder="Insira um ponto de interesse" required>
+                </InputText>
             </div>
-            <div class="col-6 buttonsCol">
-                <a class="btn btn-secundary fw-bold" href="Account/FavoritePoints">Pontos de Interesse favoritos</a>
-                <p class="mb-0">
-                    <EditForm Model="userinput" OnValidSubmit="@ChangePWStatus">
-                        <input class="btn btn-secundary btnInput fw-bold" href="Account" type="submit"
-                            value="Alterar password" />
-                    </EditForm>
-                </p>
-            </div>
-        </div>
+            <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Obter informações" />
+        </EditForm>
     </div>
 
-    <div class="container buttons">
-        <a class="btn btn-secundary fw-bold" href="Home">Página inicial</a>
-    </div>
+    <hr class="litleHR">
+
+    @if (status == 1)
+    {
+        <div class="container mt-4">
+            <p class="fs-5"><span class="spanF-big">Informação sobre: @interestPoint</span></p>
+        </div>
+
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-5 text-start infoCol">
+                    <p class="fs-6 mt-3"><span class="fw-bold">Cidade: </span></p>
+                    <p class="fs-6"><span class="fw-bold">Descrição: </span></p>
+                    <p class="fs-6"><span class="fw-bold">Categorias: </span></p>
+                    <p class="fs-6"><span class="fw-bold">Avaliação: </span></p>
+                    <p class="fs-6 mb-0"><span class="fw-bold">Coordenadas: </span></p>
+                </div>
+                <div class="col-7">
+                    <img class="img-fluid pointIMG" src="">
+                </div>
+            </div>
+        </div>
+        <div class="container inputClass">
+            <EditForm Model="inputs" OnValidSubmit="@Evaluate">
+                <div class="input-group mt-5">
+                    <label for="avaliacao" class="form-label mb-0 fw-bold">Avaliação (0 a 5)</label>
+                    <InputText @bind-Value="inputs.evaluation" class="form-range" type="range" min="0" max="5" id="avaliacao" required></InputText>
+                    <span class="input-group-text mt-2">Comentário</span>
+                    <textarea class="form-control mt-2" aria-label="Comentário" required>@inputs.text</textarea>
+                </div>
+                <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Avaliar ponto" />
+            </EditForm>
+        </div>
+    }
+
 </body>
 
 </html>
 
 @code
 {
-    public class userInput
+    public class input
     {
-        public string inputA { get; set; }
-        public string inputB { get; set; }
+        public string evaluation { get; set; }
+        public string text { get; set; }
     }
 
+    string interestPoint = "";
     int status = 0;
-    userInput userinput = new userInput();
-    string logout = "";
+    input inputs = new input();
 
-    private void ChangeAvatarStatus()
+    public void GetPointInformation()
     {
         status = 1;
     }
 
-    private void ChangePWStatus()
+    public void Evaluate()
     {
-        status = 2;
-    }
 
-    private async void ChangeAvatar()
-    {
-        user.setAvatar(userinput.inputA);
-        string sqlS = "UPDATE mydb.utilizador set imagemURL = @Avatar WHERE email=@Email";
-        await _data.SaveData(sqlS, new { Avatar = userinput.inputA, Email = user.email }, _config.GetConnectionString("default"));
-        status = 0;
-        helper.NavigateTo("/Account");
-    }
-
-    private async void ChangePW()
-    {
-        if (userinput.inputB.Length > 6)
-        {
-            user.setPassword(userinput.inputB);
-            string sqlS = "UPDATE mydb.utilizador set password = @Password WHERE email=@Email";
-            await _data.SaveData(sqlS, new { Password = userinput.inputB, Email = user.email },
-            _config.GetConnectionString("default"));
-            status = 0;
-            helper.NavigateTo("/Account");
-        }
-        else
-        {
-            status = -1; // altera Andre!
-        }
-    }
-    
-    private void deleteUser(){
-        user.deleteUser();
-        helper.NavigateTo("/", true);
     }
 }

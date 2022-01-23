@@ -186,7 +186,9 @@
                 <img src="./images/logo.png" width="50" height="75" class="img img-aux d-inline-block align-top" alt="">
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
-            <a class="btn btn-primary exitB" href="/">Terminar Sessão</a>
+            <EditForm Model="logout" OnValidSubmit="@deleteUser">
+                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
+            </EditForm>
         </div>
     </nav>
 
@@ -275,6 +277,7 @@
 
 @code {
     string stopping = "";
+    string logout = "";
     List<string> stopPoints = new List<string>();
     List<InterestPoint> interestPoints = new List<InterestPoint>();
 
@@ -355,5 +358,10 @@
     private void GetBestRoute() // USAR API DA GOOGLE PARA OBTER MELHOR ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
     {
         
+    }
+
+    private void deleteUser(){
+        user.deleteUser();
+        helper.NavigateTo("/", true);
     }
 }

@@ -7,6 +7,7 @@
 @inject User user
 @inject ISqlDataAccess _data
 @inject IConfiguration _config
+@inject NavigationManager helper
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -115,11 +116,6 @@
             width: 400px;
         }
 
-        .btnInput {
-            margin-top: 25px;
-            width: 400px;
-        }
-
         .btn-aux {
             margin-top: 10px;
             padding: 5px 30px;
@@ -168,7 +164,9 @@
                 <img src="./images/logo.png" width="50" height="75" class="img img-aux d-inline-block align-top" alt="">
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
-            <a class="btn btn-primary exitB" href="/">Terminar Sessão</a>
+            <EditForm Model="logout" OnValidSubmit="@deleteUser">
+                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
+            </EditForm>
         </div>
     </nav>
 
@@ -241,6 +239,7 @@
         public string inputB { get; set; }
     }
 
+    string logout = "";
     int status = 0;
     userPoint userpoint = new userPoint();
 
@@ -286,5 +285,10 @@
         String sqlA = "DELETE FROM mydb.utilizador_hasfavorite_pontointeresse WHERE pontointeresse_nome = @Nome AND utilizador_email = @Email ";
         await _data.SaveData(sqlA, new {Email = user.email, Nome = userpoint.inputB}, _config.GetConnectionString("default"));
 
+    }
+
+    private void deleteUser(){
+        user.deleteUser();
+        helper.NavigateTo("/", true);
     }
 }

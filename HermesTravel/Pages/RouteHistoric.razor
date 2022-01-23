@@ -7,6 +7,7 @@
 @inject ISqlDataAccess _data
 @inject IConfiguration _config
 @inject User user
+@inject NavigationManager helper
 
 @{
     Dictionary<string, List<string>> routeHistoric = new Dictionary<string, List<string>>();
@@ -128,25 +129,6 @@
             width: 75%;
         }
 
-        .buttons {
-            margin-top: 90px;
-        }
-
-        .searchCol {
-            margin-bottom: 25px;
-            width: 400px;
-        }
-
-        .btn-aux {
-            margin-top: 10px;
-            width: 275px;
-        }
-
-        .AddButtonClass {
-            margin: 0 0;
-            padding: 5px 5px;
-        }
-
         .vertical-scrollable>.row {
             margin: 25px 200px 0px 150px;
             position: absolute;
@@ -186,7 +168,9 @@
                 <img src="./images/logo.png" width="50" height="75" class="img img-aux d-inline-block align-top" alt="">
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
-            <a class="btn btn-primary exitB" href="/">Terminar Sessão</a>
+            <EditForm Model="logout" OnValidSubmit="@deleteUser">
+                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
+            </EditForm>
         </div>
     </nav>
 
@@ -237,3 +221,12 @@
 </body>
 
 </html>
+
+@code {
+    string logout = "";
+
+    private void deleteUser(){
+        user.deleteUser();
+        helper.NavigateTo("/", true);
+    }
+}
