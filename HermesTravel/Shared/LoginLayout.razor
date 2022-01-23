@@ -53,6 +53,17 @@
             padding: 5px 40px;
         }
 
+        .spanF-big {
+            background-color: #f9932f;
+            border: 3px solid #06263d;
+            border-radius: 10%;
+            width: 400px;
+            line-height: 40px;
+            font-weight: bold;
+            display: inline-block;
+            text-align: center;
+        }
+
         @@media (max-width: 767.98px) {
             .container {
                 max-width: 350px;
@@ -76,6 +87,14 @@
 <body>
     <img class="img-fluid img img-aux" src="./images/logo.png">
     <p class="titleText fw-bold">HermesTravel</p>
+
+    @if (status == 1)
+    {
+        <div class="container mt-5">
+            <p class="spanF-big fs-5">Credenciais incorretas!!</p>
+        </div>
+    }
+
     <div class="container">
         <EditForm Model="userL" OnValidSubmit="@Login">
             <div class="form-group">
@@ -89,6 +108,7 @@
             <input class="btn btn-secundary fw-bold" href="Home" type="submit" value="Login" />
         </EditForm>
     </div>
+
 </body>
 
 </html>
@@ -105,6 +125,7 @@
 
     List<Route> routesHistory = new List<Route>();    
     string res;
+    int status = 0;
     private async Task Login()
     {
         string sql = "SELECT * FROM mydb.utilizador WHERE email = @Email";
@@ -150,7 +171,8 @@
             else
             {
                 res = "Utilizador Inválido";
-                helper.NavigateTo(helper.Uri, forceLoad: true);
+                status = 1;
+                helper.NavigateTo("/Login");
             }
         }
     }
