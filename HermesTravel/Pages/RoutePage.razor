@@ -310,7 +310,8 @@
                 }
             }
         }
-        await JSRuntime.InvokeVoidAsync("getLocation", coords);
+        if(coords.Count > 0)
+            await JSRuntime.InvokeVoidAsync("getLocation", coords);
         
         List<InterestPoint> pontosDaRota = new List<InterestPoint>();
         //ADICIONAR À BASE DE DADOS E CRIAR PONTOS DE INTERESSE

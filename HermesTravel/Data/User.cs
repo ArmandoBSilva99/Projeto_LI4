@@ -209,7 +209,7 @@ namespace HermesTravel.Data
             percentage = percentage * 100;
             inteiro = (int)percentage;
             string answer = inteiro.ToString();
-            answer = answer + "px";
+            answer = answer + "%";
 
             return (currentLevel, answer, percentage); // CurrentLevel, percentagem da barra
         }
