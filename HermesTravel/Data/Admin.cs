@@ -43,5 +43,35 @@ namespace HermesTravel.Data
             }
             return false;
         }
+
+        public void removePoint(string s){
+            foreach (var p in this.interestPoints){
+                if(p.nome.Equals(s)){
+                    this.interestPoints.Remove(p);
+                    break;
+                }
+            }
+        }
+
+        public void acceptPoint(string s){
+            InterestPoint po = new InterestPoint();
+            List<InterestPoint> pontos = new List<InterestPoint>();
+            foreach (var p in this.interestPoints){
+                if(p.nome.Equals(s)){
+                    po = p;
+                }
+                else{
+                    pontos.Add(p);
+                }
+            }
+            pontos.Add(po);
+            this.interestPoints = pontos;
+        }
+
+        public void deleteUser()
+        {
+            this.interestPoints.Clear();
+        }
+
     }
 }
