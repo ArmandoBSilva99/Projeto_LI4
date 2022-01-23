@@ -125,6 +125,7 @@
 
         .littleHR {
             width: 50%;
+            margin-top: 130px;
         }
 
         .buttons {
@@ -205,8 +206,7 @@
     <div class="container mt-4">
         <div class="userInfo">
             <p class="fw-bold fs-2 spanF-big-top">ADMIN</p>
-            <p class="fw-bold mt-1 mb-0">@user.nome</p>
-            <p class="fs-5">@user.email</p>
+            <p class="fw-bold mt-1">@user.email</p>
         </div>
     </div>
 
@@ -219,13 +219,13 @@
     </div>
 
     <div class="container">
-        @if (status <= 1)
+        @if (status <= 3)
         {
             <div class="row">
                 <div class="col-6 searchCol">
                     @if (status == 1)
                     {
-                        <div class="mt-4">
+                        <div class="mt-0">
                             <p class="spanF-big fs-5">Ponto sugerido não existe!! Insira outro.</p>
                         </div>
                     }
@@ -242,7 +242,7 @@
                     <div class="container vertical-scrollable" tabindex="0">
                         <div class="row text-start">
                             @{
-                                //callingCreatePoints();
+                                //callingCreateSuggestionsPoints();
                                 foreach (var c in suggestions)
                                 {
                                     <div class="col-sm-8">@c.cidade - @c.nome</div>
@@ -281,6 +281,61 @@
             </div>
         }
     </div>
+
+    <hr class="littleHR">
+
+    <div class="container">
+        <div class="mt-4">
+            <p class="spanF-big fs-5">Remoção de pontos</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6 searchCol">
+                @if (status == 2)
+                {
+                    <div class="mt-0">
+                        <p class="spanF-big fs-5">Ponto removido com sucesso!!</p>
+                        <EditForm Model="status" OnValidSubmit="@RemoveAgain">
+                            <input class="btn btn-secundary btn-aux fw-bold mt-4" type="submit"
+                            value="Remover outro ponto" />
+                        </EditForm>
+                    </div>
+                }
+                else if (status == 3)
+                {
+                    <div class="mt-4">
+                        <p class="spanF-big fs-5">Ponto não existe!! Insira outro.</p>
+                    </div>
+                }
+                else
+                {
+                    <EditForm Model="interestpointI" OnValidSubmit="RemovePoint">
+                        <div class="input-group mt-4">
+                            <InputText @bind-Value="interestpointI.inputB" class="form-control" type="text"
+                            placeholder="Insira o nome de um ponto" required>
+                            </InputText>
+                        </div>
+                        <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Remover ponto" />
+                    </EditForm>
+                }
+            </div>
+            <div class="col-6 friends">
+                <div class="container vertical-scrollable" tabindex="0">
+                    <div class="row text-start">
+                        @{
+                            //callingCreateInterestPoints();
+                            foreach (var c in interestpoints)
+                            {
+                                <div class="col-sm-8">@c.cidade - @c.nome</div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
@@ -298,27 +353,41 @@
     int status = 0;
 
     List<InterestPoint> suggestions = new List<InterestPoint>();
+    List<InterestPoint> interestpoints = new List<InterestPoint>();
 
     private void getInterestPoint()
     {
         // SE PONTO INTRODUZIDO NÃO EXISTE (status = 1)
         // status = 1;
 
-        // SE OBTEVE PONTO CORRETO (status = 2)
-        status = 2;
+        // SE OBTEVE PONTO CORRETO (status = 4)
+        status = 4;
         helper.NavigateTo("Admin");
     }
 
-    private bool callingCreatePoints()
+    private bool callingCreateSuggestionsPoints()
     {
-        createPoints();
+        createSuggestionsPoints();
         return true;
     }
 
-    private async void createPoints() // ALTERAR PARA TABELA COM SUGESTÕES
+    private async void createSuggestionsPoints() // ALTERAR PARA TABELA COM SUGESTÕES
     {
         string sqlpoints = "SELECT * FROM mydb.pontointeresse WHERE valido = 1";
         suggestions = await _data.LoadData<InterestPoint, dynamic>(sqlpoints, new { },
+        _config.GetConnectionString("default"));
+    }
+
+    private bool callingCreateInterestPoints()
+    {
+        createInterestPoints();
+        return true;
+    }
+
+    private async void createInterestPoints()
+    {
+        string sqlpoints = "SELECT * FROM mydb.pontointeresse WHERE valido = 1";
+        interestpoints = await _data.LoadData<InterestPoint, dynamic>(sqlpoints, new { },
         _config.GetConnectionString("default"));
     }
 
@@ -331,6 +400,26 @@
     private void AcceptSuggestion() // ADICIONAR PONTO DE INTERESSE
     {
         status = 0;
+        helper.NavigateTo("Admin");
+    }
+
+    private void RemoveAgain()
+    {
+        if (status == 1)
+            status = 1;
+        else if (status == 4)
+            status = 4;
+        else
+            status = 0;
+        helper.NavigateTo("Admin");
+    }
+
+    private void RemovePoint()
+    {
+        // SE PONTO INSERIDO FOR INVÁLIDO (status = 3)
+        // status = 3;
+        // SE PONTO INSERIDO TIVER SIDO REMOVIDO COM SUCESSO (status = 2)
+        status = 2;
         helper.NavigateTo("Admin");
     }
 
