@@ -81,44 +81,51 @@
 <body>
     <img class="img-fluid img img-aux" src="./images/logo.png">
     <p class="titleText fw-bold">HermesTravel</p>
-    <div class="container">
-        <EditForm Model="userL" OnValidSubmit="@RegisterUser">
-            <div class="form-group">
-                <InputText @bind-Value="userL.nome" class="form-control" type="text" id="name" placeholder="Nome" required></InputText>
+
+    @if (status == 0)
+    {
+        <div class="container">
+            <EditForm Model="userL" OnValidSubmit="@RegisterUser">
+                <div class="form-group">
+                    <InputText @bind-Value="userL.nome" class="form-control" type="text" id="name" placeholder="Nome" required></InputText>
+                </div>
+                <div class="form-group">
+                    <InputText @bind-Value="userL.email" class="form-control" type="text" id="email" placeholder="Email" required></InputText>
+                </div>
+                <div class="form-group">
+                    <InputText @bind-Value="userL.password" class="form-control" type="password" id="password" placeholder="Password (mínimo seis caracteres)" required></InputText>
+                </div>
+                <div class="form-check check-box">
+                    <input type="checkbox" class="form-check-input" id="TermsConditions" required>
+                    <label class="form-check-label fw-bold" for="TermsConditions">Li e aceito os termos e condições</label>
+                </div>
+                <input class="btn btn-secundary fw-bold" href="Register" type="submit" value="Registar" />
+            </EditForm>
+        </div>
+    }
+    else
+    {
+        if (status == -1)
+        {
+        <div class="container">
+            <p class="spanF-big fs-5">Email já existe!!</p>
+        </div>
+        }
+        else if (status == -2)
+        {
+            <div class="container">
+                <p class="spanF-big fs-5">Email inválido (abc@email.com)!!</p>
             </div>
-            <div class="form-group">
-                <InputText @bind-Value="userL.email" class="form-control" type="text" id="email" placeholder="Email" required></InputText>
+        }
+        else if (status == -3)
+        {
+            <div class="container">
+                <p class="spanF-big fs-5">Palavra passe inválida (mínimo seis caracteres)!!</p>
             </div>
-            <div class="form-group">
-                <InputText @bind-Value="userL.password" class="form-control" type="password" id="password" placeholder="Password" required></InputText>
-            </div>
-            <div class="form-check check-box">
-                <input type="checkbox" class="form-check-input" id="TermsConditions" required>
-                <label class="form-check-label fw-bold" for="TermsConditions">Li e aceito os termos e condições</label>
-            </div>
-            <input class="btn btn-secundary fw-bold" href="Register" type="submit" value="Registar" />
+        }
+        <EditForm Model="status" OnValidSubmit="@RegisterAgain">
+            <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Novo registo" />
         </EditForm>
-    </div>
-    @if (status == -1)
-    {
-        <div class="container">
-            <h3>ERRO!</h3>
-            <p>Email já existe!</p>
-        </div>
-    }
-    else if (status == -2)
-    {
-        <div class="container">
-            <h3>ERRO!</h3>
-            <p>Email invalido (abc@email.com).</p>
-        </div>
-    }
-    else if (status == -3)
-    {
-        <div class="container">
-            <h3>ERRO!</h3>
-            <p>A palavra passe tem de ter pelo menos 6 caracteres.</p>
-        </div>
     }
 </body>
 
@@ -128,6 +135,11 @@
 {
     int status = 0;
     User userL = new User();
+
+    public void RegisterAgain()
+    {
+        status = 0;
+    }
 
     private async Task RegisterUser()
     {    
