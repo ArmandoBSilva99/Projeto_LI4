@@ -45,9 +45,25 @@
             margin-bottom: 5px;
         }
 
+        .spanF-big {
+            background-color: #f9932f;
+            border: 3px solid #06263d;
+            border-radius: 10%;
+            width: 400px;
+            line-height: 40px;
+            font-weight: bold;
+            display: inline-block;
+            text-align: center;
+        }
+
         .btn {
             margin-top: 10px;
             padding: 5px 40px;
+        }
+
+        .btn-aux {
+            margin-top: 10px;
+            width: 275px;
         }
 
         .check-box {
@@ -159,7 +175,7 @@
         else{
             string sql = "INSERT INTO utilizador (Email, Nome, Password, Nivel, Login) VALUES (@Email, @Nome, @Password, @Nivel, @Login);";
             await _data.SaveData(sql, new { Email = user.email, Nome = user.nome, Password = user.password, Nivel = user.nivel, Login = user.login}, _config.GetConnectionString("default"));
-            helper.NavigateTo("/");
+            helper.NavigateTo("/", true);
         }
     }
 }
