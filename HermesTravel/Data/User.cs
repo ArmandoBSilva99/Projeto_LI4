@@ -213,5 +213,14 @@ namespace HermesTravel.Data
 
             return (currentLevel, answer, percentage); // CurrentLevel, percentagem da barra
         }
+
+        // Método: Apaga o utilizador (logout).
+        public void deleteUser()
+        {
+            this.favouritePoints.Clear();
+            this.friends.Clear();
+            this.routeHistory.Clear();
+            this.suggestionsPoints.Clear();
+        }
     }
 }
