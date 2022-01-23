@@ -45,7 +45,7 @@ INSERT INTO `pontointeresse`
         ("Bom Jesus","Um edificio com um comboio","Braga","41.555631223306015, -8.374821777940548","https://lh5.googleusercontent.com/p/AF1QipOi12zzLARNlQyYNg7-EGcsitA1r4ffm4DrAaxt=w408-h306-k-no",1),
         ("Carrinha de Gualtar","Wtf uma carrinha!","Braga","41.571004867707636, -8.375128305346506","https://lh5.googleusercontent.com/p/AF1QipNRoR9impCW5wGh12s-4Y7yJe7H7hJbsnz9Lq7d=w408-h544-k-no",1),
         ("Termas Romanas","Umas pedras antigas","Braga","41.546880618677335, -8.42640991437258","https://lh5.googleusercontent.com/p/AF1QipMPxRGPfS-RAX9MpbMhMuh138PqF2U53KtuePsS=w426-h240-k-no",1),
-        ("Sé de Braga","Catedral bonita","Braga","41.55064540150164, -8.425433760040862","https://lh5.googleusercontent.com/p/AF1QipOrNJ_1zCVAZuq9ABjUm-tp_Pz7JC9Ps5YGx5bD=w408-h306-k-no",0),
+        ("Sé de Braga","Catedral bonita","Braga","41.55064540150164, -8.425433760040862","https://lh5.googleusercontent.com/p/AF1QipOrNJ_1zCVAZuq9ABjUm-tp_Pz7JC9Ps5YGx5bD=w408-h306-k-no",0)
     ;
 
 INSERT INTO `pontointeresse_has_admin`
