@@ -1,4 +1,4 @@
-@page "/Route/Historic"
+@page "/Route/FriendsHistory"
 
 @using HermesTravel.Data
 @using HermesTravel.Pages
@@ -8,24 +8,6 @@
 @inject IConfiguration _config
 @inject User user
 @inject NavigationManager helper
-
-@{
-    Dictionary<string, List<string>> routeHistoric = new Dictionary<string, List<string>>();
-    foreach (var r in @user.getDRouteHistory())
-    {
-        List<string> points = new List<string>();
-        for (int i = 0; i < r.Value.points.Count(); i++)
-        {
-            string str = "";
-            if (i+1 == r.Value.points.Count())
-                str = r.Value.points[i].nome;
-            else
-                str = r.Value.points[i].nome + ", ";
-            points.Add(str);
-        }
-        routeHistoric.Add(r.Key, points);
-    }
-}
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -116,6 +98,17 @@
             text-align: center;
         }
 
+        .spanF-big {
+            background-color: #f9932f;
+            border: 3px solid #06263d;
+            border-radius: 10%;
+            width: 400px;
+            line-height: 40px;
+            font-weight: bold;
+            display: inline-block;
+            text-align: center;
+        }
+
         .btnTop {
             width: 280px;
         }
@@ -127,6 +120,19 @@
             height: 1px;
             margin: 20px auto;
             width: 75%;
+        }
+
+        .littleHR {
+            width: 50%;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .btn-aux {
+            margin-top: 10px;
+            width: 275px;
         }
 
         .vertical-scrollable>.row {
@@ -142,6 +148,11 @@
             margin-left: 225px;
             padding: 5px 15px 0 15px;
             font-size: 20px;
+        }
+
+        .inputClass {
+            margin: 0 auto;
+            width: 400px;
         }
 
         @@media (max-width: 767.98px) {
@@ -169,7 +180,7 @@
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
             <EditForm Model="logout" OnValidSubmit="@deleteUser">
-                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
+                <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão" />
             </EditForm>
         </div>
     </nav>
@@ -204,29 +215,84 @@
 
     <hr>
 
-    <div class="container vertical-scrollable" tabindex="0">
-        <div class="row text-start">
-            @foreach (var rh in routeHistoric)
-            {
-                <div class="col-sm-8">
-                    @rh.Key -
-                    @foreach (var r in rh.Value)
-                    {
-                        @r
-                    }
-                </div>
-            }
-        </div>
+    <div class="container buttons">
+        @if (status == 1)
+        {
+            <div class="mt-4">
+                <p class="spanF-big fs-5">Email de amigo inválido!! Insira outro.</p>
+            </div>
+        }
+        <EditForm Model="friend" OnValidSubmit="@getFriendRouteHistory">
+            <div class="input-group mt-4 inputClass">
+                <InputText @bind-Value="friend" class="form-control" type="text"
+                placeholder="Insira o email de um amigo" required>
+                </InputText>
+            </div>
+            <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Obter histórico" />
+        </EditForm>
     </div>
+
+    @if (status == 2)
+    {
+        <hr class="littleHR">
+
+        <div class="container mt-4">
+            <p class="fs-5"><span class="spanF-big">Histórico de: @friend</span></p>
+        </div>
+
+        <div class="container vertical-scrollable" tabindex="0">
+            <div class="row text-start">
+                @foreach (var rh in routeHistoric)
+                {
+                    <div class="col-sm-8">
+                        @rh.Key -
+                        @foreach (var r in rh.Value)
+                        {
+                            @r
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    }
 </body>
 
 </html>
 
 @code {
     string logout = "";
+    int status = 0;
+    string friend = "";
+
+    Dictionary<string, List<string>> routeHistoric = new Dictionary<string, List<string>>();
+
+    private void getFriendRouteHistory()
+    {
+        // STATUS SE AMIGO INTRODUZIDO NÃO FOR AMIGO DELE OU NÃO EXISTIR
+        //status = 1;
+        // OBTER HISTÓRICO DE AMIGO
+        // VERIFICAR SE SÃO AMIGOS
+        // PARA JÁ ESTÁ HISTÓRICO DE UTILIZADOR
+        status = 2;
+        foreach (var r in @user.getDRouteHistory())
+        {
+            List<string> points = new List<string>();
+            for (int i = 0; i < r.Value.points.Count(); i++)
+            {
+                string str = "";
+                if (i + 1 == r.Value.points.Count())
+                    str = r.Value.points[i].nome;
+                else
+                    str = r.Value.points[i].nome + ", ";
+                points.Add(str);
+            }
+            routeHistoric.Add(r.Key, points);
+        }
+        helper.NavigateTo("/Route/FriendsHistory");
+    }
 
     private async void deleteUser()
-    {   
+    {
         string sqlS = "UPDATE mydb.utilizador SET login = 0 WHERE email=@Email";
         await _data.SaveData(sqlS, new { Email = user.email }, _config.GetConnectionString("default"));
         user.deleteUser();
