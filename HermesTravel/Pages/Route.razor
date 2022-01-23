@@ -3,6 +3,7 @@
 @using HermesTravel.Data
 @using HermesTravel.Pages
 @using DataAccessHermesTravel
+@using System.Text.Json
 
 @inject NavigationManager helper
 @inject ISqlDataAccess _data
@@ -185,7 +186,9 @@
                 <img src="./images/logo.png" width="50" height="75" class="img img-aux d-inline-block align-top" alt="">
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
-            <a class="btn btn-primary exitB" href="/">Terminar Sessão</a>
+            <EditForm Model="logout" OnValidSubmit="@deleteUser">
+                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
+            </EditForm>
         </div>
     </nav>
 
@@ -265,12 +268,16 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <p id="demo"></p>
+    </div>
 </body>
 
 </html>
 
 @code {
     string stopping = "";
+    string logout = "";
     List<string> stopPoints = new List<string>();
     List<InterestPoint> interestPoints = new List<InterestPoint>();
 
@@ -292,14 +299,27 @@
         helper.NavigateTo("Route");
     }
 
-    private async void GetRoute() // USAR API DA GOOGLE PARA OBTER ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
+    private async Task GetRoute() // USAR API DA GOOGLE PARA OBTER ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
     {
-        (int,int) coords = (0,0);
+        List<string> coords = new List<string>();
+        foreach(var points in interestPoints){
+            foreach(var nome in stopPoints){
+                if(nome.Equals(points.nome+" ")){
+                    coords.Add(points.coordenadas);
+                    break;
+                }
+            }
+        }
         await JSRuntime.InvokeVoidAsync("getLocation", coords);
     }
 
     private void GetBestRoute() // USAR API DA GOOGLE PARA OBTER MELHOR ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
     {
 
+    }
+
+    private void deleteUser(){
+        user.deleteUser();
+        helper.NavigateTo("/", true);
     }
 }

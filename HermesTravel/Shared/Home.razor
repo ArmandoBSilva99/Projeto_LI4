@@ -3,6 +3,7 @@
 @using HermesTravel.Data
 @using HermesTravel.Pages
 @inject User user
+@inject NavigationManager helper
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -122,7 +123,9 @@
                 <img src="./images/logo.png" width="50" height="75" class="img img-aux d-inline-block align-top" alt="">
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
-            <a class="btn btn-primary exitB" href="/">Terminar Sessão</a>
+            <EditForm Model="logout" OnValidSubmit="@deleteUser">
+                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
+            </EditForm>
         </div>
     </nav>
 
@@ -151,3 +154,13 @@
 </body>
 
 </html>
+
+@code {
+
+    string logout = "";
+
+    private void deleteUser(){
+        user.deleteUser();
+        helper.NavigateTo("/", true);
+    }
+}

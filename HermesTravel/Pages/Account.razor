@@ -2,7 +2,6 @@
 
 @using HermesTravel.Data
 @using HermesTravel.Pages
-@inject NavigationManager helper
 @inject User user
 @using DataAccessHermesTravel
 @inject ISqlDataAccess _data
@@ -150,7 +149,9 @@
                 <img src="./images/logo.png" width="50" height="75" class="img img-aux d-inline-block align-top" alt="">
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
-            <a class="btn btn-primary exitB" href="/">Terminar Sessão</a>
+            <EditForm Model="logout" OnValidSubmit="@deleteUser">
+                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
+            </EditForm>
         </div>
     </nav>
 
@@ -244,6 +245,7 @@
 
     int status = 0;
     userInput userinput = new userInput();
+    string logout = "";
 
     private void ChangeAvatarStatus()
     {
@@ -279,5 +281,10 @@
         {
             status = -1; // altera Andre!
         }
+    }
+    
+    private void deleteUser(){
+        user.deleteUser();
+        helper.NavigateTo("/", true);
     }
 }
