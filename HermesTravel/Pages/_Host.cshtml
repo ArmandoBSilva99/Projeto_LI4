@@ -8,3 +8,11 @@
 <component type="typeof(App)" render-mode="ServerPrerendered" />
 
 
+<script>
+
+  $.getJSON('https://jsonplaceholder.typicode.com/todos/1', function(data){
+    console.log(data.userId);
+  });
+</script>
+
+

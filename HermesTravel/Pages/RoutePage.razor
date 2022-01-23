@@ -319,16 +319,17 @@
         List<string> stopPointsInput = new List<string>();
     List<InterestPoint> interestPoints = new List<InterestPoint>();
 
-    private void StartBuildRoute()
-    {
-        // if (Verificar se nome da rota é único)
-        // {
-        status = 2;
-        // }
-        // else
-        // {
-        //  status = 1;
-        // }
+    private async void StartBuildRoute()
+    {   
+        List<string> names = new List<string>();
+        string sqlpoints = "SELECT nome FROM mydb.rota WHERE @Nome = nome";
+        names = await _data.LoadData<string, dynamic>(sqlpoints, new { Nome = routeName}, _config.GetConnectionString("default"));
+        if (names.Count == 0 && routeName.Length < 25){
+            status = 2;
+        }
+        else{
+            status = 1;
+        }
         helper.NavigateTo("Route");
     }
 
