@@ -8,9 +8,9 @@ namespace HermesTravel.Data
 
         public string descricao { get; set; }
 
-        public string imagemURL {get; set;}
+        public string imagemURL { get; set; }
 
-        public string coordenadas {get; set;}
+        public string coordenadas { get; set; }
         public List<Evaluation> eval = new List<Evaluation>();
 
         //public Coordinates coordinates;

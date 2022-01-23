@@ -150,7 +150,7 @@
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
             <EditForm Model="logout" OnValidSubmit="@deleteUser">
-                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
+                <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão" />
             </EditForm>
         </div>
     </nav>
@@ -191,13 +191,31 @@
             else if (status == 2)
             {
                 <div class="col-4 align-self-center">
+                    <p class="spanF-big fs-5">Avatar modificado com sucesso!!</p>
+                </div>
+            }
+            else if (status == 3)
+            {
+                <div class="col-4 align-self-center">
                     <EditForm Model="userinput" OnValidSubmit="@ChangePW">
                         <div class="input-group">
                             <InputText @bind-Value="userinput.inputB" class="form-control" type="password"
-                            placeholder="Nova password" required></InputText>
+                            placeholder="Nova password (mínimo seis caracteres)" required></InputText>
                         </div>
                         <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Confirmar" />
                     </EditForm>
+                </div>
+            }
+            else if (status == 4)
+            {
+                <div class="col-4 align-self-center">
+                    <p class="spanF-big fs-5">Password modificada com sucesso!!</p>
+                </div>
+            }
+            else if (status == 5)
+            {
+                <div class="col-4 align-self-center">
+                    <p class="spanF-big fs-5">Password não modificada!!</p>
                 </div>
             }
         </div>
@@ -254,15 +272,16 @@
 
     private void ChangePWStatus()
     {
-        status = 2;
+        status = 3;
     }
 
     private async void ChangeAvatar()
     {
         user.setAvatar(userinput.inputA);
         string sqlS = "UPDATE mydb.utilizador set imagemURL = @Avatar WHERE email=@Email";
-        await _data.SaveData(sqlS, new { Avatar = userinput.inputA, Email = user.email }, _config.GetConnectionString("default"));
-        status = 0;
+        await _data.SaveData(sqlS, new { Avatar = userinput.inputA, Email = user.email },
+        _config.GetConnectionString("default"));
+        status = 2;
         helper.NavigateTo("/Account");
     }
 
@@ -274,16 +293,18 @@
             string sqlS = "UPDATE mydb.utilizador set password = @Password WHERE email=@Email";
             await _data.SaveData(sqlS, new { Password = userinput.inputB, Email = user.email },
             _config.GetConnectionString("default"));
-            status = 0;
+            status = 4;
             helper.NavigateTo("/Account");
         }
         else
         {
-            status = -1; // altera Andre!
+            status = 5;
+            helper.NavigateTo("/Account");
         }
     }
-    
-    private void deleteUser(){
+
+    private void deleteUser()
+    {
         user.deleteUser();
         helper.NavigateTo("/", true);
     }
