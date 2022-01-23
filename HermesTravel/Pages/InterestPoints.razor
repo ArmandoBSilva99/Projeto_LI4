@@ -187,7 +187,9 @@
                 <img src="./images/logo.png" width="50" height="75" class="img img-aux d-inline-block align-top" alt="">
                 <span class="titleText fw-bold">HermesTravel</span>
             </a>
-            <a class="btn btn-primary exitB" href="/">Terminar Sessão</a>
+            <EditForm Model="logout" OnValidSubmit="@deleteUser">
+                    <input class="btn btn-primary exitB" type="submit" value="Terminar Sessão"/>
+            </EditForm>
         </div>
     </nav>
 
@@ -244,14 +246,14 @@
         <div class="container">
             <div class="row align-items-start">
                 <div class="col-5 text-start infoCol">
-                    <p class="fs-6 mt-3"><span class="fw-bold">Cidade: </span></p>
-                    <p class="fs-6"><span class="fw-bold">Descrição: </span></p>
-                    <p class="fs-6"><span class="fw-bold">Categorias: </span></p>
-                    <p class="fs-6"><span class="fw-bold">Avaliação: </span></p>
-                    <p class="fs-6 mb-0"><span class="fw-bold">Coordenadas: </span></p>
+                    <p class="fs-6 mt-3"><span class="fw-bold">Cidade: @info[0].Item2</span></p>
+                    <p class="fs-6"><span class="fw-bold">Descrição: @info[0].Item1</span></p>
+                    <p class="fs-6"><span class="fw-bold">Categorias: @categorias</span></p>
+                    <p class="fs-6"><span class="fw-bold">Avaliação: @average</span></p>
+                    <p class="fs-6 mb-0"><span class="fw-bold">Coordenadas: @info[0].Item3</span></p>
                 </div>
                 <div class="col-7">
-                    <img class="img-fluid pointIMG" src="">
+                    <img class="img-fluid pointIMG" src="@info[0].Item4">
                 </div>
             </div>
         </div>
@@ -265,7 +267,7 @@
                         <InputText @bind-Value="inputs.evaluation" class="form-range" type="range" min="0" max="5"
                     id="avaliacao" required></InputText>
                         <span class="input-group-text mt-2">Comentário</span>
-                        <textarea class="form-control mt-2" aria-label="Comentário" required>@inputs.text</textarea>
+                        <textarea class="form-control mt-2" aria-label="Comentário" @bind="inputs.text" required></textarea>
                     </div>
                     <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Avaliar ponto" />
                 </EditForm>
@@ -294,13 +296,60 @@
         public string text { get; set; }
     }
 
+    string logout = "";
     string interestPoint = "";
     int status = 0;
     input inputs = new input();
 
-    public void GetPointInformation()
+    List<(string,string,string,string)> info = new List<(string,string,string,string)>();
+    List<string> categories = new List<string>();
+    List<string> avaliacao = new List<string>();
+    int total = 0, i = 0;
+    double average = 0;
+    bool exists = false;
+
+    string categorias = "";
+
+    public async void GetPointInformation()
     {
+        info = new List<(string,string,string,string)>();
+        avaliacao = new List<string>();
+        categories = new List<string>();
+        total = 0; average = 0; i = 0;
+        categorias = "";
         status = 1;
+        exists= false;
+
+        string sqlA = "SELECT descricao, cidade, coordenadas, imagemURL FROM mydb.pontointeresse WHERE nome=@Nome";
+        info = (await _data.LoadData<(string,string,string,string), dynamic>(sqlA, new {Nome = interestPoint}, _config.GetConnectionString("default")));
+
+        if(info.Count > 0){
+            string sqlC2 = "SELECT CC.descricao FROM mydb.pontointeresse_has_categoria AS C "
+                                + "JOIN mydb.pontointeresse AS P ON C.pontointeresse_nome = P.nome "
+                                + "JOIN mydb.categoria AS CC ON C.categoria_idcategoria = CC.idcategoria WHERE nome = @Nome";
+            categories = (await _data.LoadData<string, dynamic>(sqlC2, new {Nome = interestPoint}, _config.GetConnectionString("default")));
+
+            string sqlB = "SELECT A.avaliacao FROM mydb.avaliacao AS A "
+                                + "WHERE A.pontointeresse_nome = @Nome";
+            avaliacao = (await _data.LoadData<string, dynamic>(sqlB, new {Nome = interestPoint}, _config.GetConnectionString("default")));
+            
+            for(i = 0; i < avaliacao.Count; i++){
+                total += Int32.Parse(avaliacao[i]);
+            }
+            if(i != 0)
+                average = (float) total/i;
+
+            average = Math.Truncate(100 * average) / 100;
+
+            for(i = 0; i < categories.Count-1; i++){
+                categorias = categorias + (categories[i]) + ", ";
+            }
+            if(i != 0)
+                categorias = categorias + (categories[i]);
+        }
+        else{
+            status = 0;
+        }
     }
 
     public void EvaluateAgain()
@@ -308,8 +357,25 @@
         status = 1;
     }
 
-    public void Evaluate()
+    public async void Evaluate()
     {
-        status = 2;
+        List<string> avaliacao = new List<string>();
+        string sqlB = "SELECT avaliacao FROM mydb.avaliacao";
+        avaliacao = (await _data.LoadData<string, dynamic>(sqlB, new {Nome = interestPoint}, _config.GetConnectionString("default")));
+
+        int id = avaliacao.Count() + 1;
+        string sqlA = "INSERT INTO avaliacao (idavaliacao, avaliacao, descricao, pontointeresse_nome, utilizador_email)"
+                        + "VALUES (@Id, @Avaliacao, @Descricao, @Nome, @Email)";
+        await _data.SaveData(sqlA, new {ID = id, Avaliacao = inputs.evaluation, Descricao = inputs.text, Nome = interestPoint, Email = user.email}, _config.GetConnectionString("default"));
+        
+        user.addXP(15);
+
+        string sql = "UPDATE mydb.utilizador set nivel = @nivel WHERE email = @email";
+        await _data.SaveData(sql, new {nivel = user.nivel, email = user.email}, _config.GetConnectionString("default")); 
+    }
+
+    private void deleteUser(){
+        user.deleteUser();
+        helper.NavigateTo("/", true);
     }
 }

@@ -250,7 +250,11 @@
             user.addFriend(userfriend.inputA);
             string sqlAdd = "INSERT INTO mydb.utilizador_has_utilizador (utilizador_email, utilizador_email1) "
                             + "VALUES (@utilizador_email, @utilizador_email1)";
-            await _data.SaveData(sqlAdd, new {utilizador_email = user.email, utilizador_email1 = userfriend.inputA}, _config.GetConnectionString("default"));               
+            await _data.SaveData(sqlAdd, new {utilizador_email = user.email, utilizador_email1 = userfriend.inputA}, _config.GetConnectionString("default"));     
+            user.addXP(5);
+
+            string sql = "UPDATE mydb.utilizador set nivel = @nivel WHERE email = @email";
+            await _data.SaveData(sql, new {nivel = user.nivel, email = user.email}, _config.GetConnectionString("default"));    
         }
     }
 
