@@ -19,7 +19,7 @@
             if (i+1 == r.Value.points.Count())
                 str = r.Value.points[i].nome;
             else
-                str = r.Value.points[i].nome + ",";
+                str = r.Value.points[i].nome + ", ";
             points.Add(str);
         }
         routeHistoric.Add(r.Key, points);
@@ -228,7 +228,7 @@
                     @rh.Key -
                     @foreach (var r in rh.Value)
                     {
-                        @rh
+                        @r
                     }
                 </div>
             }

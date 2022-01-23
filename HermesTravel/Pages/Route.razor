@@ -3,6 +3,7 @@
 @using HermesTravel.Data
 @using HermesTravel.Pages
 @using DataAccessHermesTravel
+@using System.Text.Json
 
 @inject NavigationManager helper
 @inject ISqlDataAccess _data
@@ -265,6 +266,9 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <p id="demo"></p>
+    </div>
 </body>
 
 </html>
@@ -292,9 +296,17 @@
         helper.NavigateTo("Route");
     }
 
-    private async void GetRoute() // USAR API DA GOOGLE PARA OBTER ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
+    private async Task GetRoute() // USAR API DA GOOGLE PARA OBTER ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
     {
-        (int,int) coords = (0,0);
+        List<string> coords = new List<string>();
+        foreach(var points in interestPoints){
+            foreach(var nome in stopPoints){
+                if(nome.Equals(points.nome+" ")){
+                    coords.Add(points.coordenadas);
+                    break;
+                }
+            }
+        }
         await JSRuntime.InvokeVoidAsync("getLocation", coords);
     }
 
