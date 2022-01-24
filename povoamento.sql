@@ -121,7 +121,6 @@ INSERT INTO `pontointeresse_has_categoria`
         ("Sameiro",2),
         ("Sameiro",4),
         ("Prometeu",3),
-        ("Carrinha de Gualtar",3),
         ("Termas Romanas",1),
         ("Cascata da Soutinha",4),
         ("Sé de Braga",1),
