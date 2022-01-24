@@ -189,7 +189,7 @@ namespace HermesTravel.Data
         }
 
         // Método: Calcula fase de nível atual, percentagem atual em string e número
-        public (int, string, float) calculateLevel()
+        public (int, string, string) calculateLevel()
         {
             int xp = this.nivel;
             int base_xp = 1;
@@ -209,9 +209,10 @@ namespace HermesTravel.Data
             percentage = percentage * 100;
             inteiro = (int)percentage;
             string answer = inteiro.ToString();
+            string prc = answer;
             answer = answer + "%";
 
-            return (currentLevel, answer, percentage); // CurrentLevel, percentagem da barra
+            return (currentLevel, answer, prc); // CurrentLevel, percentagem da barra
         }
 
         public void addXP(int xp)
