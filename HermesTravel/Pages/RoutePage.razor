@@ -144,6 +144,10 @@
             margin-left: 125px;
         }
 
+        .specialP {
+            margin-left: 20px;
+        }
+
         .horizontal-scrollable {
             margin-top: 25px;
         }
@@ -304,15 +308,18 @@
                 }
             </div>
             <div class="col-6 friends">
-                <div class="container vertical-scrollable" tabindex="0">
-                    <div class="row text-start">
-                        @{
-                            callingCreatePoints();
-                            foreach (var c in interestPoints)
-                            {
-                                <div class="col-sm-8">@c.cidade - @c.nome</div>
+                <div class="container">
+                    <p class="specialP fs-5"><span class="spanF-big">Pontos de Interesse</span></p>
+                    <div class="vertical-scrollable" tabindex="0">
+                        <div class="row text-start">
+                            @{
+                                callingCreatePoints();
+                                foreach (var c in interestPoints)
+                                {
+                                    <div class="col-sm-8">@c.cidade - @c.nome</div>
+                                }
                             }
-                        }
+                        </div>
                     </div>
                 </div>
             </div>
