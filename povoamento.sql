@@ -48,11 +48,6 @@ INSERT INTO `pontointeresse`
         ("Sé de Braga","Catedral bonita","Braga","41.55064540150164, -8.425433760040862","https://lh5.googleusercontent.com/p/AF1QipOrNJ_1zCVAZuq9ABjUm-tp_Pz7JC9Ps5YGx5bD=w408-h306-k-no",0)
     ;
 
-INSERT INTO `pontointeresse_has_admin`
-    (`pontointeresse_nome`, `admin_email`) 
-    VALUES 
-        ("Sé de Braga","admin@gmail.com")
-    ;
 
 INSERT INTO `utilizador_hasfavorite_pontointeresse`
     (`Utilizador_email`, `PontoInteresse_nome`) 

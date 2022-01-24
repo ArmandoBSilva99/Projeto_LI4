@@ -127,8 +127,11 @@
     List<Route> routesHistory = new List<Route>();    
     string res;
     int status = 0;
+
+    bool flag = false;
     private async Task Login()
     {
+        flag = false;
         string sql = "SELECT * FROM mydb.utilizador WHERE email = @Email";
         users = await _data.LoadData<User, dynamic>(sql, new {Email = userL.email}, _config.GetConnectionString("default"));
 
@@ -136,6 +139,7 @@
         {
             if (u.password.Equals(userL.password) && u.login == false)
             {
+                flag = true;
                 string sqlLogin = "UPDATE mydb.utilizador SET login = 1 WHERE email = @Email";
                 await _data.SaveData(sqlLogin, new {Email = userL.email}, _config.GetConnectionString("default"));
 
@@ -202,10 +206,12 @@
             }
         }
         else
-        {
-            res = "Dados invalidos";
-            status = 1;
-            helper.NavigateTo("/Login");
+        {   
+            if(flag = false){
+                res = "Dados invalidos";
+                status = 1;
+                helper.NavigateTo("/Login");
+            }
         }
 
     }
@@ -295,11 +301,20 @@
                                 + "JOIN mydb.pontointeresse AS V ON F.pontointeresse_nome = V.nome WHERE R.nome = @RNome AND V.nome = @Nome";
 
                 interestpoint = await _data.LoadData<InterestPoint, dynamic>(sqlIP, new {RNome = r, Nome = n}, _config.GetConnectionString("default"));
-
-                routepoints.Add(interestpoint[0].buildInterestPoint(avaliacao, categories,interestpoint[0]));
+                if(interestpoint.Count > 0 && containsNome(routepoints, interestpoint[0].nome))
+                    routepoints.Add(interestpoint[0].buildInterestPoint(avaliacao, categories,interestpoint[0]));
             }
             Route rt = new Route(r, routepoints);
             routes.Add(rt);
         }    
+    }
+
+    public bool containsNome(List<InterestPoint> route, string nome){
+        foreach(var i in route){
+            if (i.nome.Equals(nome)){
+                return false;
+            }
+        }
+        return true;
     }
 }

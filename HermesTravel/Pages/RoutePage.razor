@@ -275,15 +275,31 @@
                             <InputText @bind-Value="stopping" class="form-control" type="text"
                             placeholder="Insira um ponto de interesse" aria-describedby="AddButton" required>
                             </InputText>
-                            <input class="btn btn-secundary AddButtonClass fw-bold" type="submit" value="Adicionar"
-                            id="AddButton" />
+                            @if(status == 3){
+                                <input class="btn btn-secundary AddButtonClass fw-bold" type="submit" value="Adicionar"
+                                id="AddButton" disabled/>
+                            }
+                            else{
+                                <input class="btn btn-secundary AddButtonClass fw-bold" type="submit" value="Adicionar"
+                                id="AddButton" />
+                            }
                         </div>
                     </EditForm>
                     <EditForm Model="stopping" OnValidSubmit="@GetRoute">
-                        <input class="btn btn-secundary btn-aux fw-bold mt-4" type="submit" value="Obter rota" />
+                        @if(status == 3){
+                            <input class="btn btn-secundary btn-aux fw-bold mt-4" type="submit" value="Obter rota" disabled/>
+                        }
+                        else{
+                            <input class="btn btn-secundary btn-aux fw-bold mt-4" type="submit" value="Obter rota"/>
+                        }
                     </EditForm>
                     <EditForm Model="stopping" OnValidSubmit="@GetBestRoute">
-                        <input class="btn btn-secundary btn-aux fw-bold mt-2" type="submit" value="Obter melhor rota" />
+                        @if(status == 3){
+                            <input class="btn btn-secundary btn-aux fw-bold mt-2" type="submit" value="Obter melhor rota" disabled />
+                        }
+                        else{
+                            <input class="btn btn-secundary btn-aux fw-bold mt-2" type="submit" value="Obter melhor rota" />
+                        }
                     </EditForm>
                 }
             </div>
@@ -302,10 +318,13 @@
             </div>
         </div>
     </div>
-
+    @if(status == 3){
     <div class="container">
-        <p id="demo"></p>
+        <EditForm Model="status" OnValidSubmit="@closeRoute">
+            <input class="btn btn-secundary btn-aux fw-bold mt-4" type="submit" value="Criar nova rota" />
+        </EditForm>
     </div>
+    }
 </body>
 
 </html>
@@ -316,14 +335,16 @@
     int status = 0;
     string routeName = "";
     List<string> stopPoints = new List<string>();
-        List<string> stopPointsInput = new List<string>();
+    List<string> stopPointsInput = new List<string>();
     List<InterestPoint> interestPoints = new List<InterestPoint>();
 
     private async void StartBuildRoute()
     {   
         List<string> names = new List<string>();
+        string route2 = "";
+        route2 = "Rota "+ routeName;
         string sqlpoints = "SELECT nome FROM mydb.rota WHERE @Nome = nome";
-        names = await _data.LoadData<string, dynamic>(sqlpoints, new { Nome = routeName}, _config.GetConnectionString("default"));
+        names = await _data.LoadData<string, dynamic>(sqlpoints, new { Nome = route2}, _config.GetConnectionString("default"));
         if (names.Count == 0 && routeName.Length < 25){
             status = 2;
         }
@@ -352,18 +373,19 @@
             stopPointsInput.Add(stopping);
         else
             stopPointsInput.Add(", " + stopping);
-        stopPoints.Add(stopping + " ");
+        stopPoints.Add(stopping);
         helper.NavigateTo("Route");
     }
 
     private async Task GetRoute() // USAR API DA GOOGLE PARA OBTER ROTA e ADICIONAR HISTORICO DE ROTAS DO UTILIZADOR
     {
+    
         List<string> coords = new List<string>();
         foreach (var points in interestPoints)
         {
             foreach (var nome in stopPoints)
             {
-                if (nome.Equals(points.nome + " "))
+                if (nome.Equals(points.nome))
                 {
                     coords.Add(points.coordenadas);
                     break;
@@ -374,7 +396,11 @@
             await JSRuntime.InvokeVoidAsync("getLocation", coords);
 
         List<InterestPoint> pontosDaRota = new List<InterestPoint>();
-        //ADICIONAR À BASE DE DADOS E CRIAR PONTOS DE INTERESSE
+        //ADICIONAR À BASE DE DADOS E CRIAR PONTOS DE INTERESSE~
+
+        string sql2 = "INSERT INTO mydb.rota (nome) VALUES (@nome)";
+        await _data.SaveData(sql2, new { nome = "Rota " + routeName }, _config.GetConnectionString("default"));
+
         foreach (var p in stopPoints)
         {
             //Criar e adicionar o objeto à lista
@@ -413,12 +439,11 @@
         string sqlUpdate = "UPDATE mydb.utilizador set nivel = @nivel WHERE email = @email";
         await _data.SaveData(sqlUpdate, new { nivel = user.nivel, email = user.email }, _config.GetConnectionString("default"));
 
-        string sql2 = "INSERT INTO mydb.rota (nome) VALUES (@nome)";
-        await _data.SaveData(sql2, new { nome = "Rota " + routeName }, _config.GetConnectionString("default"));
-
         string sql3 = "INSERT INTO mydb.Utilizador_hashistorico_Rota (utilizador_email, rota_nome) "
         + "VALUES (@user, @rota)";
         await _data.SaveData(sql3, new { user = user.email, rota = "Rota " + routeName }, _config.GetConnectionString("default"));
+
+        status = 3;
     }
 
     private async Task GetBestRoute()
@@ -428,7 +453,7 @@
         {
             foreach (var nome in stopPoints)
             {
-                if (nome.Equals(points.nome + " "))
+                if (nome.Equals(points.nome))
                 {
                     coords.Add(points.coordenadas);
                     break;
@@ -437,8 +462,68 @@
         }
         if (coords.Count > 0)
             await JSRuntime.InvokeVoidAsync("getBestLocation", coords);
+
+            List<InterestPoint> pontosDaRota = new List<InterestPoint>();
+        //ADICIONAR À BASE DE DADOS E CRIAR PONTOS DE INTERESSE~
+
+        string sql2 = "INSERT INTO mydb.rota (nome) VALUES (@nome)";
+        await _data.SaveData(sql2, new { nome = "Rota " + routeName }, _config.GetConnectionString("default"));
+
+        foreach (var p in stopPoints)
+        {
+            //Criar e adicionar o objeto à lista
+            List<Category> categories = new List<Category>();
+            List<Evaluation> avaliacao = new List<Evaluation>();
+            List<InterestPoint> interestpoint = new List<InterestPoint>();
+
+            string sqlC2 = "SELECT CC.idcategoria, CC.descricao FROM mydb.pontointeresse_has_categoria AS C "
+            + "JOIN mydb.pontointeresse AS P ON C.pontointeresse_nome = P.nome "
+            + "JOIN mydb.categoria AS CC ON C.categoria_idcategoria = CC.idcategoria WHERE nome = @Nome";
+
+            categories = await _data.LoadData<Category, dynamic>(sqlC2, new { Nome = p }, _config.GetConnectionString("default"));
+
+            string sqlA = "SELECT A.idavaliacao, A.avaliacao, A.descricao FROM mydb.avaliacao AS A "
+            + "WHERE A.pontointeresse_nome = @Nome";
+
+            avaliacao = await _data.LoadData<Evaluation, dynamic>(sqlA, new { Nome = p }, _config.GetConnectionString("default"));
+
+            string sqlIP = "SELECT nome, descricao, cidade, coordenadas FROM mydb.pontointeresse WHERE nome = @Nome AND valido = 1";
+            interestpoint = await _data.LoadData<InterestPoint, dynamic>(sqlIP, new { Nome = p },
+            _config.GetConnectionString("default"));
+
+            pontosDaRota.Add(interestpoint[0].buildInterestPoint(avaliacao, categories, interestpoint[0]));
+
+            //Adicionar à tabela
+            string sql = "INSERT INTO mydb.rota_has_pontointeresse (Rota_nome, PontoInteresse_nome) "
+            + "VALUES (@rota_nome, @pontointeresse)";
+
+            await _data.SaveData(sql, new { rota_nome = "Rota " + routeName, pontointeresse = p }, _config.GetConnectionString("default"));
+        }
+
+        Route r = new Route("Rota " + routeName, pontosDaRota);
+        user.addRoute(r);
+        user.addXP(10);
+
+        string sqlUpdate = "UPDATE mydb.utilizador set nivel = @nivel WHERE email = @email";
+        await _data.SaveData(sqlUpdate, new { nivel = user.nivel, email = user.email }, _config.GetConnectionString("default"));
+
+        string sql3 = "INSERT INTO mydb.Utilizador_hashistorico_Rota (utilizador_email, rota_nome) "
+        + "VALUES (@user, @rota)";
+        await _data.SaveData(sql3, new { user = user.email, rota = "Rota " + routeName }, _config.GetConnectionString("default"));
+
+        status = 3;
     }
 
+    public void closeRoute(){
+        status = 0;
+        stopping = "";
+        routeName = "";
+        stopPoints = new List<string>();
+        stopPointsInput = new List<string>();
+        interestPoints = new List<InterestPoint>();
+        helper.NavigateTo("/Route");
+
+    }
     private async void deleteUser()
     {
         string sqlS = "UPDATE mydb.utilizador SET login = 0 WHERE email=@Email";

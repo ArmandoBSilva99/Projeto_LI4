@@ -68,7 +68,25 @@ namespace HermesTravel.Data
             this.interestPoints = pontos;
         }
 
-        public void deleteUser()
+        public bool isPontoNaoValido (string s){
+            foreach (var p in this.interestPoints){
+                if(p.nome.Equals(s)){
+                    return (p.valido == 0);
+                }
+            }
+            return false;
+        }
+
+        public InterestPoint getPonto (string s){
+            foreach (var p in this.interestPoints){
+                if(p.nome.Equals(s)){
+                   return p;
+                }
+            }
+            return new InterestPoint();
+        }
+
+        public void deleteAdmin()
         {
             this.interestPoints.Clear();
         }

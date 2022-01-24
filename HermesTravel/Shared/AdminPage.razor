@@ -235,7 +235,7 @@
                             placeholder="Insira o nome de um ponto sugerido" required>
                             </InputText>
                         </div>
-                        <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Obter rota" />
+                        <input class="btn btn-secundary btn-aux fw-bold" type="submit" value="Obter ponto" />
                     </EditForm>
                 </div>
                 <div class="col-6 friends">
@@ -257,14 +257,14 @@
         {
             <div class="row mt-5">
                 <div class="col-5 text-start infoCol">
-                    <p class="fs-6 mt-3"><span class="fw-bold">Nome: </span></p>
-                    <p class="fs-6"><span class="fw-bold">Cidade: </span></p>
-                    <p class="fs-6"><span class="fw-bold">Descrição: </span></p>
-                    <p class="fs-6"><span class="fw-bold">Categorias: </span></p>
-                    <p class="fs-6 mb-0"><span class="fw-bold">Coordenadas: </span></p>
+                    <p class="fs-6 mt-3"><span class="fw-bold">Nome: @ponto.nome</span></p>
+                    <p class="fs-6"><span class="fw-bold">Cidade: @ponto.cidade</span></p>
+                    <p class="fs-6"><span class="fw-bold">Descrição: @ponto.descricao</span></p>
+                    <p class="fs-6"><span class="fw-bold">Categorias: @categorias</span></p>
+                    <p class="fs-6 mb-0"><span class="fw-bold">Coordenadas: @ponto.coordenadas</span></p>
                 </div>
                 <div class="col-7">
-                    <img class="img-fluid pointIMG" src="">
+                    <img class="img-fluid pointIMG" src="@ponto.imagemURL">
                 </div>
             </div>
             <div class="row align-items-center">
@@ -303,14 +303,14 @@
                         </EditForm>
                     </div>
                 }
-                else if (status == 3)
+                else 
                 {
-                    <div class="mt-4">
-                        <p class="spanF-big fs-5">Ponto não existe!! Insira outro.</p>
-                    </div>
-                }
-                else
-                {
+                    if (status == 3)
+                    {
+                        <div class="mt-4">
+                            <p class="spanF-big fs-5">Ponto não existe!! Insira outro.</p>
+                        </div>
+                    }
                     <EditForm Model="interestpointI" OnValidSubmit="RemovePoint">
                         <div class="input-group mt-4">
                             <InputText @bind-Value="interestpointI.inputB" class="form-control" type="text"
@@ -350,20 +350,39 @@
     interestPointInput interestpointI = new interestPointInput();
 
     string logout = "";
+
+    string categorias = "";
     int status = 0;
 
     List<InterestPoint> suggestions = new List<InterestPoint>();
+
+    InterestPoint ponto = new InterestPoint();
+
     List<InterestPoint> interestpoints = new List<InterestPoint>();
 
-    private void getInterestPoint()
+    private async void getInterestPoint()
     {   
-        if(admin.hasPoint(interestpointI.inputA)){
-            // SE OBTEVE PONTO CORRETO (status = 2)
-            status = 2;
+        if(admin.hasPoint(interestpointI.inputA) && admin.isPontoNaoValido(interestpointI.inputA)){
+            // SE OBTEVE PONTO CORRETO (status = 4)
+            int i = 0;
+            ponto = new InterestPoint();
+            ponto = admin.getPonto(interestpointI.inputA);
+            if(ponto.nome != ""){
+                status = 4;
+                for (i = 0; i < ponto.categories.Count - 1; i++)
+                {
+                    categorias = categorias + (ponto.categories[i]) + ", ";
+                }
+                if (i != 0)
+                    categorias = categorias + (ponto.categories[i]);
+            }
+            else{
+                status = 1;
+            }
         }
         else{
-        // SE PONTO INTRODUZIDO NÃO EXISTE (status = 4)
-        status = 4;
+        // SE PONTO INTRODUZIDO NÃO EXISTE (status = 1)
+        status = 1;
         }
         helper.NavigateTo("Admin");
     }
@@ -402,14 +421,14 @@
 
     private async void RejectSuggestion() // REJEITAR PONTO DE INTERESSE
     {   
-        string sql = "DELETE FROM mydb.utilizador_hassugestao_pontointeresse WHERE pontointerese_nome = @Nome";
+        string sql = "DELETE FROM mydb.utilizador_hassugestao_pontointeresse WHERE pontointeresse_nome = @Nome";
         await _data.SaveData(sql, new {Nome = interestpointI.inputA}, _config.GetConnectionString("default"));
+
+        string sqlB = "DELETE FROM mydb.pontointeresse_has_categoria WHERE pontointeresse_nome = @Nome";
+        await _data.SaveData(sqlB, new {Nome = interestpointI.inputA}, _config.GetConnectionString("default"));
 
         string sqlA = "DELETE FROM mydb.pontointeresse WHERE nome = @Nome";
         await _data.SaveData(sqlA, new {Nome = interestpointI.inputA}, _config.GetConnectionString("default"));
-
-        string sqlB = "DELETE FROM mydb.pontointeresse_has_categoria WHERE nome = @Nome";
-        await _data.SaveData(sqlB, new {Nome = interestpointI.inputA}, _config.GetConnectionString("default"));
 
         admin.removePoint(interestpointI.inputA);
 
@@ -421,7 +440,7 @@
     {
         List<(string,string)> cat = new List<(string,string)>();
 
-        string sql = "DELETE FROM mydb.utilizador_hassugestao_pontointeresse WHERE pontointerese_nome = @Nome";
+        string sql = "DELETE FROM mydb.utilizador_hassugestao_pontointeresse WHERE pontointeresse_nome = @Nome";
         await _data.SaveData(sql, new {Nome = interestpointI.inputA}, _config.GetConnectionString("default"));
 
         string sqlA = "UPDATE mydb.pontointeresse SET valido = 1 WHERE nome = @Nome";
@@ -445,10 +464,7 @@
         if(admin.hasPoint(interestpointI.inputB)){
             status = 2;
 
-            string sqlA = "DELETE FROM mydb.pontointeresse WHERE nome = @Nome";
-            await _data.SaveData(sqlA, new {Nome = interestpointI.inputB}, _config.GetConnectionString("default"));
-
-            string sqlB = "DELETE FROM mydb.pontointeresse_has_categoria WHERE nome = @Nome";
+            string sqlB = "DELETE FROM mydb.pontointeresse_has_categoria WHERE pontointeresse_nome = @Nome";
             await _data.SaveData(sqlB, new {Nome = interestpointI.inputB}, _config.GetConnectionString("default"));
 
             string sqlC = "DELETE FROM mydb.rota_has_pontointeresse WHERE pontointeresse_nome = @Nome";
@@ -457,8 +473,12 @@
             string sqlD = "DELETE FROM mydb.avaliacao WHERE pontointeresse_nome = @Nome";
             await _data.SaveData(sqlD, new {Nome = interestpointI.inputB}, _config.GetConnectionString("default"));
 
-            string sqlE = "DELETE FROM mydb.utiliador_hasfavorite_pontointeresse WHERE pontointeresse_nome = @Nome";
+            string sqlE = "DELETE FROM mydb.utilizador_hasfavorite_pontointeresse WHERE pontointeresse_nome = @Nome";
             await _data.SaveData(sqlE, new {Nome = interestpointI.inputB}, _config.GetConnectionString("default"));
+
+            string sqlA = "DELETE FROM mydb.pontointeresse WHERE nome = @Nome";
+            await _data.SaveData(sqlA, new {Nome = interestpointI.inputB}, _config.GetConnectionString("default"));
+
 
             admin.removePoint(interestpointI.inputB);
         }
@@ -470,7 +490,7 @@
 
     private void deleteAdmin()
     {
-        admin.deleteUser();
+        admin.deleteAdmin();
         helper.NavigateTo("/", true);
     }
 }
